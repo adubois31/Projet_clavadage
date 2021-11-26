@@ -44,9 +44,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FloppaChat.floppeX.FrontPageController">
+<VBox prefHeight="431.0" prefWidth="516.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FloppaChat.floppeX.FrontPageController">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
+    <MenuBar prefHeight="31.0" prefWidth="516.0" VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
@@ -85,25 +85,34 @@
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" style="-fx-background-color: fff3dd;" VBox.vgrow="ALWAYS">
          <children>
-            <VBox alignment="CENTER" prefHeight="237.0" prefWidth="640.0" AnchorPane.bottomAnchor="131.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox alignment="CENTER" layoutX="34.0" prefHeight="356.0" prefWidth="471.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <ImageView fitHeight="200.0" fitWidth="200.0">
-                     <image>
-                        <Image url="@floppa.jpg" />
-                     </image>
-                  </ImageView>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="FloppeX">
-                     <font>
-                        <Font name="AppleMyungjo Regular" size="35.0" />
-                     </font>
-                  </Text>
-               </children>
-            </VBox>
-            <VBox layoutX="71.0" layoutY="334.0" prefHeight="79.0" prefWidth="510.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="71.0" AnchorPane.rightAnchor="59.0" AnchorPane.topAnchor="294.0">
-               <children>
-                  <TextField fx:id="pseudo" onKeyPressed="#keyPressed" promptText="Choose your pseudo" />
+                  <VBox alignment="CENTER" prefHeight="237.0" prefWidth="640.0">
+                     <children>
+                        <ImageView fitHeight="200.0" fitWidth="200.0">
+                           <image>
+                              <Image url="@floppa.jpg" />
+                           </image>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="FloppeX">
+                           <font>
+                              <Font name="AppleMyungjo Regular" size="35.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" prefHeight="79.0" prefWidth="510.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose your pseudo">
+                           <font>
+                              <Font name="AppleMyungjo Regular" size="12.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="pseudo" onKeyPressed="#keyPressed" promptText="Choose your pseudo" />
+                     </children>
+                  </VBox>
                </children>
             </VBox>
          </children>
