@@ -84,7 +84,7 @@ public class MessageServer{
 			}
 		}
 			
-		public void main (String args[]) throws IOException {
+		public static void main (String args[]) throws IOException {
 			MessageServer serverobj = new MessageServer (42069);
 			serverobj.startServer();
 		}

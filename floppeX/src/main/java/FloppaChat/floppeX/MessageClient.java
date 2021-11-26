@@ -16,11 +16,15 @@ public class MessageClient {
 				System.out.println("Client :");
 				s=std_in.readLine();
 				str_out.println(s);
-				if(s.equalsIgnoreCase("Bingus")) {
+				if(s.equalsIgnoreCase("")) {
 					System.out.println("Connection ended by client");
 					break;
 				}
 				s=str_in.readLine();
+				if(s.equalsIgnoreCase("Cheh")) {
+					System.out.println("Connection ended by Server");
+					break;
+				}
 				System.out.println("Server :"+s+"\n");
 			}
 			sk.close();
