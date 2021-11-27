@@ -44,7 +44,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="431.0" prefWidth="516.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FloppaChat.floppeX.FrontPageController">
+<VBox prefHeight="422.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FloppaChat.floppeX.FrontPageController">
   <children>
     <MenuBar prefHeight="31.0" prefWidth="516.0" VBox.vgrow="NEVER">
       <menus>
@@ -85,7 +85,7 @@
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" style="-fx-background-color: fff3dd;" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" style="-fx-background-color: fbf2de;" VBox.vgrow="ALWAYS">
          <children>
             <VBox alignment="CENTER" layoutX="34.0" prefHeight="356.0" prefWidth="471.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -93,7 +93,7 @@
                      <children>
                         <ImageView fitHeight="200.0" fitWidth="200.0">
                            <image>
-                              <Image url="@floppa.jpg" />
+                              <Image url="@FlopEnhanced.jpg" />
                            </image>
                         </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="FloppeX">
