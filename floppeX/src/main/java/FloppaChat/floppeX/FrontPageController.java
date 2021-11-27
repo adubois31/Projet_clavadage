@@ -27,7 +27,6 @@ public class FrontPageController {
 				App.setRoot("primary");
 			}
 			//Envoyer broadcast à tout le monde avec pseudo
-			App.setRoot("secondary");
 		} else {
 			System.out.println("Wrong key pressed.");
 		}
