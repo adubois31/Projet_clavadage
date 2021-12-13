@@ -1,4 +1,6 @@
 package FloppaChat.floppeX;
+import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 
 
@@ -11,6 +13,7 @@ class ActiveUser{
 		
 	}
 }
+
 
 public class Database_Manager {
 	static ArrayList<ActiveUser> Act_User_List = new ArrayList<ActiveUser>();
@@ -63,6 +66,17 @@ public class Database_Manager {
 			}
 		
 		}
+	
+	public static void PrintActiveUsers() {
+		for(int i=0; i< Act_User_List.size(); i++){
+			ActiveUser AU=Act_User_List.get(i);
+			System.out.println("Pseudo : "+AU.Pseudo+" IP : "+AU.IP+"\n");
+
+	    }
+	}
+	
+	
+	
 	public static boolean CheckPseudoUnicity(String Pseudo) {
 		boolean check = true;
 		for (int i = 0; i < Act_User_List.size(); i++) {
@@ -72,5 +86,12 @@ public class Database_Manager {
 		}		
 		return check;
 	}
-	
+	/*public static void main(String[] args) throws IOException {
+		InitActiveUser("admin");
+		PrintActiveUsers();
+		System.out.println("Adding Viktor...\n");
+		addActiveUser("192.168.1.1", "Viktor");
+		PrintActiveUsers();
+		
+    }*/
 }

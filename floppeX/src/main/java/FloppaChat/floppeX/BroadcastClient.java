@@ -8,7 +8,7 @@ public class BroadcastClient {
 	private static DatagramSocket socket = null;
 
     public static void main(String[] args) throws IOException {
-        broadcast(Packet.Hello("Localhost"), InetAddress.getByName("255.255.255.255"));
+        broadcast(Packet.Hello("Viktor"), InetAddress.getByName("255.255.255.255"));
     }
 
     public static void broadcast(String broadcastMessage, InetAddress address) throws IOException {
@@ -21,11 +21,11 @@ public class BroadcastClient {
         DatagramPacket packet 
           = new DatagramPacket(buffer, buffer.length, address, 6969);
         socket.send(packet);
-        
+        System.out.println("Sending Packet...\n");
         byte[] buff_answer = new byte[256];
         DatagramPacket inPacket = new DatagramPacket(buff_answer,buff_answer.length);
         socket.receive(inPacket);
-        Process.BroadcastProcess(inPacket);
+        Process.BroadcastProcess(inPacket,socket);
         /*String response = new String(inPacket.getData(), 0, inPacket.getLength());
         System.out.println("Answer : "+response);*/
         

@@ -22,11 +22,15 @@ public class BroadcastServer extends Thread {
         while (running) {
             DatagramPacket packet 
               = new DatagramPacket(buf, buf.length);
+            System.out.println("Created socket\n");
             try {
+            	System.out.println("Server listening...\n");
 				socket.receive(packet);
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+            System.out.println("Packet recieved\n");
             /*
             InetAddress address = packet.getAddress();
             int port = packet.getPort();
@@ -37,18 +41,19 @@ public class BroadcastServer extends Thread {
             byte[] out_buffer = Localhost.getBytes();            
             packet = new DatagramPacket(out_buffer, out_buffer.length, address, port);
              */
-            Process.BroadcastProcess(packet);
-            try {
+            Process.BroadcastProcess(packet,socket);
+            /*try {
 				socket.send(packet);
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			}*/
 
         }
         socket.close();
     }
     public static void main(String[] args) throws IOException {
     	Database_Manager.InitActiveUser("Floppa");
+    	Database_Manager.PrintActiveUsers();
         BroadcastServer Serv = new BroadcastServer();
         Serv.run();
     }
