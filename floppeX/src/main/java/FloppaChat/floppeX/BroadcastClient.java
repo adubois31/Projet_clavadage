@@ -7,9 +7,9 @@ import java.net.*;
 public class BroadcastClient {
 	private static DatagramSocket socket = null;
 
-    public static void main(String[] args) throws IOException {
-        broadcast(Packet.Hello("Viktor"), InetAddress.getByName("255.255.255.255"));
-    }
+    /*public static void main(String[] args) throws IOException {
+        broadcast(Packet.Hello(UserPseudo.userPseudo), InetAddress.getByName("255.255.255.255"));
+    }*/
 
     public static void broadcast(String broadcastMessage, InetAddress address) throws IOException {
         socket = new DatagramSocket();
@@ -25,7 +25,8 @@ public class BroadcastClient {
         byte[] buff_answer = new byte[256];
         DatagramPacket inPacket = new DatagramPacket(buff_answer,buff_answer.length);
         socket.receive(inPacket);
-        Process.BroadcastProcess(inPacket,socket);
+        Process process = new Process();
+		process.BroadcastProcess(inPacket, socket);
         /*String response = new String(inPacket.getData(), 0, inPacket.getLength());
         System.out.println("Answer : "+response);*/
         

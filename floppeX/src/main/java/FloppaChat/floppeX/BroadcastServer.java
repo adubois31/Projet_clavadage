@@ -31,7 +31,8 @@ public class BroadcastServer extends Thread {
 				e.printStackTrace();
 			}
             System.out.println("Packet recieved\n");
-            /*
+            Process process = new Process();
+			/*
             InetAddress address = packet.getAddress();
             int port = packet.getPort();
             String received= new String(packet.getData(), 0, packet.getLength());
@@ -41,7 +42,12 @@ public class BroadcastServer extends Thread {
             byte[] out_buffer = Localhost.getBytes();            
             packet = new DatagramPacket(out_buffer, out_buffer.length, address, port);
              */
-            Process.BroadcastProcess(packet,socket);
+            try {
+				process.BroadcastProcess(packet, socket);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             /*try {
 				socket.send(packet);
 			} catch (IOException e) {
@@ -52,8 +58,9 @@ public class BroadcastServer extends Thread {
         socket.close();
     }
     public static void main(String[] args) throws IOException {
-    	Database_Manager.InitActiveUser("Floppa");
-    	Database_Manager.PrintActiveUsers();
+    	ActiveUser_Manager.InitActiveUser("Viktor");
+    	ActiveUser_Manager.addActiveUser("192.168.1.1", "Bingus");
+    	ActiveUser_Manager.PrintActiveUsers();
         BroadcastServer Serv = new BroadcastServer();
         Serv.run();
     }

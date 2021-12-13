@@ -1,6 +1,5 @@
 package FloppaChat.floppeX;
-import java.io.IOException;
-import java.net.InetAddress;
+//import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -15,18 +14,19 @@ class ActiveUser{
 }
 
 
-public class Database_Manager {
+public class ActiveUser_Manager {
 	static ArrayList<ActiveUser> Act_User_List = new ArrayList<ActiveUser>();
 	
 	public static void InitActiveUser(String MyPseudo) {
-		ActiveUser AU=new ActiveUser("127.0.0.1",MyPseudo);
-		Act_User_List.add(AU);
+		addActiveUser("127.0.0.1",MyPseudo);
 	}
 	
 	
 	public static void addActiveUser(String IP, String Pseudo) {
-		ActiveUser AU=new ActiveUser(IP,Pseudo);
-		Act_User_List.add(AU);
+		if (CheckPseudoUnicity(Pseudo)) {
+			ActiveUser AU=new ActiveUser(IP,Pseudo);
+			Act_User_List.add(AU);
+		}
 	}
 	
 	public static void removeActiveUser(String IP, String Pseudo) {
@@ -37,7 +37,7 @@ public class Database_Manager {
 	public static String getActiveUser_IP(String ActiveUser_Pseudo) {
 		String IP = null;
 		for (int i = 0; i < Act_User_List.size(); i++) {
-			if (Act_User_List.get(i).Pseudo==ActiveUser_Pseudo) {
+			if (Act_User_List.get(i).Pseudo.equals(ActiveUser_Pseudo)) {
 				IP=Act_User_List.get(i).IP;
 				break;
 				}
@@ -48,7 +48,7 @@ public class Database_Manager {
 	public static String getActiveUser_Pseudo(String ActiveUser_IP) {
 		String Pseudo = null;
 		for (int i = 0; i < Act_User_List.size(); i++) {
-			if (Act_User_List.get(i).IP==ActiveUser_IP) {
+			if (Act_User_List.get(i).IP.equals(ActiveUser_IP)) {
 				Pseudo=Act_User_List.get(i).Pseudo;
 				break;
 				}
@@ -59,7 +59,7 @@ public class Database_Manager {
 	public static void UpdateActive_User_Pseudo(String IP, String NewPseudo) {
 		ActiveUser AU=new ActiveUser(IP,NewPseudo);
 		for (int i = 0; i < Act_User_List.size(); i++) {
-			if (Act_User_List.get(i).IP==IP) {
+			if (Act_User_List.get(i).IP.equals(IP)) {
 				Act_User_List.set(i, AU);
 				break;
 				}
@@ -80,7 +80,7 @@ public class Database_Manager {
 	public static boolean CheckPseudoUnicity(String Pseudo) {
 		boolean check = true;
 		for (int i = 0; i < Act_User_List.size(); i++) {
-			if(Act_User_List.get(i).Pseudo==Pseudo) {
+			if(Act_User_List.get(i).Pseudo.equals(Pseudo)) {
 				check=false;
 			}
 		}		
@@ -91,7 +91,6 @@ public class Database_Manager {
 		PrintActiveUsers();
 		System.out.println("Adding Viktor...\n");
 		addActiveUser("192.168.1.1", "Viktor");
-		PrintActiveUsers();
+		}*/
 		
-    }*/
 }
