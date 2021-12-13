@@ -23,10 +23,11 @@ public class BroadcastClient {
         socket.send(packet);
         
         byte[] buff_answer = new byte[256];
-        DatagramPacket inPacket = new DatagramPacket(buff_answer,buff_answer .length);
+        DatagramPacket inPacket = new DatagramPacket(buff_answer,buff_answer.length);
         socket.receive(inPacket);
-        String response = new String(inPacket.getData(), 0, inPacket.getLength());
-        System.out.println("Answer : "+response);
+        Process.BroadcastProcess(inPacket);
+        /*String response = new String(inPacket.getData(), 0, inPacket.getLength());
+        System.out.println("Answer : "+response);*/
         
         
         socket.close();

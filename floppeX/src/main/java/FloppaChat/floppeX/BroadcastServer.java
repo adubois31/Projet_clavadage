@@ -27,7 +27,7 @@ public class BroadcastServer extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-            
+            /*
             InetAddress address = packet.getAddress();
             int port = packet.getPort();
             String received= new String(packet.getData(), 0, packet.getLength());
@@ -36,7 +36,8 @@ public class BroadcastServer extends Thread {
             String Localhost = "Floppa";
             byte[] out_buffer = Localhost.getBytes();            
             packet = new DatagramPacket(out_buffer, out_buffer.length, address, port);
-                        
+             */
+            Process.BroadcastProcess(packet);
             try {
 				socket.send(packet);
 			} catch (IOException e) {
@@ -47,6 +48,7 @@ public class BroadcastServer extends Thread {
         socket.close();
     }
     public static void main(String[] args) throws IOException {
+    	Database_Manager.InitActiveUser("Floppa");
         BroadcastServer Serv = new BroadcastServer();
         Serv.run();
     }

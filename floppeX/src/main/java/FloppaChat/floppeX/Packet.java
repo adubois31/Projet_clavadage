@@ -6,11 +6,19 @@ public class Packet {
 		return("Hello|"+Local_Pseudo);
 	}
 	
-	public static String HelloBack(String Old_Pseudo, String NewPseudo) {
-		return ("Hello_Back|"+Old_Pseudo+"|"+NewPseudo);
+	public static String HelloBack(String Check,String SenderPseudo) {
+		return ("Hello_Back|"+Check+"|"+SenderPseudo);
+	}
+	
+	public static String ChangePseudo(String OldPseudo,String NewPseudo) {
+		return("ChangePseudo|"+OldPseudo+"|"+NewPseudo);
+	}
+	
+	public static String ChangePseudoAns(String NewCheck,String SenderPseudo) {
+		return("ChangePseudoAns|"+NewCheck+"|"+SenderPseudo);
 	}
 
-	public static String Bye(String LocalPseudo) {
+	public static String Disconnected(String LocalPseudo) {
 		return ("Bingus|"+LocalPseudo);
 	}
 }

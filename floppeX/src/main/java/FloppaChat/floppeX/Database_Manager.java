@@ -15,10 +15,20 @@ class ActiveUser{
 public class Database_Manager {
 	static ArrayList<ActiveUser> Act_User_List = new ArrayList<ActiveUser>();
 	
+	public static void InitActiveUser(String MyPseudo) {
+		ActiveUser AU=new ActiveUser("127.0.0.1",MyPseudo);
+		Act_User_List.add(AU);
+	}
+	
 	
 	public static void addActiveUser(String IP, String Pseudo) {
 		ActiveUser AU=new ActiveUser(IP,Pseudo);
 		Act_User_List.add(AU);
+	}
+	
+	public static void removeActiveUser(String IP, String Pseudo) {
+		ActiveUser AU=new ActiveUser(IP,Pseudo);
+		Act_User_List.remove(AU);
 	}
 	
 	public static String getActiveUser_IP(String ActiveUser_Pseudo) {
