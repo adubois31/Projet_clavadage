@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -43,9 +44,10 @@
                   <Image url="@FlopEnhanced.jpg" />
                </image>
             </ImageView>
+            <Button fx:id="backbutton" mnemonicParsing="false" onMouseClicked="#backToMainPage" text="Back" />
             <AnchorPane prefHeight="77.0" prefWidth="128.0">
                <children>
-                  <VBox layoutX="14.0" prefHeight="200.0" prefWidth="100.0">
+                  <VBox layoutX="14.0" layoutY="13.0" prefHeight="187.0" prefWidth="100.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" User : " />
                         <Text fx:id="pseudotext" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="100.0" />

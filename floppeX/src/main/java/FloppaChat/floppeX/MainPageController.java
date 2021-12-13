@@ -5,8 +5,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -25,9 +27,17 @@ public class MainPageController {
 	@FXML private BorderPane borderPane;
 	
 	@FXML private Text pseudoForeign;
+	
+	@FXML private VBox messagelist;
+	
+	@FXML private Button backbutton;
+	@FXML private Button flopit;
 
+	@FXML private TextField contentMessage;
+	
 	@FXML
 	protected void initialize() throws IOException {
+		System.out.println("hei hei");
 		if(pseudotext!=null)
 			pseudotext.setText(UserPseudo.userPseudo);
 		if(activeusers!=null) {
@@ -37,6 +47,11 @@ public class MainPageController {
 		}
 		if (pseudoForeign!=null) 	
 			pseudoForeign.setText(UserPseudo.activeUserChat);
+		if (messagelist!=null) {
+			addMessageTo("Salut toi","465577");
+			addMessageFrom("Je ne veux pas parler avec toi deso","egerfregtr");
+		}
+		
 	}
 	
 	private String getPseudoFromIndex(int index){
@@ -47,13 +62,43 @@ public class MainPageController {
 	private void activeUserClicked() throws IOException{
 
         if (activeusers.getSelectionModel().getSelectedIndices().size() > 0){
-            UserPseudo.activeUserIndex = (int)activeusers.getSelectionModel().getSelectedIndices().get(0);
-            String name = getPseudoFromIndex(UserPseudo.activeUserIndex);
-            System.out.println(name);
-            UserPseudo.activeUserChat = name;
-            FXMLLoader loader = new FXMLLoader();   
-            VBox chatThing = loader.load(getClass().getResource("ChatPage.fxml").openStream());
-            borderPane.setCenter(chatThing);   
+	            UserPseudo.activeUserIndex = (int)activeusers.getSelectionModel().getSelectedIndices().get(0);
+	            String name = getPseudoFromIndex(UserPseudo.activeUserIndex);
+	            System.out.println(name);
+	            UserPseudo.activeUserChat = name;
+	            FXMLLoader loader = new FXMLLoader();   
+	            VBox chatThing = loader.load(getClass().getResource("ChatPage.fxml").openStream());
+	            borderPane.setCenter(chatThing);   
             } 
     }	
+	
+	private void addMessage(String cont,String date,String path) throws IOException {
+		FXMLLoader loaderLabel = new FXMLLoader(); 
+        AnchorPane label = loaderLabel.load(getClass().getResource(path).openStream());
+        VBox labelMessage = (VBox) label.getChildren().get(0);
+        Text contenu_t = (Text) labelMessage.getChildren().get(0);
+        Text date_t = (Text) labelMessage.getChildren().get(1);
+        contenu_t.setText(cont);
+		date_t.setText(date);
+        messagelist.getChildren().add(label);
+	}
+	
+	private void addMessageFrom(String cont,String date) throws IOException {
+		addMessage(cont,date,"receiveLabel.fxml");
+	}
+	
+	private void addMessageTo(String cont,String date) throws IOException {
+		addMessage(cont,date,"sentLabel.fxml");
+	}
+	
+	@FXML
+	private void sendMessage() throws IOException {
+		addMessageTo(contentMessage.getText(),"decembre/2021");
+		contentMessage.setText("");
+	}
+	
+	@FXML
+	private void backToMainPage() throws IOException {
+		App.setRoot("MainPage");
+	}
 }
