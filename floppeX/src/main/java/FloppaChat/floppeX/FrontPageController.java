@@ -24,7 +24,8 @@ public class FrontPageController {
 					App.setRoot("FloppaFrontPage");
 				}
 			} else {
-				App.setRoot("primary");
+				UserPseudo.userPseudo = pseudo.getText();
+				App.setRoot("MainPage");
 			}
 			//Envoyer broadcast à tout le monde avec pseudo
 		} else {
