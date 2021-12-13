@@ -6,7 +6,7 @@ import java.net.DatagramSocket;
 
 public class Process {
 	
-	public static void BroadcastProcess(DatagramPacket packet,DatagramSocket socket) {
+	public static void BroadcastProcess(DatagramPacket packet,DatagramSocket socket) throws IOException {
 		System.out.println("Processing Packet...\n");
 		String received= new String(packet.getData(), 0, packet.getLength());
 		String[] Split_Answer = received.split("\\|");
@@ -57,17 +57,17 @@ public class Process {
 	}
 	
 	
-	public static void processHelloBack(String Check,String SenderPseudo,String SenderIP) {
+	public static void processHelloBack(String Check,String SenderPseudo,String SenderIP) throws IOException {
 		if(Database_Manager.CheckPseudoUnicity(SenderPseudo)) {
 			Database_Manager.addActiveUser(SenderIP, SenderPseudo);	
 		}
 		Database_Manager.PrintActiveUsers();
 		if(Check.equals("Ok")) {
-			System.out.println("Pseudo accepté");
+			//displaying active user and chat page 
 
 		}
 		else {
-			System.out.println("Pseudo pas accepté");
+			FrontPageController.errorPseudo(UserPseudo.userPseudo);
 		}
 		
 	}
@@ -82,12 +82,12 @@ public class Process {
 	
 	public static void processChangePseudo(String OldPseudo,String IP,String NewPseudo,DatagramPacket packet) {
 		if (Database_Manager.CheckPseudoUnicity(OldPseudo)&&Database_Manager.CheckPseudoUnicity(NewPseudo)){
-			Database_Manager.addActiveUser(IP,NewPseudo);
+			//Database_Manager.addActiveUser(IP,NewPseudo);
 			byte[] out_buffer= Packet.ChangePseudoAns("New_OK",Database_Manager.getActiveUser_Pseudo("127.0.0.1")).getBytes();
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 		}
 		if(!(Database_Manager.CheckPseudoUnicity(OldPseudo))&&Database_Manager.CheckPseudoUnicity(NewPseudo)) {
-			Database_Manager.UpdateActive_User_Pseudo(IP, NewPseudo);
+			//Database_Manager.UpdateActive_User_Pseudo(IP, NewPseudo);
 			byte[] out_buffer= Packet.ChangePseudoAns("New_OK",Database_Manager.getActiveUser_Pseudo("127.0.0.1")).getBytes();
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 		}

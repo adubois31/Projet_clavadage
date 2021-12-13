@@ -17,7 +17,11 @@ public class Packet {
 	public static String ChangePseudoAns(String NewCheck,String SenderPseudo) {
 		return("ChangePseudoAns|"+NewCheck+"|"+SenderPseudo);
 	}
-
+	
+	public static String ConfirmedNewPseudo(String OldPseudo, String NewPseudo) {
+		return("ConfirmedNewPseudo|"+OldPseudo+"|"+NewPseudo);
+	}
+	
 	public static String Disconnected(String LocalPseudo) {
 		return ("Bingus|"+LocalPseudo);
 	}
