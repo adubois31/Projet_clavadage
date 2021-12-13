@@ -26,7 +26,7 @@
       </ScrollPane>
       <AnchorPane prefHeight="58.0" prefWidth="603.0">
          <children>
-            <TextField layoutX="28.0" layoutY="6.0" prefHeight="0.0" prefWidth="337.0" />
+            <TextField layoutX="28.0" layoutY="6.0" prefHeight="25.0" prefWidth="456.0" />
          </children>
       </AnchorPane>
    </children>

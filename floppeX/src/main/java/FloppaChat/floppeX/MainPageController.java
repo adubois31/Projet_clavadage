@@ -28,13 +28,16 @@ public class MainPageController {
 
 	@FXML
 	protected void initialize() throws IOException {
-		
-		pseudotext.setText(UserPseudo.userPseudo);
-		activeusers.getItems().add("Hugo");
-		activeusers.getItems().add("Viktor");
-		activeusers.getItems().add("Mathis");
-		System.out.println(borderPane);
-		System.out.println(pseudoForeign);
+		if(pseudotext!=null)
+			pseudotext.setText(UserPseudo.userPseudo);
+		if(activeusers!=null) {
+			activeusers.getItems().add("Hugo");
+			activeusers.getItems().add("Viktor");
+			activeusers.getItems().add("Mathis");
+		}
+		if (pseudoForeign!=null) 
+			
+			pseudoForeign.setText(UserPseudo.activeUserChat);
 	}
 	
 	private String getPseudoFromIndex(int index){
@@ -48,11 +51,10 @@ public class MainPageController {
             UserPseudo.activeUserIndex = (int)activeusers.getSelectionModel().getSelectedIndices().get(0);
             String name = getPseudoFromIndex(UserPseudo.activeUserIndex);
             System.out.println(name);
-            
+            UserPseudo.activeUserChat = name;
             FXMLLoader loader = new FXMLLoader();   
             VBox chatThing = loader.load(getClass().getResource("ChatPage.fxml").openStream());
             borderPane.setCenter(chatThing);   
-            //pseudoForeign.setText(name);
             } 
     }	
 }
