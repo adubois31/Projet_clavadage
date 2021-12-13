@@ -35,8 +35,7 @@ public class MainPageController {
 			activeusers.getItems().add("Viktor");
 			activeusers.getItems().add("Mathis");
 		}
-		if (pseudoForeign!=null) 
-			
+		if (pseudoForeign!=null) 	
 			pseudoForeign.setText(UserPseudo.activeUserChat);
 	}
 	
