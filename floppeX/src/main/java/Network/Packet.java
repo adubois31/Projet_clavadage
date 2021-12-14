@@ -1,4 +1,4 @@
-package FloppaChat.floppeX;
+package Network;
 
 public class Packet {
 	

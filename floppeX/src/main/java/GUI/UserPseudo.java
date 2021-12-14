@@ -1,4 +1,4 @@
-package FloppaChat.floppeX;
+package GUI;
 
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;

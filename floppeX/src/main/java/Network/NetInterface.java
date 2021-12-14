@@ -1,4 +1,4 @@
-package FloppaChat.floppeX; 
+package Network; 
 
 import java.io.IOException;
 import java.net.InetAddress;

@@ -1,4 +1,4 @@
-package FloppaChat.floppeX;
+package GUI;
 
 public class BlobCreator {
 	    public static byte[] generateRandomBlob() {

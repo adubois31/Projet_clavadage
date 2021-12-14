@@ -1,6 +1,8 @@
-package FloppaChat.floppeX;
+package GUI;
 
 import java.io.IOException;
+
+import FloppaChat.floppeX.App;
 import javafx.fxml.FXML;
 
 public class SecondaryController {
