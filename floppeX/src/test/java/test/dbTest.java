@@ -7,8 +7,7 @@ import java.util.Random;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import DataBase.DBController;
-import GUI.BlobCreator;
+import FloppaChat.DataBase.DBController;
 
 public class dbTest {
 	

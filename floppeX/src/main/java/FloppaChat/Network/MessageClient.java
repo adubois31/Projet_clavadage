@@ -1,4 +1,4 @@
-package Network;
+package FloppaChat.Network;
 
 import java.io.*;
 import java.net.Socket;

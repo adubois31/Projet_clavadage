@@ -1,4 +1,4 @@
-package GUI;
+package FloppaChat.DataBase;
 
 public class Date {
 	private int DateID;

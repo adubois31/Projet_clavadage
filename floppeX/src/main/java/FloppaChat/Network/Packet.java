@@ -1,4 +1,4 @@
-package Network;
+package FloppaChat.Network;
 
 public class Packet {
 	
