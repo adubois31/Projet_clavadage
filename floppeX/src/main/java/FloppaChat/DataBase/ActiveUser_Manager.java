@@ -17,24 +17,24 @@ class ActiveUser{
 public class ActiveUser_Manager {
 	static ArrayList<ActiveUser> Act_User_List = new ArrayList<ActiveUser>();
 	
-	public static void InitActiveUser(String MyPseudo) {
+	public  void InitActiveUser(String MyPseudo) {
 		addActiveUser("127.0.0.1",MyPseudo);
 	}
 	
 	
-	public static void addActiveUser(String IP, String Pseudo) {
+	public void addActiveUser(String IP, String Pseudo) {
 		if (CheckPseudoUnicity(Pseudo)) {
 			ActiveUser AU=new ActiveUser(IP,Pseudo);
 			Act_User_List.add(AU);
 		}
 	}
 	
-	public static void removeActiveUser(String IP, String Pseudo) {
+	public void removeActiveUser(String IP, String Pseudo) {
 		ActiveUser AU=new ActiveUser(IP,Pseudo);
 		Act_User_List.remove(AU);
 	}
 	
-	public static String getActiveUser_IP(String ActiveUser_Pseudo) {
+	public String getActiveUser_IP(String ActiveUser_Pseudo) {
 		String IP = null;
 		for (int i = 0; i < Act_User_List.size(); i++) {
 			if (Act_User_List.get(i).Pseudo.equals(ActiveUser_Pseudo)) {
@@ -45,7 +45,7 @@ public class ActiveUser_Manager {
 		return IP;	
 	}
 	
-	public static String getActiveUser_Pseudo(String ActiveUser_IP) {
+	public String getActiveUser_Pseudo(String ActiveUser_IP) {
 		String Pseudo = null;
 		for (int i = 0; i < Act_User_List.size(); i++) {
 			if (Act_User_List.get(i).IP.equals(ActiveUser_IP)) {
@@ -56,7 +56,7 @@ public class ActiveUser_Manager {
 		return Pseudo;	
 	}
 	
-	public static void UpdateActive_User_Pseudo(String IP, String NewPseudo) {
+	public void UpdateActive_User_Pseudo(String IP, String NewPseudo) {
 		ActiveUser AU=new ActiveUser(IP,NewPseudo);
 		for (int i = 0; i < Act_User_List.size(); i++) {
 			if (Act_User_List.get(i).IP.equals(IP)) {
@@ -67,7 +67,7 @@ public class ActiveUser_Manager {
 		
 		}
 	
-	public static void PrintActiveUsers() {
+	public void PrintActiveUsers() {
 		for(int i=0; i< Act_User_List.size(); i++){
 			ActiveUser AU=Act_User_List.get(i);
 			System.out.println("Pseudo : "+AU.Pseudo+" IP : "+AU.IP+"\n");
@@ -77,7 +77,7 @@ public class ActiveUser_Manager {
 	
 	
 	
-	public static boolean CheckPseudoUnicity(String Pseudo) {
+	public boolean CheckPseudoUnicity(String Pseudo) {
 		boolean check = true;
 		for (int i = 0; i < Act_User_List.size(); i++) {
 			if(Act_User_List.get(i).Pseudo.equals(Pseudo)) {
@@ -86,6 +86,9 @@ public class ActiveUser_Manager {
 		}		
 		return check;
 	}
+	public ActiveUser_Manager() {
+	}
+	
 	/*public static void main(String[] args) throws IOException {
 		InitActiveUser("admin");
 		PrintActiveUsers();
