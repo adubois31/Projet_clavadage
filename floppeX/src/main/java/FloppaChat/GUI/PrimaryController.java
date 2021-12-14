@@ -1,4 +1,4 @@
-package GUI;
+package FloppaChat.GUI;
 
 import java.io.IOException;
 

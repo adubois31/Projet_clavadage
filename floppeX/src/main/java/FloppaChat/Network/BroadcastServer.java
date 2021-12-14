@@ -1,8 +1,10 @@
-package Network;
+package FloppaChat.Network;
 
 
 import java.io.IOException;
 import java.net.*;
+
+import FloppaChat.DataBase.ActiveUser_Manager;
 
 
 public class BroadcastServer extends Thread {

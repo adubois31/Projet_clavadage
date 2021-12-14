@@ -1,4 +1,4 @@
-package DataBase;
+package FloppaChat.DataBase;
 import java.sql.*;
 
 public class DBController {

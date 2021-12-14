@@ -1,8 +1,10 @@
-package Network;
+package FloppaChat.Network;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+
+import FloppaChat.DataBase.ActiveUser_Manager;
 
 public class Process {
 	private static boolean HelloAccepted = true;

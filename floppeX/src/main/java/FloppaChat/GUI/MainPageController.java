@@ -1,4 +1,4 @@
-package GUI;
+package FloppaChat.GUI;
 
 import java.io.IOException;
 
@@ -69,14 +69,14 @@ public class MainPageController {
 	            System.out.println(name);
 	            UserPseudo.activeUserChat = name;
 	            FXMLLoader loader = new FXMLLoader();   
-	            VBox chatThing = loader.load(getClass().getResource("ChatPage.fxml").openStream());
+	            VBox chatThing = loader.load(App.class.getResource("ChatPage.fxml").openStream());
 	            borderPane.setCenter(chatThing);   
             } 
     }	
 	
 	private void addMessage(String cont,String date,String path) throws IOException {
 		FXMLLoader loaderLabel = new FXMLLoader(); 
-        AnchorPane label = loaderLabel.load(getClass().getResource(path).openStream());
+        AnchorPane label = loaderLabel.load(App.class.getResource(path).openStream());
         VBox labelMessage = (VBox) label.getChildren().get(0);
         Text contenu_t = (Text) labelMessage.getChildren().get(0);
         Text date_t = (Text) labelMessage.getChildren().get(1);
@@ -94,7 +94,7 @@ public class MainPageController {
 	}
 	
 	@FXML
-	private void sendMessage(KeyEvent keyEvent) throws IOException {
+	private void sendMessageEnter(KeyEvent keyEvent) throws IOException {
 		if(keyEvent.getCode()== KeyCode.ENTER) {
 		addMessageTo(contentMessage.getText(),"decembre/2021");
 		contentMessage.setText("");
@@ -102,7 +102,7 @@ public class MainPageController {
 	}
 	
 	@FXML
-	private void sendMessage() throws IOException {
+	private void sendMessageButton() throws IOException {
 		addMessageTo(contentMessage.getText(),"decembre/2021");
 		contentMessage.setText("");
 	}
@@ -110,6 +110,7 @@ public class MainPageController {
 	
 	@FXML
 	private void backToMainPage() throws IOException {
+		System.out.println("Back to Main");
 		App.setRoot("MainPage");
 	}
 }
