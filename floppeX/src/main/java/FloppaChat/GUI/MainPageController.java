@@ -1,6 +1,7 @@
 package FloppaChat.GUI;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import FloppaChat.floppeX.App;
 import javafx.fxml.FXML;
@@ -9,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -50,8 +52,8 @@ public class MainPageController {
 		if (pseudoForeign!=null) 	
 			pseudoForeign.setText(UserPseudo.activeUserChat);
 		if (messagelist!=null) {
-			addMessageTo("Salut toi","465577");
-			addMessageFrom("Je ne veux pas parler avec toi deso","egerfregtr");
+			addMessageTo("Salut toi");
+			addMessageFrom("Je ne veux pas parler avec toi deso");
 		}
 		
 	}
@@ -74,43 +76,43 @@ public class MainPageController {
             } 
     }	
 	
-	private void addMessage(String cont,String date,String path) throws IOException {
+	private void addMessage(String cont,String path) throws IOException {
 		FXMLLoader loaderLabel = new FXMLLoader(); 
         AnchorPane label = loaderLabel.load(App.class.getResource(path).openStream());
         VBox labelMessage = (VBox) label.getChildren().get(0);
         Text contenu_t = (Text) labelMessage.getChildren().get(0);
-        Text date_t = (Text) labelMessage.getChildren().get(1);
+        Label date_t = (Label) labelMessage.getChildren().get(1);
         contenu_t.setText(cont);
-		date_t.setText(date);
+		date_t.setText(LocalDate.now().toString());
         messagelist.getChildren().add(label);
 	}
 	
-	private void addMessageFrom(String cont,String date) throws IOException {
-		addMessage(cont,date,"receiveLabel.fxml");
+	private void addMessageFrom(String cont) throws IOException {
+		addMessage(cont,"receiveLabel.fxml");
 	}
 	
-	private void addMessageTo(String cont,String date) throws IOException {
-		addMessage(cont,date,"sentLabel.fxml");
+	private void addMessageTo(String cont) throws IOException {
+		addMessage(cont,"sentLabel.fxml");
 	}
 	
 	@FXML
 	private void sendMessageEnter(KeyEvent keyEvent) throws IOException {
 		if(keyEvent.getCode()== KeyCode.ENTER) {
-		addMessageTo(contentMessage.getText(),"decembre/2021");
+		addMessageTo(contentMessage.getText());
 		contentMessage.setText("");
 		}
 	}
 	
 	@FXML
 	private void sendMessageButton() throws IOException {
-		addMessageTo(contentMessage.getText(),"decembre/2021");
+		addMessageTo(contentMessage.getText());
 		contentMessage.setText("");
 	}
 	
 	
 	@FXML
 	private void backToMainPage() throws IOException {
-		System.out.println("Back to Main");
+		//System.out.println("Back to Main");
 		App.setRoot("MainPage");
 	}
 }
