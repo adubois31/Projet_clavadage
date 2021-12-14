@@ -1,4 +1,4 @@
-package FloppaChat.floppeX;
+package GUI;
 
 public class User {
 	private int ID;
