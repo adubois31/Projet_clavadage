@@ -32,7 +32,7 @@ public class FrontPageController {
 			System.out.println("Wrong key pressed.");
 		}
     }
-	
+		
 	public static void errorPseudo(String pseudo) throws IOException{
 		Alert alert = new Alert(AlertType.ERROR, "Pseudo already taken : "+pseudo,ButtonType.OK);
 		alert.showAndWait();
