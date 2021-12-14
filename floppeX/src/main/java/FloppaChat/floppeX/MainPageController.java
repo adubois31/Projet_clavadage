@@ -92,10 +92,19 @@ public class MainPageController {
 	}
 	
 	@FXML
+	private void sendMessage(KeyEvent keyEvent) throws IOException {
+		if(keyEvent.getCode()== KeyCode.ENTER) {
+		addMessageTo(contentMessage.getText(),"decembre/2021");
+		contentMessage.setText("");
+		}
+	}
+	
+	@FXML
 	private void sendMessage() throws IOException {
 		addMessageTo(contentMessage.getText(),"decembre/2021");
 		contentMessage.setText("");
 	}
+	
 	
 	@FXML
 	private void backToMainPage() throws IOException {

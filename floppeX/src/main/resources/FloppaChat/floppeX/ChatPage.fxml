@@ -26,7 +26,7 @@
       </ScrollPane>
       <AnchorPane prefHeight="58.0" prefWidth="603.0">
          <children>
-            <TextField fx:id="contentMessage" layoutX="28.0" layoutY="6.0" prefHeight="25.0" prefWidth="456.0" />
+            <TextField fx:id="contentMessage" layoutX="28.0" layoutY="6.0" onKeyPressed="#sendMessage" prefHeight="25.0" prefWidth="456.0" />
             <Button fx:id="flopit" layoutX="512.0" layoutY="5.0" mnemonicParsing="false" onMouseClicked="#sendMessage" text="Flop it" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="5.0" />
          </children>
       </AnchorPane>
