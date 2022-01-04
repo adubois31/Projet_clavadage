@@ -64,6 +64,7 @@ public class MainPageController {
 	
 	@FXML private Button backbutton;
 	@FXML private Button flopit;
+	@FXML private Button changePseudoButton;
 
 	@FXML private TextField contentMessage;
 	
@@ -124,10 +125,12 @@ public class MainPageController {
         messagelist.getChildren().add(label);
 	}
 	
+	//Use this to add message from someone
 	private void addMessageFrom(String cont,String date) throws IOException {
 		addMessage(cont,"receiveLabel.fxml",date);
 	}
 	
+	//Use thos to add message to someone from us
 	private void addMessageTo(String cont,String date) throws IOException {
 		addMessage(cont,"sentLabel.fxml",date);
 	}
@@ -164,6 +167,14 @@ public class MainPageController {
 			addMessageTo(contentMessage.getText(),nowDate());
 			contentMessage.setText("");
 		}
+	}
+	
+	@FXML
+	private void showFrontPage() throws IOException {
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Are you sure you want to change pseudo?",ButtonType.YES,ButtonType.NO);
+		alert.showAndWait();
+		if(alert.getResult() == ButtonType.YES)
+			App.setRoot("FloppaFrontPage");
 	}
 	
 	

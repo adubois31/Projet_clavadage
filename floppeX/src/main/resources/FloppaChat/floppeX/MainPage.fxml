@@ -85,6 +85,11 @@
                         </VBox>
                      </children>
                   </AnchorPane>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="changePseudoButton" layoutX="12.0" layoutY="57.0" mnemonicParsing="false" onMouseClicked="#showFrontPage" text="Change pseudo" AnchorPane.leftAnchor="12.0" />
+                     </children>
+                  </AnchorPane>
                </children>
             </VBox>
          </children>
