@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+
+import FloppaChat.DataBase.DBController;
 import FloppaChat.GUI.*;
 
 public class MessageClient{
@@ -39,14 +41,15 @@ public class MessageClient{
 
     public void RecvMessFromServer(){
     	MainPageController MPC = new MainPageController();
+    	DBController DBC = new DBController(UserPseudo.dbName);
         new Thread(new Runnable(){
             @Override
             public void run(){
                 while (Sock.isConnected()){
                     try {
                         String MessFromServer = BuffRead.readLine();
-                        //MPC.addMessageFrom(MessFromServer, MPC.nowDate());
-                        System.out.println("Message du serveur : "+MessFromServer);
+                        MPC.addMessageFrom(MessFromServer, MPC.nowDate());
+                        DBC.addMessage(DBC.getIDfromUser(UserPseudo.userPseudo, Sock.getInetAddress().toString().substring(1)), MPC.nowDate() , MessFromServer, false);
                     } catch (IOException e) {
                         System.out.println("Erreur réception du message du serveur");
                         e.printStackTrace();
@@ -57,7 +60,10 @@ public class MessageClient{
             }
         }).start();;
     }
-
+    public void EndChat() {
+    	closeEverything();
+    }
+    
     private void closeEverything(){
         try {
             if (BuffRead != null){

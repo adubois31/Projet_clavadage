@@ -45,7 +45,7 @@ public class MessageServer{
 
     public void RecvMessFromClient(){
     	MainPageController MPC = new MainPageController();
-    	DBController DBC = new DBController("");
+    	DBController DBC = new DBController(UserPseudo.dbName);
         new Thread(new Runnable(){
             @Override
             public void run(){
@@ -54,7 +54,7 @@ public class MessageServer{
                         String MessFromClient = BuffRead.readLine();
                         if (MessFromClient != null) {
                         	MPC.addMessageFrom(MessFromClient, MPC.nowDate());
-                        	
+                        	DBC.addMessage(DBC.getIDfromUser(UserPseudo.userPseudo, Sock.getInetAddress().toString().substring(1)), MPC.nowDate() , MessFromClient, false);
                         }
                         
                     } catch (IOException e) {
@@ -75,6 +75,9 @@ public class MessageServer{
 
     private void closeEverything(){
         try {
+        	if (ServSock != null) {
+        		ServSock.close();
+        	}
             if (BuffRead != null){
                 BuffRead.close();
             }

@@ -17,10 +17,10 @@ public class TestBroadcastServer {
 	void TestServer() throws UnknownHostException, IOException {
 		aUM.InitActiveUser("Floppa");
 		aUM.addActiveUser("192.169.1.1", "Pedro");
-		aUM.UpdateActiveUserPseudo("192.169.1.1", "Michel");
 		aUM.PrintActiveUsers();
 		BroadcastServer Serv = new BroadcastServer();
-        Serv.run();
+        Serv.launch();
+        assert(false);
 	}
 	
 }
