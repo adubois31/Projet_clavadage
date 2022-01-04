@@ -47,17 +47,20 @@ public class Process {
 	
 	
 	public void processHello(String IP,String Pseudo,DatagramPacket packet,DatagramSocket socket) {
+
 		System.out.println(Pseudo+aUM.CheckPseudoUnicity(Pseudo));
 		aUM.PrintActiveUsers();
 		if(aUM.CheckPseudoUnicity(Pseudo)){
 			aUM.addActiveUser(IP, Pseudo);
 			System.out.println("Pseudo OK\n");
 			byte[] out_buffer= Packet.HelloBack("Ok",aUM.getActiveUserPseudo("127.0.0.1")).getBytes();
+
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 			System.out.println("Sending Hello_Back\n");
 		}
 		else {
 			System.out.println("Pseudo taken\n");
+
 			byte[] out_buffer= Packet.HelloBack("Not_Ok",aUM.getActiveUserPseudo("127.0.0.1")).getBytes();
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 			System.out.println("Pseudo already taken\n");
@@ -73,6 +76,7 @@ public class Process {
 	
 	
 	public void processHelloBack(String Check,String SenderPseudo,String SenderIP) throws IOException {
+
 		if(aUM.CheckPseudoUnicity(SenderPseudo)) {
 			aUM.addActiveUser(SenderIP, SenderPseudo);	
 		}
@@ -90,6 +94,7 @@ public class Process {
 	}
 	public boolean processDisconnected(String DiscIP,String DiscPseudo) {
 		
+
 		if(!(aUM.CheckPseudoUnicity(DiscPseudo))){
 			aUM.removeActiveUser(DiscIP, DiscPseudo);
 		}
@@ -98,6 +103,7 @@ public class Process {
 	}
 	
 	public void processChangePseudo(String OldPseudo,String IP,String NewPseudo,DatagramPacket packet) {
+
 		if (aUM.CheckPseudoUnicity(OldPseudo)&&aUM.CheckPseudoUnicity(NewPseudo)){
 			//Database_Manager.addActiveUser(IP,NewPseudo);
 			byte[] out_buffer= Packet.ChangePseudoAns("New_OK",aUM.getActiveUserPseudo("127.0.0.1")).getBytes();
@@ -110,14 +116,17 @@ public class Process {
 		}
 		else {
 			byte[] out_buffer= Packet.ChangePseudoAns("New_Not_OK",aUM.getActiveUserPseudo("127.0.0.1")).getBytes();
+
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 			System.out.println("Pseudo Déjà Pris");
 		}
 	}
 	
 	public void processChangePseudoAns(String Check,String SenderPseudo, String SenderIP) {
+
 		if(aUM.CheckPseudoUnicity(SenderPseudo)) {
 			aUM.addActiveUser(SenderIP, SenderPseudo);
+
 		}
 		if(Check=="New_OK") {
 			System.out.println("Nouveau Pseudo OK");
