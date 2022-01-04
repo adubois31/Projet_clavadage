@@ -12,10 +12,12 @@ import org.junit.jupiter.api.Test;
 public class TestBroadcastServer {
 
 	static ActiveUserManager aUM= new ActiveUserManager();
-	@BeforeAll
-	static void init() throws UnknownHostException, IOException {
+	
+	@Test
+	void TestServer() throws UnknownHostException, IOException {
 		aUM.InitActiveUser("Floppa");
 		aUM.addActiveUser("192.169.1.1", "Pedro");
+		aUM.PrintActiveUsers();
 		BroadcastServer Serv = new BroadcastServer();
         Serv.run();
 	}

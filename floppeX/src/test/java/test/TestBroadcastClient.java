@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 public class TestBroadcastClient {
 	@Test
-	static void TestChoosePseudo() throws UnknownHostException, IOException {
+	void TestChoosePseudo() throws UnknownHostException, IOException {
 		if(NetInterface.ChoosePseudo("Bri")) {
 			assert(true);
 		}
