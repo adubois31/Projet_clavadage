@@ -1,21 +1,35 @@
 package FloppaChat.DataBase;
 
 public class Message {
-	private String DateID;
-	private User user;
-	private Date date;
+	private String Date;
+	private int userID;
 	private String content;
-	private Boolean sent;
+	private boolean sent;
 	
-	public Message(String DateID,User user,Date date,String content,Boolean sent) {
-		this.DateID=DateID;
-		this.user=user;
-		this.date=date;
+	public Message(String Date,int userID,String content,boolean sent) {
+		this.Date=Date;
+		this.userID=userID;
 		this.content=content;
 		this.sent=sent;
 	}
 	
-	public String getID() {
-		return this.DateID;
+	public String getDate() {
+		return this.Date;
+	}
+	
+	public boolean isSent() {
+		return this.sent;
+	}
+	
+	public int getUserID() {
+		return this.userID;
+	}
+	
+	public String getContent() {
+		return this.content;
+	}
+	
+	public String toString() {
+		return "Date = "+Date+" userID = "+userID+" content = "+content+" sent = "+sent;
 	}
 }

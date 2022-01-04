@@ -13,15 +13,22 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+    
+    private static Stage stageMod;
 
     @Override
     public void start(Stage stage) throws IOException {
+    	stageMod=stage;
         scene = new Scene(loadFXML("FloppaFrontPage"), 640, 480);
-        stage.setScene(scene);
-        stage.show();
+        stageMod.setScene(scene);
+        stageMod.show();
     }
 
     public static void setRoot(String fxml) throws IOException {
+    	if (fxml.equals("MainPage")) {
+    		stageMod.setWidth(800);
+    		stageMod.setHeight(600);
+    	}
         scene.setRoot(loadFXML(fxml));
     }
 

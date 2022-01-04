@@ -3,6 +3,7 @@ module FloppaChat.floppeX {
     requires javafx.fxml;
 	requires javafx.graphics;
 	requires java.sql;
+	requires java.base;
 
     opens FloppaChat.floppeX to javafx.fxml;
     opens FloppaChat.GUI to javafx.fxml ;
