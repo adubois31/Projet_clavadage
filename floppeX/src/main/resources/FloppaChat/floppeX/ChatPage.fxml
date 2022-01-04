@@ -5,25 +5,35 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="409.0" prefWidth="474.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FloppaChat.GUI.MainPageController">
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FloppaChat.GUI.MainPageController">
    <children>
-      <AnchorPane prefHeight="58.0" prefWidth="600.0">
+      <AnchorPane prefHeight="29.0" style="-fx-background-color: f7dffe;">
          <children>
-            <Text layoutX="32.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You're chatting with " wrappingWidth="113.22900390625" AnchorPane.bottomAnchor="10.947265625" AnchorPane.topAnchor="9.7421875" />
-            <Text fx:id="pseudoForeign" layoutX="147.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="381.0" AnchorPane.bottomAnchor="13.2578125" AnchorPane.topAnchor="9.431640625" />
+            <Text layoutX="29.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You're chatting with " wrappingWidth="123.22900390625" AnchorPane.bottomAnchor="5.44999885559082">
+               <font>
+                  <Font name="Kohinoor Bangla" size="13.0" />
+               </font></Text>
+            <Text fx:id="pseudoForeign" fill="#e81010" layoutX="152.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="254.0" AnchorPane.bottomAnchor="6.0">
+               <font>
+                  <Font name="Kohinoor Bangla" size="13.0" />
+               </font></Text>
          </children>
       </AnchorPane>
       <ScrollPane hbarPolicy="NEVER" prefHeight="350.0" prefWidth="600.0">
          <content>
-            <VBox fx:id="messagelist" prefHeight="325.0" />
+            <VBox fx:id="messagelist" prefHeight="350.0" prefWidth="584.0" style="-fx-background-color: f7dffe;" />
          </content>
       </ScrollPane>
-      <AnchorPane prefHeight="20.0" prefWidth="547.0">
+      <AnchorPane style="-fx-background-color: f7dffe;">
          <children>
-            <TextField fx:id="contentMessage" layoutX="147.0" layoutY="3.0" onKeyPressed="#sendMessageEnter" prefHeight="25.0" AnchorPane.leftAnchor="147.0" AnchorPane.rightAnchor="166.0" />
-            <Button fx:id="flopit" layoutX="365.0" layoutY="3.0" mnemonicParsing="false" onMouseClicked="#sendMessageButton" text="Flop it" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="58.0" AnchorPane.topAnchor="3.0" />
+            <TextField fx:id="contentMessage" layoutX="26.0" layoutY="5.0" onKeyPressed="#sendMessageEnter" prefHeight="36.0" prefWidth="415.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="26.0" />
+            <Button fx:id="flopit" layoutX="332.0" layoutY="5.0" mnemonicParsing="false" onMouseClicked="#sendMessageButton" prefHeight="36.0" prefWidth="95.0" style="-fx-background-color: ff92de;" text="FLOP IT" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="5.0">
+               <font>
+                  <Font name="Kokonor Regular" size="12.0" />
+               </font></Button>
          </children>
       </AnchorPane>
    </children>

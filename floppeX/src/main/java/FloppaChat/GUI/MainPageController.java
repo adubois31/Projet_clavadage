@@ -125,7 +125,6 @@ public class MainPageController {
         messagelist.getChildren().add(label);
 	}
 	
-
 	public void addMessageFrom(String cont,String date) throws IOException {
 		addMessage(cont,"receiveLabel.fxml",date);
 	}
