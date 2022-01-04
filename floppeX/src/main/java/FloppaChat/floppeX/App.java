@@ -28,12 +28,16 @@ public class App extends Application {
     public void stop(){
         System.out.println("Closing App...");
     }
+    
+    public static void nextStage() throws IOException {
+    	stageMod.close();
+    	stageMod = new Stage();
+    	scene = new Scene(loadFXML("MainPage"), 850, 682);
+    	stageMod.setScene(scene);
+    	stageMod.show();
+    }
 
     public static void setRoot(String fxml) throws IOException {
-    	if (fxml.equals("MainPage")) {
-    		stageMod.setWidth(850);
-    		stageMod.setHeight(682);
-    	}
         scene.setRoot(loadFXML(fxml));
     }
 
