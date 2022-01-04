@@ -32,6 +32,7 @@ public class TestServMess {
 	void testMessServerToClient() {
 		MS.SendMessToClient("Hello there");
 		MS.SendMessToClient("General Kenoni");
+		assert(true);
 	}
 	
 	
