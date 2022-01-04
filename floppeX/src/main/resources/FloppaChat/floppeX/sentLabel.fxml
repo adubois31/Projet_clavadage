@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.0" prefWidth="461.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FloppaChat.GUI.MainPageController">
    <children>
-      <VBox layoutX="442.0" layoutY="9.0" prefHeight="20.0" prefWidth="32.0" style="-fx-border-color: blue;" AnchorPane.rightAnchor="14.0">
+      <VBox layoutX="442.0" layoutY="9.0" prefHeight="20.0" style="-fx-border-color: blue;" AnchorPane.rightAnchor="14.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Salut toi tu es belle" />
             <Label text="Label" textFill="#ab9e9e">
