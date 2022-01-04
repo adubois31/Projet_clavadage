@@ -39,12 +39,13 @@ public class BroadcastServer extends Thread {
         }
         socket.close();
     }
-    public static void main(String[] args) throws IOException {
+
+    /*public static void main(String[] args) throws IOException {
     	ActiveUserManager aUM = new ActiveUserManager();
     	aUM.InitActiveUser("Viktor");
     	aUM.addActiveUser("192.168.1.1", "Bingus");
     	aUM.PrintActiveUsers();
         BroadcastServer Serv = new BroadcastServer();
         Serv.run();
-    }
+    }*/
 }

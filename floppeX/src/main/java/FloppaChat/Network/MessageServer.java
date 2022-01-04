@@ -1,95 +1,86 @@
 package FloppaChat.Network;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-import java.io.*;
-import java.net.*;
-import java.util.Scanner;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import FloppaChat.GUI.MainPageController;
 
-	
 public class MessageServer{
-		int port;
-		ServerSocket M_Serv=null;
-		Socket link=null;
-		ExecutorService pool =null;
-		int client_count=0;
-		
-		
-		MessageServer(int port){
-			this.port=port;
-			pool = Executors.newFixedThreadPool(1000);
-		}
-		
-		public void startServer() throws IOException {
-			M_Serv=new ServerSocket(42069);
-			System.out.println("Server Started");
-			while (true)
-			{
-				link=M_Serv.accept();
-				client_count++;
-				ServerThread runnable = new ServerThread(link,client_count);
-				pool.execute(runnable);
-			}	
-			
-		}
-		
-		private class ServerThread implements Runnable {
 
-			Socket client;
-			BufferedReader com_in;
-			PrintStream com_out;
-			Scanner sc = new Scanner(System.in);
-			int id;
-			String s;
-			
-			ServerThread(Socket link, int count) throws IOException {
-				this.client = link;
-				this.id=count;
-				System.out.println("Connection"+id+"established with a client");
-				com_in=new BufferedReader(new InputStreamReader(client.getInputStream()));
-				com_out=new PrintStream(client.getOutputStream());
-			}
-			
-			@Override
-			public void run() {
-				int x=1;
-				try {
-					while (true) 
-					{
-						s = com_in.readLine();
-							System.out.println("Client("+id+"):"+s+"\n");
-							System.out.println("Server :");
-							s=sc.nextLine();
-							if (s.equalsIgnoreCase("Bingus")) 
-							{
-								com_out.println("Cheh");
-								x=0;
-								System.out.println("Connection ended by the Floppa");
-								break;
-							}
-							com_out.println(s);
-					}
-					com_in.close();
-					client.close();
-					com_out.close();
-					if (x==0) {
-						System.out.println("Sever cleaning");
-						System.exit(0);
-					}
-				}
-				catch (IOException ex) {
-					System.out.println("Error"+ex);
-				}
-				
-			}
-		}
-			
-		public static void main (String args[]) throws IOException {
-			MessageServer serverobj = new MessageServer (42069);
-			serverobj.startServer();
-		}
-		
-		
-		
+    private ServerSocket ServSock;
+    private Socket Sock;
+    private BufferedReader BuffRead;
+    private BufferedWriter BuffWrite;
+
+    public MessageServer(ServerSocket ServSock){
+        try {
+            this.ServSock=ServSock;
+            this.Sock=ServSock.accept();
+            this.BuffWrite = new BufferedWriter(new OutputStreamWriter(Sock.getOutputStream()));
+            this.BuffRead = new BufferedReader(new InputStreamReader(Sock.getInputStream()));
+            } catch (IOException e){
+            System.out.println("Erreur création serveur.");
+            e.printStackTrace();
+            closeEverything(Sock, BuffRead, BuffWrite);
+        }
+    }
+
+    public void SendMessToClient(String messageToClient){
+        try {
+            BuffWrite.write(messageToClient);
+            BuffWrite.newLine();
+            BuffWrite.flush();
+        } catch (IOException e) {
+            System.out.println("Erreur envoi du message au client");
+            e.printStackTrace();
+            closeEverything(Sock, BuffRead, BuffWrite);
+        }
+    }
+
+    public void RecvMessFromClient(){
+    	//MainPageController MPC = new MainPageController();
+        new Thread(new Runnable(){
+            @Override
+            public void run(){
+                while (Sock.isConnected()){
+                    try {
+                        String MessFromClient = BuffRead.readLine();
+                        if (MessFromClient != null) {
+                        	//MPC.addMessageFrom(MessFromClient, MPC.nowDate());
+                        	System.out.println("Message du client : "+MessFromClient);
+                        }
+                        
+                    } catch (IOException e) {
+                        System.out.println("Erreur réception du message du client");
+                        e.printStackTrace();
+                        closeEverything(Sock, BuffRead, BuffWrite);
+                        break;
+                    }
+                }
+            }
+        }).start();;
+    }
+
+
+    public void closeEverything(Socket socket,BufferedReader bufferedReader,BufferedWriter bufferedWriter){
+        try {
+            if (bufferedReader != null){
+                bufferedReader.close();
+            }
+            if(bufferedWriter != null){
+                bufferedWriter.close();
+            }
+            if (socket != null){
+                socket.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
-
