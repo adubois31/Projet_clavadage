@@ -26,13 +26,13 @@ public class App extends Application {
     
     @Override
     public void stop(){
-        //System.out.println("Closing App...");
+        System.out.println("Closing App...");
     }
 
     public static void setRoot(String fxml) throws IOException {
     	if (fxml.equals("MainPage")) {
-    		stageMod.setWidth(800);
-    		stageMod.setHeight(600);
+    		stageMod.setWidth(850);
+    		stageMod.setHeight(682);
     	}
         scene.setRoot(loadFXML(fxml));
     }
