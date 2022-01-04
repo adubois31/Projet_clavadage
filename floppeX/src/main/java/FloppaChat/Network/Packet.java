@@ -18,11 +18,15 @@ public class Packet {
 		return("ChangePseudoAns|"+NewCheck+"|"+SenderPseudo);
 	}
 	
-	public static String ConfirmedNewPseudo(String OldPseudo, String NewPseudo) {
-		return("ConfirmedNewPseudo|"+OldPseudo+"|"+NewPseudo);
+	public static String ConfirmedNewPseudo(String NewPseudo) {
+		return("ConfirmedNewPseudo|"+NewPseudo);
 	}
 	
 	public static String Disconnected(String LocalPseudo) {
 		return ("Bingus|"+LocalPseudo);
+	}
+	
+	public static String Ack(String NewPseudo) {
+		return ("ACK|"+NewPseudo);
 	}
 }

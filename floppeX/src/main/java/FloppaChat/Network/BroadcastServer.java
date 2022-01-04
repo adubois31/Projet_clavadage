@@ -17,28 +17,35 @@ public class BroadcastServer extends Thread {
         socket = new DatagramSocket(6969);
     }
 
-    public void run() {
-        running = true;
-
-        while (running) {
-            DatagramPacket packet 
-              = new DatagramPacket(buf, buf.length);
-            try {
-				socket.receive(packet);
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-            Process process = new Process();
-            try {
-				process.BroadcastProcess(packet, socket);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-        }
-        socket.close();
-    }
+    public void launch() {
+    	Thread t1 = new Thread(new Runnable() {
+    	    @Override
+    	    public void run() {
+    	    	running = true;
+        		while (running) {
+        			System.out.println("Hello");
+        			DatagramPacket packet = new DatagramPacket(buf, buf.length);
+        			try {
+        				socket.receive(packet);
+        			} catch (IOException e) {
+        				System.out.println("Nik");
+        				e.printStackTrace();
+        			}
+        			System.out.println("Hello2");
+        			Process process = new Process();
+        			try {
+        				process.BroadcastProcess(packet, socket);
+        			} 
+        			catch (IOException e) {
+        				e.printStackTrace();
+        			}
+        		}
+        		System.out.println("Hello3");
+        		socket.close();
+        	}
+    	});  
+    	t1.run();
+    	}
 
     /*public static void main(String[] args) throws IOException {
     	ActiveUserManager aUM = new ActiveUserManager();

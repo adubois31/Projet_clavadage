@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+
+import FloppaChat.DataBase.DBController;
 import FloppaChat.GUI.*;
 
 public class MessageClient{
@@ -21,7 +23,7 @@ public class MessageClient{
         } catch (IOException e){
             System.out.println("Erreur création client.");
             e.printStackTrace();
-            closeEverything(Sock, BuffRead, BuffWrite);
+            closeEverything();
         }
     }
 
@@ -33,41 +35,45 @@ public class MessageClient{
         } catch (IOException e) {
             System.out.println("Erreur envoi du message au serveur");
             e.printStackTrace();
-            closeEverything(Sock, BuffRead, BuffWrite);
+            closeEverything();
         }
     }
 
     public void RecvMessFromServer(){
     	MainPageController MPC = new MainPageController();
+    	DBController DBC = new DBController(UserPseudo.dbName);
         new Thread(new Runnable(){
             @Override
             public void run(){
                 while (Sock.isConnected()){
                     try {
                         String MessFromServer = BuffRead.readLine();
-                        //MPC.addMessageFrom(MessFromServer, MPC.nowDate());
-                        System.out.println("Message du serveur : "+MessFromServer);
+                        MPC.addMessageFrom(MessFromServer, MPC.nowDate());
+                        DBC.addMessage(DBC.getIDfromUser(UserPseudo.userPseudo, Sock.getInetAddress().toString().substring(1)), MPC.nowDate() , MessFromServer, false);
                     } catch (IOException e) {
                         System.out.println("Erreur réception du message du serveur");
                         e.printStackTrace();
-                        closeEverything(Sock, BuffRead, BuffWrite);
+                        closeEverything();
                         break;
                     }
                 }
             }
         }).start();;
     }
-
-    public void closeEverything(Socket socket,BufferedReader bufferedReader,BufferedWriter bufferedWriter){
+    public void EndChat() {
+    	closeEverything();
+    }
+    
+    private void closeEverything(){
         try {
-            if (bufferedReader != null){
-                bufferedReader.close();
+            if (BuffRead != null){
+                BuffRead.close();
             }
-            if(bufferedWriter != null){
-                bufferedWriter.close();
+            if(BuffWrite!= null){
+                BuffWrite.close();
             }
-            if (socket != null){
-                socket.close();
+            if (Sock != null){
+                Sock.close();
             }
         } catch (IOException e) {
             e.printStackTrace();

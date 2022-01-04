@@ -8,6 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import FloppaChat.GUI.MainPageController;
+import FloppaChat.GUI.UserPseudo;
+import FloppaChat.DataBase.DBController;
 
 public class MessageServer{
 
@@ -25,7 +27,7 @@ public class MessageServer{
             } catch (IOException e){
             System.out.println("Erreur création serveur.");
             e.printStackTrace();
-            closeEverything(Sock, BuffRead, BuffWrite);
+            closeEverything();
         }
     }
 
@@ -37,12 +39,13 @@ public class MessageServer{
         } catch (IOException e) {
             System.out.println("Erreur envoi du message au client");
             e.printStackTrace();
-            closeEverything(Sock, BuffRead, BuffWrite);
+            closeEverything();
         }
     }
 
     public void RecvMessFromClient(){
-    	//MainPageController MPC = new MainPageController();
+    	MainPageController MPC = new MainPageController();
+    	DBController DBC = new DBController(UserPseudo.dbName);
         new Thread(new Runnable(){
             @Override
             public void run(){
@@ -50,32 +53,39 @@ public class MessageServer{
                     try {
                         String MessFromClient = BuffRead.readLine();
                         if (MessFromClient != null) {
-                        	//MPC.addMessageFrom(MessFromClient, MPC.nowDate());
-                        	System.out.println("Message du client : "+MessFromClient);
+                        	MPC.addMessageFrom(MessFromClient, MPC.nowDate());
+                        	DBC.addMessage(DBC.getIDfromUser(UserPseudo.userPseudo, Sock.getInetAddress().toString().substring(1)), MPC.nowDate() , MessFromClient, false);
                         }
                         
                     } catch (IOException e) {
                         System.out.println("Erreur réception du message du client");
                         e.printStackTrace();
-                        closeEverything(Sock, BuffRead, BuffWrite);
+                        closeEverything();
                         break;
                     }
                 }
             }
         }).start();;
     }
+    
+    public void EndChat() {
+    	closeEverything();
+    }
 
 
-    public void closeEverything(Socket socket,BufferedReader bufferedReader,BufferedWriter bufferedWriter){
+    private void closeEverything(){
         try {
-            if (bufferedReader != null){
-                bufferedReader.close();
+        	if (ServSock != null) {
+        		ServSock.close();
+        	}
+            if (BuffRead != null){
+                BuffRead.close();
             }
-            if(bufferedWriter != null){
-                bufferedWriter.close();
+            if(BuffWrite!= null){
+                BuffWrite.close();
             }
-            if (socket != null){
-                socket.close();
+            if (Sock != null){
+                Sock.close();
             }
         } catch (IOException e) {
             e.printStackTrace();

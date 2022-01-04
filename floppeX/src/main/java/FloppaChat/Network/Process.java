@@ -10,6 +10,15 @@ public class Process {
 	private static boolean HelloAccepted = true;
 	private ActiveUserManager aUM;
 	
+	private static boolean ChangePseudoAccepted =true;
+	
+	public static boolean getChangePseudoAccepted() {
+		return ChangePseudoAccepted;
+	}
+	public static  void setChangePseudoAccepted(boolean Val) {
+		ChangePseudoAccepted=Val;
+	}
+	
 	public static boolean getHelloAccepted() {
 		return HelloAccepted;
 	}
@@ -38,32 +47,30 @@ public class Process {
 			processDisconnected(packet.getAddress().toString(),Split_Answer[1]);
 		}
 		if((Split_Answer[0].equals("ChangePseudo"))) {
-			processChangePseudo(Split_Answer[1],packet.getAddress().toString(),Split_Answer[2] , packet);
+			processChangePseudo(Split_Answer[1],packet.getAddress().toString(),Split_Answer[2] , packet,socket);
 		}
 		if((Split_Answer[0].equals("ChangePseudoAns"))) {
-			processChangePseudoAns(Split_Answer[1],Split_Answer[2],packet.getAddress().toString());
+			processChangePseudoAns(Split_Answer[1],Split_Answer[2],packet.getAddress().toString().substring(1));
+		}
+		if((Split_Answer[0].equals("ConfirmedNewPseudo"))) {
+			processConfirmedNewPseudo(Split_Answer[1],packet.getAddress().toString().substring(1),packet,socket);
+		}
+		if((Split_Answer[0].equals("ACK"))) {
+			processAck(Split_Answer[1]);
 		}
 	}
 	
 	
 	public void processHello(String IP,String Pseudo,DatagramPacket packet,DatagramSocket socket) {
-
-		System.out.println(Pseudo+aUM.CheckPseudoUnicity(Pseudo));
-		aUM.PrintActiveUsers();
 		if(aUM.CheckPseudoUnicity(Pseudo)){
 			aUM.addActiveUser(IP, Pseudo);
-			System.out.println("Pseudo OK\n");
 			byte[] out_buffer= Packet.HelloBack("Ok",aUM.getActiveUserPseudo("127.0.0.1")).getBytes();
-
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
-			System.out.println("Sending Hello_Back\n");
+
 		}
 		else {
-			System.out.println("Pseudo taken\n");
-
 			byte[] out_buffer= Packet.HelloBack("Not_Ok",aUM.getActiveUserPseudo("127.0.0.1")).getBytes();
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
-			System.out.println("Pseudo already taken\n");
 		}
 		aUM.PrintActiveUsers();
 		try {
@@ -80,9 +87,7 @@ public class Process {
 		if(aUM.CheckPseudoUnicity(SenderPseudo)) {
 			aUM.addActiveUser(SenderIP, SenderPseudo);	
 		}
-		aUM.PrintActiveUsers();
 		if(Check.equals("Ok")) {
-			//displaying active user and chat page 
 			
 			HelloAccepted = HelloAccepted && true;
 
@@ -102,36 +107,50 @@ public class Process {
 		
 	}
 	
-	public void processChangePseudo(String OldPseudo,String IP,String NewPseudo,DatagramPacket packet) {
-
-		if (aUM.CheckPseudoUnicity(OldPseudo)&&aUM.CheckPseudoUnicity(NewPseudo)){
-			//Database_Manager.addActiveUser(IP,NewPseudo);
-			byte[] out_buffer= Packet.ChangePseudoAns("New_OK",aUM.getActiveUserPseudo("127.0.0.1")).getBytes();
-			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
-		}
-		if(!(aUM.CheckPseudoUnicity(OldPseudo))&&aUM.CheckPseudoUnicity(NewPseudo)) {
-			//Database_Manager.UpdateActive_User_Pseudo(IP, NewPseudo);
+	public void processChangePseudo(String OldPseudo,String IP,String NewPseudo,DatagramPacket packet,DatagramSocket socket) {
+		if (aUM.CheckPseudoUnicity(NewPseudo)){
 			byte[] out_buffer= Packet.ChangePseudoAns("New_OK",aUM.getActiveUserPseudo("127.0.0.1")).getBytes();
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 		}
 		else {
 			byte[] out_buffer= Packet.ChangePseudoAns("New_Not_OK",aUM.getActiveUserPseudo("127.0.0.1")).getBytes();
-
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
-			System.out.println("Pseudo Déjà Pris");
+		}
+		try {
+			socket.send(packet);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	public void processChangePseudoAns(String Check,String SenderPseudo, String SenderIP) {
-
 		if(aUM.CheckPseudoUnicity(SenderPseudo)) {
 			aUM.addActiveUser(SenderIP, SenderPseudo);
 
 		}
-		if(Check=="New_OK") {
-			System.out.println("Nouveau Pseudo OK");
+		if(Check.equals("New_OK")) {
+			ChangePseudoAccepted = ChangePseudoAccepted && true;
 		}
-		System.out.println("Nouveau Pseudo  PAS OK");
+		else {
+			ChangePseudoAccepted = ChangePseudoAccepted && false;
+		}
+	}
+	
+	public void processConfirmedNewPseudo(String NewPseudo, String SenderIP, DatagramPacket packet,DatagramSocket socket) {
+		aUM.UpdateActiveUserPseudo(SenderIP, NewPseudo);
+		aUM.PrintActiveUsers();
+		byte[] out_buffer= Packet.Ack(NewPseudo).getBytes();
+		packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
+		try {
+			socket.send(packet);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void processAck(String NewPseudo) {
+		aUM.UpdateActiveUserPseudo("127.0.0.1", NewPseudo);
+		aUM.PrintActiveUsers();
 	}
 	
 	
