@@ -25,4 +25,8 @@ public class Packet {
 	public static String Disconnected(String LocalPseudo) {
 		return ("Bingus|"+LocalPseudo);
 	}
+	
+	public static String Ack(String NewPseudo) {
+		return ("ACK|"+NewPseudo);
+	}
 }

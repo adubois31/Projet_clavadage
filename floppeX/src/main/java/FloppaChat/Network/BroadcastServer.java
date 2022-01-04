@@ -14,7 +14,7 @@ public class BroadcastServer extends Thread {
     private byte[] buf = new byte[256];
 
     public BroadcastServer() throws SocketException {
-        this.socket = new DatagramSocket(6969);
+        socket = new DatagramSocket(6969);
     }
 
     public void run() {

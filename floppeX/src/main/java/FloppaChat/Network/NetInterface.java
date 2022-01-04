@@ -19,6 +19,10 @@ public class NetInterface {
 		    	break;
 		    }
 		}
+		if (PseudoOK=true) {
+			aUM.InitActiveUser(Pseudo);
+		}
+		aUM.PrintActiveUsers();
 		Process.SetHelloAccepted(true);
 		return PseudoOK;
 	}
@@ -26,13 +30,14 @@ public class NetInterface {
 		boolean ChangePseudoOk =true;
 		BroadcastClient.broadcast(Packet.ChangePseudo(OldPseudo, NewPseudo), InetAddress.getByName("10.1.255.255"));
 		long start = System.currentTimeMillis();
-		long end = start + 2*1000;
+		long end = start + 4*1000;
 		while (System.currentTimeMillis() < end) {
 		    if(!(Process.getChangePseudoAccepted())) {
 		    	ChangePseudoOk=false;
 		    	break;
 		    }
 		}
+		System.out.println("Compteur fini "+ChangePseudoOk);
 		if (ChangePseudoOk) {
 			aUM.UpdateActiveUserPseudo("127.0.0.1", NewPseudo);
 			BroadcastClient.broadcast(Packet.ConfirmedNewPseudo(NewPseudo), InetAddress.getByName("10.1.255.255"));

@@ -20,11 +20,13 @@ public class BroadcastClient {
           = new DatagramPacket(buffer, buffer.length, address, 6969);
         socket.send(packet);
         System.out.println("Sending Packet...\n");
-        byte[] buff_answer = new byte[256];
-        DatagramPacket inPacket = new DatagramPacket(buff_answer,buff_answer.length);
-        socket.receive(inPacket);
+        byte[] buff_answer = new byte[512];
+        DatagramPacket packet1 = new DatagramPacket(buff_answer,buff_answer.length);
+        System.out.println(packet1);
+        socket.receive(packet1);
+        System.out.println("Recieved a Packet...\n");
         Process process = new Process();
-		process.BroadcastProcess(inPacket, socket);        
+		process.BroadcastProcess(packet1, socket);        
         
         socket.close();
         

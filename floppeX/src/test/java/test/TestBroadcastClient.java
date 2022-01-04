@@ -24,8 +24,8 @@ public class TestBroadcastClient {
 	
 	@Test
 	void TestChangePseudo() throws UnknownHostException, IOException {
-		aUM.InitActiveUser("Pedro");
-		if (NetInterface.ChangePseudo("Pedro", "Bri")) {
+		aUM.InitActiveUser("Bri");
+		if (NetInterface.ChangePseudo("Bri", "Billy")) {
 			assert(true);
 		}
 		else {
