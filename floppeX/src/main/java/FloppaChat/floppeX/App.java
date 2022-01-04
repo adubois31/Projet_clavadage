@@ -26,7 +26,7 @@ public class App extends Application {
     
     @Override
     public void stop(){
-        System.out.println("Stage is closing");
+        //System.out.println("Closing App...");
     }
 
     public static void setRoot(String fxml) throws IOException {
