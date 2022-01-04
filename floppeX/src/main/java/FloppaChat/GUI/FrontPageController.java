@@ -34,7 +34,8 @@ public class FrontPageController {
 				processAlert("No pseudo written",AlertType.ERROR);
 			}else {
 				UserPseudo.userPseudo = typedPseudo;
-				App.setRoot("MainPage");
+				//App.setRoot("MainPage");
+				App.nextStage();
 			}
 			//Envoyer broadcast à tout le monde avec pseudo
 		} else {

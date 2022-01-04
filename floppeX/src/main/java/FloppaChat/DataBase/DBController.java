@@ -4,14 +4,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 
+import FloppaChat.GUI.UserPseudo;
+
 public class DBController {
 	
 	private String dbName;
 	
-	public DBController(String path) {
+	public DBController() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			this.dbName = path;
+			this.dbName = UserPseudo.dbName;
 			File dbfile = new File("src/main/resources/sqlite/db/"+this.dbName+".db");
 			if(dbfile.createNewFile()) {
 				System.out.println("File created: " + dbfile.getName());

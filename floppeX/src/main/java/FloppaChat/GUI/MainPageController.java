@@ -13,6 +13,7 @@ import FloppaChat.DataBase.Message;
 import FloppaChat.floppeX.App;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -23,6 +24,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -54,6 +56,9 @@ public class MainPageController {
 	
 	@FXML private ListView<String> activeusers;
 	
+	
+	@FXML private ListView<Node> activeUserList;
+	
 	@FXML private VBox centerPage;
 	
 	@FXML private BorderPane borderPane;
@@ -77,8 +82,15 @@ public class MainPageController {
 			aUM.addActiveUser("69.69", "Hugo");
 			aUM.addActiveUser("69.69", "Clement");
 			aUM.addActiveUser("69.69", "Chama");
+			aUM.addActiveUser("69.69", "Klem");
 			for(ActiveUser au : ActiveUserManager.Act_User_List) {
 				activeusers.getItems().add(au.getPseudo());
+			}
+		}
+		if(activeUserList!=null) {
+			//System.out.println("Bien chargé");
+			for(ActiveUser au : ActiveUserManager.Act_User_List) {
+				activeUserList.getItems().add(this.makeUserLabel(au.getPseudo()));
 			}
 		}
 		if (pseudoForeign!=null) 	
@@ -89,8 +101,24 @@ public class MainPageController {
 		}		
 	}
 	
+	private AnchorPane makeUserLabel(String pseudo) throws IOException{
+		FXMLLoader loader = new FXMLLoader();   
+    	AnchorPane userLabel = loader.load(App.class.getResource("userLabel.fxml").openStream());
+    	Label labelPseudo = (Label)userLabel.getChildren().get(0);
+    	Label labelNotif = (Label)userLabel.getChildren().get(1);
+    	labelPseudo.setText(pseudo);
+    	labelNotif.setText("0");
+    	return userLabel;
+	}
+	
 	private String getPseudoFromIndex(int index){
         return activeusers.getItems().get(index).toString();
+    }
+	
+	private String getPseudoFromIndex2(int index){
+		AnchorPane labelUser = (AnchorPane) activeUserList.getItems().get(index);
+		Label pseudoText = (Label) labelUser.getChildren().get(0);
+        return pseudoText.getText();
     }
 	
 	@FXML
@@ -113,6 +141,26 @@ public class MainPageController {
 	            }
             } 
     }	
+	
+	@FXML
+	private void activeUserClicked2() throws IOException{
+        if (activeUserList.getSelectionModel().getSelectedIndices().size() > 0){
+            UserPseudo.activeUserIndex = (int)activeUserList.getSelectionModel().getSelectedIndices().get(0);
+            String name = getPseudoFromIndex2(UserPseudo.activeUserIndex);
+            System.out.println(name);
+            if (!aUM.pseudoExists(name)) {
+            	processAlert("User no longer active",AlertType.ERROR);
+            } else {
+	            UserPseudo.activeUserChat = name;
+	            String activeUserIP = aUM.getActiveUserIP(name);
+	            dbcontrol.createUser(name,activeUserIP);
+	            UserPseudo.activeUserID = dbcontrol.getIDfromUser(name, activeUserIP);
+	            FXMLLoader loader = new FXMLLoader();   
+	            VBox chatThing = loader.load(App.class.getResource("ChatPage.fxml").openStream());
+	            borderPane.setCenter(chatThing); 
+            }
+        } 
+	}
 	
 	private void addMessage(String cont,String path,String date) throws IOException {
 		FXMLLoader loaderLabel = new FXMLLoader(); 

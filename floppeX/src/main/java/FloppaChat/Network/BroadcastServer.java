@@ -18,7 +18,7 @@ public class BroadcastServer extends Thread {
     }
 
     public void run() {
-       
+        
         		running = true;
         		while (running) {
         			DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -32,12 +32,11 @@ public class BroadcastServer extends Thread {
         				process.BroadcastProcess(packet, socket);
         				} 
         			catch (IOException e) {
-        				e.printStackTrace();
-        				}
+        				e.printStackTrace();}
         			}
         		socket.close();
         		}
-
+ 
 
     /*public static void main(String[] args) throws IOException {
     	ActiveUserManager aUM = new ActiveUserManager();
