@@ -12,4 +12,6 @@ public class UserPseudo {
 	@FXML public static String activeUserChat;
 	
 	public static int activeUserID;
+	
+	public static String dbName = "flopbase";
 }
