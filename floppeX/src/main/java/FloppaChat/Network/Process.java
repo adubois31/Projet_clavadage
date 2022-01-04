@@ -53,7 +53,7 @@ public class Process {
 			processChangePseudoAns(Split_Answer[1],Split_Answer[2],packet.getAddress().toString());
 		}
 		if((Split_Answer[0].equals("ConfirmedNewPseudo"))) {
-			processChangePseudoAns(Split_Answer[1],packet.getAddress().toString());
+			processConfirmedNewPseudo(Split_Answer[1],packet.getAddress().toString());
 		}
 	}
 	
