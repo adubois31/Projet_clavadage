@@ -48,7 +48,7 @@ public class MainPageController {
 	    return myTimeObj.format(myFormatObj)+" "+myDateObj.format(myFormatObj2);
 	}
 	
-	private DBController dbcontrol = new DBController("flopBase");
+	private DBController dbcontrol = new DBController(UserPseudo.dbName);
 	
 	private ActiveUserManager aUM = new ActiveUserManager();
 	

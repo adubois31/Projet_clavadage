@@ -10,10 +10,10 @@ public class DBController {
 	
 	private String dbName;
 	
-	public DBController() {
+	public DBController(String name) {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			this.dbName = UserPseudo.dbName;
+			this.dbName = name;
 			File dbfile = new File("src/main/resources/sqlite/db/"+this.dbName+".db");
 			if(dbfile.createNewFile()) {
 				System.out.println("File created: " + dbfile.getName());
