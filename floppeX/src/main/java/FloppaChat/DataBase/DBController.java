@@ -1,5 +1,8 @@
 package FloppaChat.DataBase;
+import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class DBController {
 	
@@ -9,7 +12,14 @@ public class DBController {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			this.dbName = path;
-		} catch(ClassNotFoundException e) {
+			File dbfile = new File("src/main/resources/sqlite/db/"+this.dbName+".db");
+			if(dbfile.createNewFile()) {
+				System.out.println("File created: " + dbfile.getName());
+			} else {
+				System.out.println("File already exists");
+			}
+			initDatabase();
+		} catch(Exception e) {
 			System.err.println(e.getMessage());
 		}
 	}
@@ -50,35 +60,27 @@ public class DBController {
 	
 	public void initDatabase() {
 		String UserTable = 
-				"(UserID Integer PRIMARY KEY AUTOINCREMENT,"
-				+ "Pseudo varchar(255),"
-				+ "IPadress varchar(255))";
-		
-		String DateTable = 
-				"(DateID Integer PRIMARY KEY AUTOINCREMENT,"
-				+ "Year Integer,"
-				+ "Month Integer,"
-				+ "Day Integer,"
-				+ "Hour Integer,"
-				+ "Minute Integer)";
+				"(UserID Integer PRIMARY KEY,"
+				+ "Pseudo TEXT NOT NULL,"
+				+ "IPadress TEXT NOT NULL,"
+				+ "UNIQUE(Pseudo,IPadress))";
 		
 		String MessageTable =
-				"(MessageID Integer PRIMARY KEY AUTOINCREMENT,"
+				"(MessageID Integer PRIMARY KEY,"
 				+ "UserID Integer NOT NULL,"
-				+ "DateID Integer,"
-				+ "Content varchar(255),"
+				+ "Date TEXT,"
+				+ "Content TEXT,"
 				+ "Sent Integer,"
-				+ "FOREIGN KEY (UserID) REFERENCES Users(UserID),"
-				+ "FOREIGN KEY (DateID) REFERENCES Date(DateID))";
+				+ "FOREIGN KEY (UserID) REFERENCES Users(UserID))";
+		
 		this.createTable("Users", UserTable);
-		this.createTable("Date", DateTable);
 		this.createTable("Messages", MessageTable);
 	}
 	
 	public void createUser(String Pseudo,String IPadress) {
-		try (Connection con = this.connect()){
-			String query = "INSERT INTO Users(Pseudo,IPadress) VALUES ('"+Pseudo+"','"+IPadress+"');";
-			PreparedStatement statement = con.prepareStatement(query);
+		try (Connection con = this.connect()){	
+			String createQuery = "INSERT INTO Users(Pseudo,IPadress) VALUES ('"+Pseudo+"','"+IPadress+"');";
+			PreparedStatement statement = con.prepareStatement(createQuery);
 			statement.executeUpdate();
 		} catch(SQLException e) {
 			System.err.println("Error at inserting in User table");
@@ -86,21 +88,66 @@ public class DBController {
 		}
 	}
 	
-	public void fetchUsers() {
+	public void addMessage(int UserID,String Date,String content,boolean sent) {
+		int actualSent = 0;
+		if(sent) actualSent=1;
 		try (Connection con = this.connect()){
-			String query = "SELECT * FROM Users;";
-			Statement stmt  = con.createStatement();
-	        ResultSet rs    = stmt.executeQuery(query);
-	        while (rs.next()) {
-	            System.out.println(rs.getInt("UserID") +  "\t" + 
-	                               rs.getString("Pseudo") + "\t"+
-	                               rs.getString("IPadress"));
-	        }
+			String query = "INSERT INTO Messages(UserID,Date,Content,Sent) VALUES ("
+					+ "'"+UserID+"','"+Date+"','"+content+"','"+actualSent+"');";
+			PreparedStatement statement = con.prepareStatement(query);
+			statement.executeUpdate();
 		} catch(SQLException e) {
-			System.err.println("Error at fetching users");
+			System.err.println("Error at inserting in Messages table");
 			System.err.println(e.getMessage());
 		}
 	}
+	
+	public ArrayList<Message> fetchMessagesWithUser(int UserID) {
+		ArrayList<Message> listMessages = new ArrayList<Message>();
+		try (Connection con = this.connect()){
+			String query = "SELECT * FROM Messages WHERE UserID=\""+UserID+"\";";
+			Statement stmt  = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        while (rs.next()) 
+	            listMessages.add(new Message(rs.getString("Date"), UserID, rs.getString("Content"), rs.getBoolean("Sent")));
+		} catch(SQLException e) {
+			System.err.println("Error at fetching message");
+			System.err.println(e.getMessage());
+		}
+		return listMessages;
+	}
+	
+	public int getIDfromUser(String pseudo,String IP) {
+		int result = -1;
+		try (Connection con = this.connect()){
+			String query = "SELECT UserID FROM Users WHERE Pseudo=\""+pseudo+"\" AND IPadress=\""+IP+"\";";
+			Statement stmt  = con.createStatement();
+	        ResultSet rs    = stmt.executeQuery(query);
+	        while (rs.next()) {
+	        	result = rs.getInt("UserID");
+	        	break;
+	        }
+		} catch(SQLException e) {
+			System.err.println("Error at getting ID of User");
+			System.err.println(e.getMessage());
+		}
+		return result;
+	}
+	
+	//This is for testing, do not use it otherwise!
+	public void deleteAllTables() {
+		try (Connection con = this.connect()){
+			String query = "DROP TABLE 'Users';"
+					//+ "UPDATE Messages SET UserID = NULL;"
+					+ "DROP TABLE 'Messages';";
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate(query);
+		}catch(SQLException e) {
+			System.err.println("Error at deleting tables");
+			System.err.println(e.getMessage());
+		}
+	}
+	
 	
 	//This is for testing, do not use it otherwise!
 	public void deleteUsers() {
@@ -139,6 +186,23 @@ public class DBController {
 			pstmt.executeUpdate();
 		} catch(SQLException e) {
 			System.err.println("Error at removing in table");
+			System.err.println(e.getMessage());
+		}
+	}
+	
+	//Testing purpose
+	public void fetchUsers() {
+		try (Connection con = this.connect()){
+			String query = "SELECT * FROM Users;";
+			Statement stmt  = con.createStatement();
+	        ResultSet rs    = stmt.executeQuery(query);
+	        while (rs.next()) {
+	            System.out.println(rs.getInt("UserID") +  "\t" + 
+	                               rs.getString("Pseudo") + "\t"+
+	                               rs.getString("IPadress"));
+	        }
+		} catch(SQLException e) {
+			System.err.println("Error at fetching users");
 			System.err.println(e.getMessage());
 		}
 	}

@@ -7,23 +7,23 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FloppaChat.GUI.MainPageController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="409.0" prefWidth="474.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FloppaChat.GUI.MainPageController">
    <children>
       <AnchorPane prefHeight="58.0" prefWidth="600.0">
          <children>
             <Text layoutX="32.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You're chatting with " wrappingWidth="113.22900390625" AnchorPane.bottomAnchor="10.947265625" AnchorPane.topAnchor="9.7421875" />
-            <Text fx:id="pseudoForeign" layoutX="145.0" layoutY="23.568359375" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="381.0" AnchorPane.bottomAnchor="11.0" AnchorPane.topAnchor="11.0" />
+            <Text fx:id="pseudoForeign" layoutX="147.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="381.0" AnchorPane.bottomAnchor="13.2578125" AnchorPane.topAnchor="9.431640625" />
          </children>
       </AnchorPane>
       <ScrollPane hbarPolicy="NEVER" prefHeight="350.0" prefWidth="600.0">
          <content>
-            <VBox fx:id="messagelist" prefHeight="325.0" prefWidth="599.0" />
+            <VBox fx:id="messagelist" prefHeight="325.0" />
          </content>
       </ScrollPane>
-      <AnchorPane prefHeight="58.0" prefWidth="603.0">
+      <AnchorPane prefHeight="20.0" prefWidth="547.0">
          <children>
-            <TextField fx:id="contentMessage" layoutX="28.0" layoutY="6.0" onKeyPressed="#sendMessageEnter" prefHeight="25.0" prefWidth="456.0" />
-            <Button fx:id="flopit" layoutX="512.0" layoutY="5.0" mnemonicParsing="false" onMouseClicked="#sendMessageButton" text="Flop it" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="5.0" />
+            <TextField fx:id="contentMessage" layoutX="147.0" layoutY="3.0" onKeyPressed="#sendMessageEnter" prefHeight="25.0" AnchorPane.leftAnchor="147.0" AnchorPane.rightAnchor="166.0" />
+            <Button fx:id="flopit" layoutX="365.0" layoutY="3.0" mnemonicParsing="false" onMouseClicked="#sendMessageButton" text="Flop it" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="58.0" AnchorPane.topAnchor="3.0" />
          </children>
       </AnchorPane>
    </children>

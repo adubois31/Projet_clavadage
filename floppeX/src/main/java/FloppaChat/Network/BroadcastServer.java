@@ -4,7 +4,7 @@ package FloppaChat.Network;
 import java.io.IOException;
 import java.net.*;
 
-import FloppaChat.DataBase.ActiveUser_Manager;
+import FloppaChat.DataBase.ActiveUserManager;
 
 
 public class BroadcastServer extends Thread {
@@ -39,11 +39,12 @@ public class BroadcastServer extends Thread {
         }
         socket.close();
     }
+
     /*public static void main(String[] args) throws IOException {
-    	ActiveUser_Manager AU_M = new ActiveUser_Manager();
-    	AU_M.InitActiveUser("Viktor");
-    	AU_M.addActiveUser("192.168.1.1", "Bingus");
-    	AU_M.PrintActiveUsers();
+    	ActiveUserManager aUM = new ActiveUserManager();
+    	aUM.InitActiveUser("Viktor");
+    	aUM.addActiveUser("192.168.1.1", "Bingus");
+    	aUM.PrintActiveUsers();
         BroadcastServer Serv = new BroadcastServer();
         Serv.run();
     }*/

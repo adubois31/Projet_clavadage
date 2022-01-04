@@ -14,9 +14,9 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="474.0" prefWidth="637.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FloppaChat.GUI.MainPageController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="819.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FloppaChat.GUI.MainPageController">
    <top>
-      <MenuBar BorderPane.alignment="CENTER">
+      <MenuBar prefHeight="31.0" prefWidth="503.0" BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -36,36 +36,14 @@
         </menus>
       </MenuBar>
    </top>
-   <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: fbf2de;" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="131.0" fitWidth="128.0">
-               <image>
-                  <Image url="@FlopEnhanced.jpg" />
-               </image>
-            </ImageView>
-            <Button fx:id="backbutton" mnemonicParsing="false" onMouseClicked="#backToMainPage" text="Back" />
-            <AnchorPane prefHeight="77.0" prefWidth="128.0">
-               <children>
-                  <VBox layoutX="14.0" layoutY="13.0" prefHeight="187.0" prefWidth="100.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" User : " />
-                        <Text fx:id="pseudotext" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="100.0" />
-                     </children>
-                  </VBox>
-               </children>
-            </AnchorPane>
-         </children>
-      </VBox>
-   </left>
    <center>
-      <VBox fx:id="centerPage" prefHeight="470.0" prefWidth="498.0" style="-fx-background-color: fbf2c2;" BorderPane.alignment="CENTER">
+      <AnchorPane style="-fx-background-color: fbdffe;" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane prefHeight="23.0" prefWidth="457.0">
+            <AnchorPane layoutX="104.0" layoutY="41.0" prefHeight="23.0" prefWidth="457.0" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="104.0">
                <children>
                   <TextFlow prefHeight="20.0" prefWidth="457.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" Choose the active user you want to communicate with" wrappingWidth="450.684814453125">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose the active user you want to communicate with" wrappingWidth="450.684814453125">
                            <font>
                               <Font name="AppleMyungjo Regular" size="18.0" />
                            </font>
@@ -74,8 +52,42 @@
                   </TextFlow>
                </children>
             </AnchorPane>
-            <ListView fx:id="activeusers" onMouseClicked="#activeUserClicked" prefHeight="335.0" prefWidth="472.0" />
+            <AnchorPane layoutX="104.0" layoutY="102.0" prefHeight="336.0" prefWidth="158.0" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="104.0">
+               <children>
+                  <ListView fx:id="activeusers" layoutX="83.0" layoutY="1.0" onMouseClicked="#activeUserClicked" prefHeight="406.0" prefWidth="291.0" AnchorPane.leftAnchor="83.0" AnchorPane.rightAnchor="83.0" />
+               </children>
+            </AnchorPane>
          </children>
-      </VBox>
+      </AnchorPane>
    </center>
+   <left>
+      <AnchorPane prefHeight="472.0" prefWidth="122.0" style="-fx-background-color: fbf2de;" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="513.0" prefWidth="128.0" style="-fx-background-color: fbf2de;">
+               <children>
+                  <ImageView fitHeight="131.0" fitWidth="128.0">
+                     <image>
+                        <Image url="@FlopEnhanced.jpg" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane prefHeight="63.0" prefWidth="122.0">
+                     <children>
+                        <Button fx:id="backbutton" layoutX="41.0" layoutY="19.0" mnemonicParsing="false" onMouseClicked="#backToMainPage" text="Back" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="77.0" prefWidth="128.0">
+                     <children>
+                        <VBox layoutX="14.0" layoutY="13.0" prefHeight="187.0" prefWidth="100.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" User : " />
+                              <Text fx:id="pseudotext" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="100.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </left>
 </BorderPane>

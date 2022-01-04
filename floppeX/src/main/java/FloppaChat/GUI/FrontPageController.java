@@ -13,20 +13,27 @@ import javafx.scene.input.KeyEvent;
 
 public class FrontPageController {
 	
-	Alert alert = new Alert(AlertType.WARNING, "You can't choose that pseudo (God)",ButtonType.OK);
+	private void processAlert(String message,AlertType type) throws IOException {
+		Alert alert = new Alert(type, message,ButtonType.OK);
+		alert.showAndWait();
+		if (alert.getResult() == ButtonType.OK) {
+			App.setRoot("FloppaFrontPage");
+		}
+	}
+
 	
 	@FXML private TextField pseudo;
 	
 	@FXML
 	private void keyPressed(KeyEvent keyEvent) throws IOException {
+		String typedPseudo = pseudo.getText().strip();
 		if(keyEvent.getCode()== KeyCode.ENTER) {
-			if (pseudo.getText().equals("Floppa")) {
-				alert.showAndWait();
-				if (alert.getResult() == ButtonType.OK) {
-					App.setRoot("FloppaFrontPage");
-				}
-			} else {
-				UserPseudo.userPseudo = pseudo.getText();
+			if (typedPseudo.equals("Floppa")) {
+				processAlert("You can't choose the pseudo of god",AlertType.WARNING);
+			} else if(typedPseudo.equals("")) {
+				processAlert("No pseudo written",AlertType.ERROR);
+			}else {
+				UserPseudo.userPseudo = typedPseudo;
 				App.setRoot("MainPage");
 			}
 			//Envoyer broadcast à tout le monde avec pseudo
