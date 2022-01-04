@@ -2,9 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,37 +12,16 @@
 <?import javafx.scene.text.TextFlow?>
 
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="819.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FloppaChat.GUI.MainPageController">
-   <top>
-      <MenuBar prefHeight="31.0" prefWidth="503.0" BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
    <center>
-      <AnchorPane style="-fx-background-color: fbdffe;" BorderPane.alignment="CENTER">
+      <AnchorPane style="-fx-background-color: f7dffe;" BorderPane.alignment="CENTER">
          <children>
             <AnchorPane layoutX="104.0" layoutY="41.0" prefHeight="23.0" prefWidth="457.0" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="104.0">
                <children>
-                  <TextFlow prefHeight="20.0" prefWidth="457.0">
+                  <TextFlow layoutX="13.0" prefHeight="20.0" prefWidth="457.0" AnchorPane.leftAnchor="13.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose the active user you want to communicate with" wrappingWidth="450.684814453125">
                            <font>
-                              <Font name="AppleMyungjo Regular" size="18.0" />
+                              <Font name="Kohinoor Bangla" size="18.0" />
                            </font>
                         </Text>
                      </children>
@@ -65,22 +41,34 @@
          <children>
             <VBox prefHeight="513.0" prefWidth="128.0" style="-fx-background-color: fbf2de;">
                <children>
-                  <ImageView fitHeight="131.0" fitWidth="128.0">
+                  <ImageView fitHeight="138.0" fitWidth="135.0">
                      <image>
                         <Image url="@FlopEnhanced.jpg" />
                      </image>
                   </ImageView>
-                  <AnchorPane prefHeight="63.0" prefWidth="122.0">
+                  <AnchorPane prefHeight="420.0" prefWidth="161.0">
                      <children>
-                        <Button fx:id="backbutton" layoutX="41.0" layoutY="19.0" mnemonicParsing="false" onMouseClicked="#backToMainPage" text="Back" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="77.0" prefWidth="128.0">
-                     <children>
-                        <VBox layoutX="14.0" layoutY="13.0" prefHeight="187.0" prefWidth="100.0">
+                        <AnchorPane layoutX="1.0" prefHeight="125.0" prefWidth="150.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" User : " />
-                              <Text fx:id="pseudotext" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="100.0" />
+                              <Button fx:id="changePseudoButton" layoutX="6.0" layoutY="69.0" mnemonicParsing="false" onMouseClicked="#showFrontPage" style="-fx-background-color: ff92de;" text="CHANGE PSEUDO" AnchorPane.leftAnchor="6.0">
+                                 <font>
+                                    <Font name="Kokonor Regular" size="13.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="backbutton" layoutX="7.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#backToMainPage" prefHeight="36.0" prefWidth="131.0" style="-fx-background-color: ff92de;" text="BACK" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="7.0">
+                                 <font>
+                                    <Font name="Kokonor Regular" size="13.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </AnchorPane>
+                        <VBox layoutX="14.0" layoutY="139.0" prefHeight="187.0" prefWidth="100.0" AnchorPane.leftAnchor="6.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="USER : " />
+                              <Text fx:id="pseudotext" fill="#a13131" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="100.0">
+                                 <font>
+                                    <Font name="Kohinoor Bangla" size="18.0" />
+                                 </font></Text>
                            </children>
                         </VBox>
                      </children>

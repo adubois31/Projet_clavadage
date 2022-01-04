@@ -64,6 +64,7 @@ public class MainPageController {
 	
 	@FXML private Button backbutton;
 	@FXML private Button flopit;
+	@FXML private Button changePseudoButton;
 
 	@FXML private TextField contentMessage;
 	
@@ -164,6 +165,14 @@ public class MainPageController {
 			addMessageTo(contentMessage.getText(),nowDate());
 			contentMessage.setText("");
 		}
+	}
+	
+	@FXML
+	private void showFrontPage() throws IOException {
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Are you sure you want to change pseudo?",ButtonType.YES,ButtonType.NO);
+		alert.showAndWait();
+		if(alert.getResult() == ButtonType.YES)
+			App.setRoot("FloppaFrontPage");
 	}
 	
 	

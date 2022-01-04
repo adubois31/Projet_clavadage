@@ -23,6 +23,11 @@ public class App extends Application {
         stageMod.setScene(scene);
         stageMod.show();
     }
+    
+    @Override
+    public void stop(){
+        System.out.println("Stage is closing");
+    }
 
     public static void setRoot(String fxml) throws IOException {
     	if (fxml.equals("MainPage")) {

@@ -1,7 +1,5 @@
 package test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
@@ -92,6 +90,15 @@ public class dbTest {
 		for(Message m : db.fetchMessagesWithUser(ID)) {
 			System.out.println(m);
 		}
+	}
+	
+	@Test
+	void testUpdatePseudo() {
+		db.createUser("Viktor","69.69.69.69");
+		db.createUser("Aubry","96.96.96.96");
+		db.fetchUsers();
+		db.changePseudo("Aubrydu69", db.getIDfromUser("Aubry", "96.96.96.96"));
+		db.fetchUsers();
 	}
 	
 	@Test

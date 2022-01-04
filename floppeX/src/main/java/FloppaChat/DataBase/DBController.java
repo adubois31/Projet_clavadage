@@ -134,6 +134,17 @@ public class DBController {
 		return result;
 	}
 	
+	public void changePseudo(String newPseudo,int ID) {
+		try (Connection con = this.connect()){
+			String query = "UPDATE Users SET Pseudo = '"+newPseudo+"'WHERE UserID="+ID+";";
+			Statement stmt  = con.createStatement();
+	        stmt.executeUpdate(query);
+		} catch(SQLException e) {
+			System.err.println("Error at updating pseudo of user");
+			System.err.println(e.getMessage());
+		}
+	}
+	
 	//This is for testing, do not use it otherwise!
 	public void deleteAllTables() {
 		try (Connection con = this.connect()){
