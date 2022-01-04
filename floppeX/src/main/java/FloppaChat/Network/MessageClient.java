@@ -21,7 +21,7 @@ public class MessageClient{
         } catch (IOException e){
             System.out.println("Erreur création client.");
             e.printStackTrace();
-            closeEverything(Sock, BuffRead, BuffWrite);
+            closeEverything();
         }
     }
 
@@ -33,7 +33,7 @@ public class MessageClient{
         } catch (IOException e) {
             System.out.println("Erreur envoi du message au serveur");
             e.printStackTrace();
-            closeEverything(Sock, BuffRead, BuffWrite);
+            closeEverything();
         }
     }
 
@@ -50,7 +50,7 @@ public class MessageClient{
                     } catch (IOException e) {
                         System.out.println("Erreur réception du message du serveur");
                         e.printStackTrace();
-                        closeEverything(Sock, BuffRead, BuffWrite);
+                        closeEverything();
                         break;
                     }
                 }
@@ -58,16 +58,16 @@ public class MessageClient{
         }).start();;
     }
 
-    public void closeEverything(Socket socket,BufferedReader bufferedReader,BufferedWriter bufferedWriter){
+    private void closeEverything(){
         try {
-            if (bufferedReader != null){
-                bufferedReader.close();
+            if (BuffRead != null){
+                BuffRead.close();
             }
-            if(bufferedWriter != null){
-                bufferedWriter.close();
+            if(BuffWrite!= null){
+                BuffWrite.close();
             }
-            if (socket != null){
-                socket.close();
+            if (Sock != null){
+                Sock.close();
             }
         } catch (IOException e) {
             e.printStackTrace();

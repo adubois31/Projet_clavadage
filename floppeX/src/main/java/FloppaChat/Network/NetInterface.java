@@ -16,7 +16,25 @@ public class NetInterface {
 		    	break;
 		    }
 		}
+		Process.SetHelloAccepted(true);
 		return PseudoOK;
+	}
+	public static boolean ChangePseudo(String OldPseudo,String NewPseudo) throws UnknownHostException, IOException {
+		boolean ChangePseudoOk =true;
+		BroadcastClient.broadcast(Packet.ChangePseudo(OldPseudo, NewPseudo), InetAddress.getByName("255.255.255.255"));
+		long start = System.currentTimeMillis();
+		long end = start + 2*1000;
+		while (System.currentTimeMillis() < end) {
+		    if(!(Process.getChangePseudoAccepted())) {
+		    	ChangePseudoOk=false;
+		    	break;
+		    }
+		}
+		if (ChangePseudoOk) {
+			BroadcastClient.broadcast(Packet.ConfirmedNewPseudo(NewPseudo), InetAddress.getByName("255.255.255.255"));
+		}
+		Process.setChangePseudoAccepted(true);
+		return ChangePseudoOk;
 	}
 	public static void main(String[] args) throws IOException {
         if (ChoosePseudo("Viktor")) {

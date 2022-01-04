@@ -14,7 +14,7 @@ public class TestClientMess {
 	static void init() throws IOException {
 	
 		System.out.println("Creating Client Socket");
-		Socket socket = new Socket("localhost",2023);
+		Socket socket = new Socket("10.1.5.159",2023);
 		MC = new MessageClient(socket);
  		System.out.println("Ending init");
 
@@ -26,6 +26,12 @@ public class TestClientMess {
     	MC.SendMessToServer("Re Coucou Hibou");
 		assert(true);
 		
+	}
+	
+	@Test
+	void testMessServerToClient() {
+		MC.RecvMessFromServer();
+		assert(true);
 	}
 	
 

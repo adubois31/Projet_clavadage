@@ -10,6 +10,15 @@ public class Process {
 	private static boolean HelloAccepted = true;
 	private ActiveUserManager aUM;
 	
+	private static boolean ChangePseudoAccepted =true;
+	
+	public static boolean getChangePseudoAccepted() {
+		return ChangePseudoAccepted;
+	}
+	public static  void setChangePseudoAccepted(boolean Val) {
+		ChangePseudoAccepted=Val;
+	}
+	
 	public static boolean getHelloAccepted() {
 		return HelloAccepted;
 	}
@@ -42,6 +51,9 @@ public class Process {
 		}
 		if((Split_Answer[0].equals("ChangePseudoAns"))) {
 			processChangePseudoAns(Split_Answer[1],Split_Answer[2],packet.getAddress().toString());
+		}
+		if((Split_Answer[0].equals("ConfirmedNewPseudo"))) {
+			processChangePseudoAns(Split_Answer[1],packet.getAddress().toString());
 		}
 	}
 	
@@ -104,13 +116,7 @@ public class Process {
 	
 	public void processChangePseudo(String OldPseudo,String IP,String NewPseudo,DatagramPacket packet) {
 
-		if (aUM.CheckPseudoUnicity(OldPseudo)&&aUM.CheckPseudoUnicity(NewPseudo)){
-			//Database_Manager.addActiveUser(IP,NewPseudo);
-			byte[] out_buffer= Packet.ChangePseudoAns("New_OK",aUM.getActiveUserPseudo("127.0.0.1")).getBytes();
-			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
-		}
-		if(!(aUM.CheckPseudoUnicity(OldPseudo))&&aUM.CheckPseudoUnicity(NewPseudo)) {
-			//Database_Manager.UpdateActive_User_Pseudo(IP, NewPseudo);
+		if (aUM.CheckPseudoUnicity(NewPseudo)){
 			byte[] out_buffer= Packet.ChangePseudoAns("New_OK",aUM.getActiveUserPseudo("127.0.0.1")).getBytes();
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 		}
@@ -129,9 +135,15 @@ public class Process {
 
 		}
 		if(Check=="New_OK") {
-			System.out.println("Nouveau Pseudo OK");
+			ChangePseudoAccepted = ChangePseudoAccepted && true;
 		}
-		System.out.println("Nouveau Pseudo  PAS OK");
+		else {
+			ChangePseudoAccepted = ChangePseudoAccepted && false;
+		}
+	}
+	
+	public void processConfirmedNewPseudo(String NewPseudo, String SenderIP) {
+		aUM.UpdateActiveUserPseudo(SenderIP, NewPseudo);
 	}
 	
 	

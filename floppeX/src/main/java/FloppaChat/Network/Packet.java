@@ -18,8 +18,8 @@ public class Packet {
 		return("ChangePseudoAns|"+NewCheck+"|"+SenderPseudo);
 	}
 	
-	public static String ConfirmedNewPseudo(String OldPseudo, String NewPseudo) {
-		return("ConfirmedNewPseudo|"+OldPseudo+"|"+NewPseudo);
+	public static String ConfirmedNewPseudo(String NewPseudo) {
+		return("ConfirmedNewPseudo|"+NewPseudo);
 	}
 	
 	public static String Disconnected(String LocalPseudo) {
