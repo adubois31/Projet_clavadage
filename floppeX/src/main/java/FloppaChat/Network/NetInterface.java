@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import FloppaChat.DataBase.ActiveUserManager;
+
 public class NetInterface {
+	static ActiveUserManager aUM= new ActiveUserManager();
 	public static boolean ChoosePseudo (String Pseudo) throws UnknownHostException, IOException {
 		boolean PseudoOK=true;
 		BroadcastClient.broadcast(Packet.Hello(Pseudo), InetAddress.getByName("10.1.255.255"));
@@ -31,6 +34,7 @@ public class NetInterface {
 		    }
 		}
 		if (ChangePseudoOk) {
+			aUM.UpdateActiveUserPseudo("127.0.0.1", NewPseudo);
 			BroadcastClient.broadcast(Packet.ConfirmedNewPseudo(NewPseudo), InetAddress.getByName("10.1.255.255"));
 		}
 		Process.setChangePseudoAccepted(true);

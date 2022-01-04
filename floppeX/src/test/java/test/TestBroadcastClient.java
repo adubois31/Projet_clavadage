@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 
 public class TestBroadcastClient {
+	static ActiveUserManager aUM= new ActiveUserManager();
 	@Test
 	void TestChoosePseudo() throws UnknownHostException, IOException {
 		if(NetInterface.ChoosePseudo("Bri")) {
@@ -19,9 +20,17 @@ public class TestBroadcastClient {
 		else {
 			assert(false);
 		}
-		
-		
-		
+	}
+	
+	@Test
+	void TestChangePseudo() throws UnknownHostException, IOException {
+		aUM.InitActiveUser("Pedro");
+		if (NetInterface.ChangePseudo("Pedro", "Bri")) {
+			assert(true);
+		}
+		else {
+			assert(false);
+		}
 		
 	}
 
