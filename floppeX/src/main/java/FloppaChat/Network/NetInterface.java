@@ -19,7 +19,7 @@ public class NetInterface {
 		    	break;
 		    }
 		}
-		if (PseudoOK=true) {
+		if (PseudoOK) {
 			aUM.InitActiveUser(Pseudo);
 		}
 		aUM.PrintActiveUsers();
