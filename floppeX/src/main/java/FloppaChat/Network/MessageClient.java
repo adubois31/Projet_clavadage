@@ -40,16 +40,21 @@ public class MessageClient{
     }
 
     public void RecvMessFromServer(){
-    	MainPageController MPC = new MainPageController();
-    	DBController DBC = new DBController(UserPseudo.dbName);
+    	//MainPageController MPC = new MainPageController();
+    	//DBController DBC = new DBController(UserPseudo.dbName);
+    	
         new Thread(new Runnable(){
             @Override
             public void run(){
                 while (Sock.isConnected()){
+                	System.out.println("Thread started");
                     try {
                         String MessFromServer = BuffRead.readLine();
-                        MPC.addMessageFrom(MessFromServer, MPC.nowDate());
-                        DBC.addMessage(DBC.getIDfromUser(UserPseudo.userPseudo, Sock.getInetAddress().toString().substring(1)), MPC.nowDate() , MessFromServer, false);
+                        if (MessFromServer!=null) {
+                        	System.out.println(MessFromServer);
+                        }
+                        //MPC.addMessageFrom(MessFromServer, MPC.nowDate());
+                        //DBC.addMessage(DBC.getIDfromUser(UserPseudo.userPseudo, Sock.getInetAddress().toString().substring(1)), MPC.nowDate() , MessFromServer, false);
                     } catch (IOException e) {
                         System.out.println("Erreur réception du message du serveur");
                         e.printStackTrace();

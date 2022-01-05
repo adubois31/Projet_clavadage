@@ -11,6 +11,8 @@ import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
 import FloppaChat.DataBase.Message;
 import FloppaChat.floppeX.App;
+//import FloppaChat.Network.NetInterface;
+//import FloppaChat.Network.BroadcastServer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -75,6 +77,8 @@ public class MainPageController {
 	
 	@FXML
 	protected void initialize() throws IOException {
+		//BroadcastServer BS = new BroadcastServer();
+		//BS.launch();
 		if(pseudotext!=null)
 			pseudotext.setText(UserPseudo.userPseudo);
 		if(activeusers!=null) {

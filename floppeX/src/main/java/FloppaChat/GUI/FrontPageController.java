@@ -3,6 +3,7 @@ package FloppaChat.GUI;
 import java.io.IOException;
 
 import FloppaChat.floppeX.App;
+import FloppaChat.Network.NetInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -34,7 +35,6 @@ public class FrontPageController {
 				processAlert("No pseudo written",AlertType.ERROR);
 			}else {
 				UserPseudo.userPseudo = typedPseudo;
-				//App.setRoot("MainPage");
 				App.nextStage();
 			}
 			//Envoyer broadcast à tout le monde avec pseudo
