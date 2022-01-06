@@ -15,12 +15,14 @@ public class TestBroadcastServer {
 	static ActiveUserManager aUM= new ActiveUserManager();
 	@Test
 	void TestServer() throws UnknownHostException, IOException {
-		aUM.InitActiveUser("Test");
+		aUM.InitActiveUser("Floppa");
 		aUM.addActiveUser("192.169.1.1", "Pedro");
 		aUM.PrintActiveUsers();
 		BroadcastServer Serv = new BroadcastServer();
-        Serv.launch();
-        assert(false);
+        Serv.start();
+        while(true) {
+        	
+        }        
 	}
 	
 	@Test

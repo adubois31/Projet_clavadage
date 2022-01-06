@@ -6,40 +6,39 @@ import java.net.*;
 
 public class BroadcastClient {
 	private static DatagramSocket socket = null;
+	private static int PortNb = 9001;
 
 
 
-    public static void broadcast(String broadcastMessage, InetAddress address) throws IOException {
-    	int nbThread = 0;
+    public void broadcast(String broadcastMessage, InetAddress address) throws IOException {
         socket = new DatagramSocket();
         socket.setBroadcast(true);
 
         byte[] buffer = broadcastMessage.getBytes();
 
         DatagramPacket packet 
-          = new DatagramPacket(buffer, buffer.length, address, 6969);
+          = new DatagramPacket(buffer, buffer.length, address, PortNb);
         socket.send(packet);
         
         byte[] buff_answer = new byte[512];
-        DatagramPacket packet1 = new DatagramPacket(buff_answer,buff_answer.length);
-        socket.setSoTimeout(9000);
+        socket.setSoTimeout(5000);
             
 		 while(true){
 	            try {
-	            	System.out.println("Attente packet numéro :  "+(nbThread+1));
+	            	DatagramPacket packet1 = new DatagramPacket(buff_answer,buff_answer.length);
 	                socket.receive(packet1);
 	                BroadcastMultAnsHandler BMAH = new BroadcastMultAnsHandler(socket,packet1);
 	                System.out.println("Starting thread ");
-	                nbThread++;
 	                BMAH.start();
 	            }
 	            catch (SocketTimeoutException e) {
-	                // timeout exception.
 	            	System.out.println("Fin Timer");
+	            	socket.disconnect();
 	                socket.close();
 	                break;
 	            }
 	        }
+		 System.out.println("Out of the client while");
         
     }
 }

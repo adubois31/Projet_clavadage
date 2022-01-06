@@ -36,7 +36,6 @@ public class FrontPageController {
 			}else {
 				UserPseudo.userPseudo = typedPseudo;
 				if (NetInterface.ChoosePseudo(typedPseudo)) {
-
 					App.nextStage();
 				}
 				else {

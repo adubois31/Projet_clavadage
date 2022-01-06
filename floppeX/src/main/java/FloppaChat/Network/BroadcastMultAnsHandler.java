@@ -19,6 +19,7 @@ public class BroadcastMultAnsHandler extends Thread{
 		System.out.println("Nouveau thread réponse");
 		Process process = new Process();
 		try {
+			System.out.println(packet.getAddress().toString());
 			process.BroadcastProcess(packet, socket);
 		} catch (IOException e) {
 			e.printStackTrace();
