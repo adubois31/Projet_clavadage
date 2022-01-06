@@ -35,7 +35,7 @@ public class FrontPageController {
 				processAlert("No pseudo written",AlertType.ERROR);
 			}else {
 				//if(NetInterface.ChoosePseudo(typedPseudo)) {
-					UserPseudo.userPseudo = typedPseudo;
+					Global.userPseudo = typedPseudo;
 					//App.setRoot("MainPage");
 					App.nextStage();
 				/*} else {

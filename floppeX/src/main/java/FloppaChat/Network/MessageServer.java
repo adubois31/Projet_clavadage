@@ -8,7 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import FloppaChat.GUI.MainPageController;
-import FloppaChat.GUI.UserPseudo;
+import FloppaChat.GUI.Global;
 import FloppaChat.DataBase.DBController;
 
 public class MessageServer{
@@ -45,7 +45,7 @@ public class MessageServer{
 
     public void RecvMessFromClient(){
     	MainPageController MPC = new MainPageController();
-    	DBController DBC = new DBController(UserPseudo.dbName);
+    	DBController DBC = new DBController(Global.dbName);
         new Thread(new Runnable(){
             @Override
             public void run(){
@@ -54,7 +54,7 @@ public class MessageServer{
                         String MessFromClient = BuffRead.readLine();
                         if (MessFromClient != null) {
                         	MPC.addMessageFrom(MessFromClient, MPC.nowDate());
-                        	DBC.addMessage(DBC.getIDfromUser(UserPseudo.userPseudo, Sock.getInetAddress().toString().substring(1)), MPC.nowDate() , MessFromClient, false);
+                        	DBC.addMessage(DBC.getIDfromUser(Global.userPseudo, Sock.getInetAddress().toString().substring(1)), MPC.nowDate() , MessFromClient, false);
                         }
                         
                     } catch (IOException e) {

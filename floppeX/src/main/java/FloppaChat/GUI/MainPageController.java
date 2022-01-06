@@ -48,7 +48,7 @@ public class MainPageController {
 	    return myTimeObj.format(myFormatObj)+" "+myDateObj.format(myFormatObj2);
 	}
 	
-	private DBController dbcontrol = new DBController(UserPseudo.dbName);
+	private DBController dbcontrol = new DBController(Global.dbName);
 	
 	private ActiveUserManager aUM = new ActiveUserManager();
 	
@@ -76,7 +76,7 @@ public class MainPageController {
 	@FXML
 	protected void initialize() throws IOException {
 		if(pseudotext!=null)
-			pseudotext.setText(UserPseudo.userPseudo);
+			pseudotext.setText(Global.userPseudo);
 		if(activeusers!=null) {
 			aUM.addActiveUser("69.69", "Thomas");
 			aUM.addActiveUser("69.69", "Hugo");
@@ -94,7 +94,7 @@ public class MainPageController {
 			}
 		}
 		if (pseudoForeign!=null) 	
-			pseudoForeign.setText(UserPseudo.activeUserChat);
+			pseudoForeign.setText(Global.activeUserChat);
 		if (messagelist!=null) {
 			addMessageFrom("Je ne veux pas parler avec toi deso",nowDate());
 			this.fillMessageHistorics();
@@ -125,16 +125,16 @@ public class MainPageController {
 	private void activeUserClicked() throws IOException{
 		
         if (activeusers.getSelectionModel().getSelectedIndices().size() > 0){
-	            UserPseudo.activeUserIndex = (int)activeusers.getSelectionModel().getSelectedIndices().get(0);
-	            String name = getPseudoFromIndex(UserPseudo.activeUserIndex);
+	            Global.activeUserIndex = (int)activeusers.getSelectionModel().getSelectedIndices().get(0);
+	            String name = getPseudoFromIndex(Global.activeUserIndex);
 	            System.out.println(name);
 	            if (!aUM.pseudoExists(name)) {
 	            	processAlert("User no longer active",AlertType.ERROR);
 	            } else {
-		            UserPseudo.activeUserChat = name;
+		            Global.activeUserChat = name;
 		            String activeUserIP = aUM.getActiveUserIP(name);
 		            dbcontrol.createUser(name,activeUserIP);
-		            UserPseudo.activeUserID = dbcontrol.getIDfromUser(name, activeUserIP);
+		            Global.activeUserID = dbcontrol.getIDfromUser(name, activeUserIP);
 		            FXMLLoader loader = new FXMLLoader();   
 		            VBox chatThing = loader.load(App.class.getResource("ChatPage.fxml").openStream());
 		            borderPane.setCenter(chatThing); 
@@ -145,16 +145,16 @@ public class MainPageController {
 	@FXML
 	private void activeUserClicked2() throws IOException{
         if (activeUserList.getSelectionModel().getSelectedIndices().size() > 0){
-            UserPseudo.activeUserIndex = (int)activeUserList.getSelectionModel().getSelectedIndices().get(0);
-            String name = getPseudoFromIndex2(UserPseudo.activeUserIndex);
+            Global.activeUserIndex = (int)activeUserList.getSelectionModel().getSelectedIndices().get(0);
+            String name = getPseudoFromIndex2(Global.activeUserIndex);
             System.out.println(name);
             if (!aUM.pseudoExists(name)) {
             	processAlert("User no longer active",AlertType.ERROR);
             } else {
-	            UserPseudo.activeUserChat = name;
+	            Global.activeUserChat = name;
 	            String activeUserIP = aUM.getActiveUserIP(name);
 	            dbcontrol.createUser(name,activeUserIP);
-	            UserPseudo.activeUserID = dbcontrol.getIDfromUser(name, activeUserIP);
+	            Global.activeUserID = dbcontrol.getIDfromUser(name, activeUserIP);
 	            FXMLLoader loader = new FXMLLoader();   
 	            VBox chatThing = loader.load(App.class.getResource("ChatPage.fxml").openStream());
 	            borderPane.setCenter(chatThing); 
@@ -182,7 +182,7 @@ public class MainPageController {
 	}
 	
 	private void fillMessageHistorics() throws IOException{
-		for(Message m : this.dbcontrol.fetchMessagesWithUser(UserPseudo.activeUserID)) {
+		for(Message m : this.dbcontrol.fetchMessagesWithUser(Global.activeUserID)) {
 			System.out.println("Is sent is : "+m.isSent());
 			if(m.isSent())
 				addMessageTo(m.getContent(),m.getDate());
@@ -197,7 +197,7 @@ public class MainPageController {
 			if(contentMessage.getText().equals(""))
 				processAlert("No content",AlertType.ERROR);
 			else {
-				dbcontrol.addMessage(UserPseudo.activeUserID,nowDate(),contentMessage.getText(),true);
+				dbcontrol.addMessage(Global.activeUserID,nowDate(),contentMessage.getText(),true);
 				addMessageTo(contentMessage.getText(),nowDate());
 				contentMessage.setText("");
 			}
@@ -209,7 +209,7 @@ public class MainPageController {
 		if(contentMessage.getText().equals(""))
 			processAlert("No content",AlertType.ERROR);
 		else {
-			dbcontrol.addMessage(UserPseudo.activeUserID,nowDate(),contentMessage.getText(),true);
+			dbcontrol.addMessage(Global.activeUserID,nowDate(),contentMessage.getText(),true);
 			addMessageTo(contentMessage.getText(),nowDate());
 			contentMessage.setText("");
 		}

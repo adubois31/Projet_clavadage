@@ -27,7 +27,7 @@ public class App extends Application {
     
     @Override
     public void stop(){
-        System.out.println("Closing App...");
+        //System.out.println("Closing App...");
     }
     
     public static void nextStage() throws IOException {

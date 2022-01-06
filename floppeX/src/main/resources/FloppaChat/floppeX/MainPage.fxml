@@ -50,22 +50,31 @@
                   </ImageView>
                   <AnchorPane prefHeight="114.0" prefWidth="188.0">
                      <children>
-                        <AnchorPane layoutX="2.0" layoutY="63.0" prefHeight="47.0" prefWidth="150.0">
+                        <VBox prefHeight="144.0" prefWidth="142.0">
                            <children>
-                              <Button fx:id="changePseudoButton" layoutX="4.0" layoutY="-3.0" mnemonicParsing="false" onMouseClicked="#showFrontPage" prefHeight="36.0" prefWidth="138.0" style="-fx-background-color: ff92de;" text="CHANGE PSEUDO" AnchorPane.leftAnchor="4.0">
-                                 <font>
-                                    <Font name="Kokonor Regular" size="13.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                        </AnchorPane>
-                        <VBox layoutX="8.0" layoutY="14.0" prefHeight="53.0" prefWidth="75.0" AnchorPane.leftAnchor="8.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="USER : " />
-                              <Text fx:id="pseudotext" fill="#a13131" strokeType="OUTSIDE" strokeWidth="0.0" text="Viktor" wrappingWidth="100.0">
-                                 <font>
-                                    <Font name="Kohinoor Bangla" size="18.0" />
-                                 </font></Text>
+                              <AnchorPane prefHeight="41.0" prefWidth="142.0">
+                                 <children>
+                                    <VBox layoutX="6.0" layoutY="4.0" prefHeight="53.0" prefWidth="75.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="USER : " />
+                                          <Text fx:id="pseudotext" fill="#a13131" strokeType="OUTSIDE" strokeWidth="0.0" text="Viktor" wrappingWidth="100.0">
+                                             <font>
+                                                <Font name="Kohinoor Bangla" size="18.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane prefHeight="47.0" prefWidth="150.0">
+                                 <children>
+                                    <Button fx:id="changePseudoButton" layoutX="4.0" layoutY="-3.0" mnemonicParsing="false" onMouseClicked="#showFrontPage" prefHeight="36.0" prefWidth="138.0" style="-fx-background-color: ff92de;" text="CHANGE PSEUDO" AnchorPane.leftAnchor="4.0">
+                                       <font>
+                                          <Font name="Kokonor Regular" size="13.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </AnchorPane>
                            </children>
                         </VBox>
                      </children>
