@@ -35,7 +35,13 @@ public class FrontPageController {
 				processAlert("No pseudo written",AlertType.ERROR);
 			}else {
 				UserPseudo.userPseudo = typedPseudo;
-				App.nextStage();
+				if (NetInterface.ChoosePseudo(typedPseudo)) {
+
+					App.nextStage();
+				}
+				else {
+					processAlert("Pseudo already taken",AlertType.ERROR);
+				}
 			}
 			//Envoyer broadcast à tout le monde avec pseudo
 		} else {

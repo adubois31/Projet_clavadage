@@ -10,6 +10,7 @@ public class BroadcastClient {
 
 
     public static void broadcast(String broadcastMessage, InetAddress address) throws IOException {
+    	int nbThread = 0;
         socket = new DatagramSocket();
         socket.setBroadcast(true);
 
@@ -21,18 +22,20 @@ public class BroadcastClient {
         
         byte[] buff_answer = new byte[512];
         DatagramPacket packet1 = new DatagramPacket(buff_answer,buff_answer.length);
-        socket.setSoTimeout(1500);
+        socket.setSoTimeout(9000);
             
 		 while(true){
 	            try {
+	            	System.out.println("Attente packet numéro :  "+(nbThread+1));
 	                socket.receive(packet1);
-	                Process process = new Process();
-	        		process.BroadcastProcess(packet1, socket);
-	        		socket.close();
-	        		break;
+	                BroadcastMultAnsHandler BMAH = new BroadcastMultAnsHandler(socket,packet1);
+	                System.out.println("Starting thread ");
+	                nbThread++;
+	                BMAH.start();
 	            }
 	            catch (SocketTimeoutException e) {
 	                // timeout exception.
+	            	System.out.println("Fin Timer");
 	                socket.close();
 	                break;
 	            }
