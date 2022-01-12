@@ -2,6 +2,7 @@ package FloppaChat.GUI;
 
 import java.io.IOException;
 
+import FloppaChat.Network.NetInterface;
 import FloppaChat.floppeX.App;
 import FloppaChat.Network.NetInterface;
 import javafx.fxml.FXML;
@@ -34,13 +35,14 @@ public class FrontPageController {
 			} else if(typedPseudo.equals("")) {
 				processAlert("No pseudo written",AlertType.ERROR);
 			}else {
-				UserPseudo.userPseudo = typedPseudo;
-				if (NetInterface.ChoosePseudo(typedPseudo)) {
+
+				//if(NetInterface.ChoosePseudo(typedPseudo)) {
+					Global.userPseudo = typedPseudo;
+					App.setRoot("MainPage");
 					App.nextStage();
-				}
-				else {
+				/*} else {
 					processAlert("Pseudo already taken",AlertType.ERROR);
-				}
+				}*/
 			}
 			//Envoyer broadcast à tout le monde avec pseudo
 		} else {

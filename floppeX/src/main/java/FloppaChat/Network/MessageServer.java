@@ -4,56 +4,61 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
 import java.net.Socket;
 
+import FloppaChat.GUI.MainPageController;
+import FloppaChat.GUI.Global;
 import FloppaChat.DataBase.DBController;
-import FloppaChat.GUI.*;
 
-public class MessageClient{
-	private Socket Sock;
+public class MessageServer{
+
+    private ServerSocket ServSock;
+    private Socket Sock;
     private BufferedReader BuffRead;
     private BufferedWriter BuffWrite;
-    
-    public MessageClient(Socket socket){
+
+    public MessageServer(ServerSocket ServSock){
         try {
-        	this.Sock=socket;
-        	this.BuffWrite = new BufferedWriter(new OutputStreamWriter(Sock.getOutputStream()));
+            this.ServSock=ServSock;
+            this.Sock=ServSock.accept();
+            this.BuffWrite = new BufferedWriter(new OutputStreamWriter(Sock.getOutputStream()));
             this.BuffRead = new BufferedReader(new InputStreamReader(Sock.getInputStream()));
-            
-        } catch (IOException e){
-            System.out.println("Erreur création client.");
+            } catch (IOException e){
+            System.out.println("Erreur création serveur.");
             e.printStackTrace();
             closeEverything();
         }
     }
 
-    public void SendMessToServer(String MessToServer){
+    public void SendMessToClient(String messageToClient){
         try {
-            BuffWrite.write(MessToServer);
+            BuffWrite.write(messageToClient);
             BuffWrite.newLine();
             BuffWrite.flush();
         } catch (IOException e) {
-            System.out.println("Erreur envoi du message au serveur");
+            System.out.println("Erreur envoi du message au client");
             e.printStackTrace();
             closeEverything();
         }
     }
 
-    public void RecvMessFromServer(){
-
+    public void RecvMessFromClient(){
     	MainPageController MPC = new MainPageController();
     	DBController DBC = new DBController(Global.dbName);
         new Thread(new Runnable(){
             @Override
             public void run(){
                 while (Sock.isConnected()){
-                	System.out.println("Thread started");
                     try {
-                        String MessFromServer = BuffRead.readLine();
-                        MPC.addMessageFrom(MessFromServer, MPC.nowDate());
-                        DBC.addMessage(DBC.getIDfromUser(Global.userPseudo, Sock.getInetAddress().toString().substring(1)), MPC.nowDate() , MessFromServer, false);
+                        String MessFromClient = BuffRead.readLine();
+                        if (MessFromClient != null) {
+                        	MPC.addMessageFrom(MessFromClient, MPC.nowDate());
+                        	DBC.addMessage(DBC.getIDfromUser(Global.userPseudo, Sock.getInetAddress().toString().substring(1)), MPC.nowDate() , MessFromClient, false);
+                        }
+                        
                     } catch (IOException e) {
-                        System.out.println("Erreur réception du message du serveur");
+                        System.out.println("Erreur réception du message du client");
                         e.printStackTrace();
                         closeEverything();
                         break;
@@ -62,12 +67,17 @@ public class MessageClient{
             }
         }).start();;
     }
+    
     public void EndChat() {
     	closeEverything();
     }
-    
+
+
     private void closeEverything(){
         try {
+        	if (ServSock != null) {
+        		ServSock.close();
+        	}
             if (BuffRead != null){
                 BuffRead.close();
             }
@@ -81,4 +91,6 @@ public class MessageClient{
             e.printStackTrace();
         }
     }
+
+
 }
