@@ -40,6 +40,7 @@ public class FrontPageController {
 			}else {
 				if (Global.BroadServRunning) {
 					if (NetInterface.ChangePseudo(Global.userPseudo,typedPseudo )) {
+						Global.userPseudo=typedPseudo;
 						App.setRoot("MainPage");
 						App.nextStage();
 					}
