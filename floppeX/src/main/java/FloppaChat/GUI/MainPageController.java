@@ -10,6 +10,7 @@ import FloppaChat.DataBase.ActiveUser;
 import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
 import FloppaChat.DataBase.Message;
+import FloppaChat.Network.BroadcastServer;
 import FloppaChat.floppeX.App;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +32,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class MainPageController {
+	
+	public static BroadcastServer broadserv;
+	
+	public MainPageController(BroadcastServer broadserv) {
+		MainPageController.broadserv = broadserv;
+	}
+	
+	public MainPageController() {
+		
+	}
 	
 	private void processAlert(String message,AlertType type) throws IOException {
 		Alert alert = new Alert(type, message,ButtonType.OK);
@@ -168,9 +179,20 @@ public class MainPageController {
         VBox labelMessage = (VBox) label.getChildren().get(0);
         Text contenu_t = (Text) labelMessage.getChildren().get(0);
         Label date_t = (Label) labelMessage.getChildren().get(1);
-        contenu_t.setText(cont);
+        contenu_t.setText(this.processMessage(cont));
 		date_t.setText(date);
         messagelist.getChildren().add(label);
+	}
+	
+	public String processMessage(String cont) {
+		String a = "";
+		a+=cont.charAt(0);
+		for (int i=1;i<cont.length();i++) {
+			if (i%45==0)
+				a+="\n";
+			a+=cont.charAt(i);
+		}
+		return a;
 	}
 	
 	public void addMessageFrom(String cont,String date) throws IOException {
