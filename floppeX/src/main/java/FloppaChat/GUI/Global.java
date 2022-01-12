@@ -3,7 +3,7 @@ package FloppaChat.GUI;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
-public class UserPseudo {
+public class Global {
 
 	@FXML public static String userPseudo;
 	

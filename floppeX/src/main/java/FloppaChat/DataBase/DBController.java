@@ -2,9 +2,8 @@ package FloppaChat.DataBase;
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 
-import FloppaChat.GUI.UserPseudo;
+import FloppaChat.GUI.Global;
 
 public class DBController {
 	
