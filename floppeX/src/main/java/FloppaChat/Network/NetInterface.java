@@ -10,15 +10,16 @@ import java.util.Collections;
 import java.util.Enumeration;
 
 import FloppaChat.DataBase.ActiveUserManager;
+import FloppaChat.GUI.Global;
 
 public class NetInterface {
 	private static String MyInterface = "eth0";
 	
 	static ActiveUserManager aUM= new ActiveUserManager();
 	public static boolean ChoosePseudo (String Pseudo) throws UnknownHostException, IOException {
-		BroadcastClient BC = new BroadcastClient();
+		BroadcastClient BC = new BroadcastClient(Global.BroadServNb);
 		boolean PseudoOK=true;
-		BC.broadcast(Packet.Hello(Pseudo,NetInterface.GetIP()), InetAddress.getByName("10.1.255.255"));
+		BC.broadcast(Packet.Hello(Pseudo,NetInterface.GetIP()), InetAddress.getByName(Global.BroadAdress));
 		long start = System.currentTimeMillis();
 		long end = start + 1*1000;
 		while (System.currentTimeMillis() < end) {
@@ -36,8 +37,8 @@ public class NetInterface {
 	}
 	public static boolean ChangePseudo(String OldPseudo,String NewPseudo) throws UnknownHostException, IOException {
 		boolean ChangePseudoOk =true;
-		BroadcastClient BC = new BroadcastClient();
-		BC.broadcast(Packet.ChangePseudo(OldPseudo, NewPseudo), InetAddress.getByName("10.1.255.255"));
+		BroadcastClient BC = new BroadcastClient(Global.BroadServNb);
+		BC.broadcast(Packet.ChangePseudo(OldPseudo, NewPseudo), InetAddress.getByName(Global.BroadAdress));
 		long start = System.currentTimeMillis();
 		long end = start + 4*1000;
 		while (System.currentTimeMillis() < end) {

@@ -33,8 +33,14 @@ public class MessServWorker extends Thread {
 			}
 		}
 		closeEverything();
-		
 	}
+	
+	@Override
+	public void interrupt() {
+		super.interrupt();
+		closeEverything();
+	}
+	
 	public String ClientIP() {
 		return clientSock.getInetAddress().toString().substring(1);
 		

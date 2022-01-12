@@ -6,9 +6,11 @@ import java.net.*;
 
 public class BroadcastClient {
 	private static DatagramSocket socket = null;
-	private static int PortNb = 9001;
+	private static int PortNb;
 
-
+	public BroadcastClient(int PortNB) {
+		this.PortNb=PortNB;
+	}
 
     public void broadcast(String broadcastMessage, InetAddress address) throws IOException {
         socket = new DatagramSocket();
