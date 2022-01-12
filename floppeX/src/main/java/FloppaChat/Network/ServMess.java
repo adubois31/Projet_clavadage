@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class ServMess extends Thread{
 	private int ServPort;
 	private boolean isRunning = true;
+	private ServerSocket ServSock;
 	private ArrayList<MessServWorker> ClientList = new ArrayList<>();
 	
 	public ServMess(int Port) {
@@ -16,7 +17,6 @@ public class ServMess extends Thread{
 	
 	@Override
 	public void run() {
-		ServerSocket ServSock;
 		try {
 			ServSock = new ServerSocket(ServPort);
 			Socket clientSock;
@@ -32,6 +32,22 @@ public class ServMess extends Thread{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void interrupt() {
+		for (MessServWorker target : ClientList) {
+			if (target.isAlive()) {
+				target.interrupt();
+			}
+		}
+		super.interrupt();
+		try {
+			ServSock.close();
+		} catch (IOException e) {
+			System.out.println("Closing Serv Message");
+		}
+		
 	}
 	
 	public void SendMessToClient(String TargetIP,String Mess) {

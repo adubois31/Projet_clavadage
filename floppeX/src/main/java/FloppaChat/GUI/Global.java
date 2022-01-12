@@ -17,5 +17,9 @@ public class Global {
 	
 	public static int BroadServNb = 9001;
 	
+	public static String BroadAdress = "10.1.255.255";
+	
+	public static boolean BroadServRunning=false;
+	
 	public static int MessServNb = 6969;
 }
