@@ -6,6 +6,7 @@ import FloppaChat.Network.BroadcastServerWorker;
 import java.net.*;
 
 import FloppaChat.DataBase.ActiveUserManager;
+import FloppaChat.GUI.Global;
 
 
 public class BroadcastServer extends Thread {
@@ -22,6 +23,7 @@ public class BroadcastServer extends Thread {
     @Override
     public void interrupt() {
     	super.interrupt();
+    	Global.BroadServRunning=false;
     	socket.close();
     }
     @Override
