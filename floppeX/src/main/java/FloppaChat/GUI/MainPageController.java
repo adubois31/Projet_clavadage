@@ -95,7 +95,8 @@ public class MainPageController {
 			aUM.addActiveUser("69.69", "Chama");
 			aUM.addActiveUser("69.69", "Klem");
 			for(ActiveUser au : ActiveUserManager.Act_User_List) {
-				activeusers.getItems().add(au.getPseudo());
+				if(!au.getIP().equals("127.0.0.1"))
+					activeusers.getItems().add(au.getPseudo());
 			}
 		}
 		if(activeUserList!=null) {
