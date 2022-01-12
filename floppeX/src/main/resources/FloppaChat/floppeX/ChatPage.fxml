@@ -33,7 +33,7 @@
       </AnchorPane>
       <AnchorPane prefHeight="40.0" prefWidth="633.0" style="-fx-background-color: f7dffe;">
          <children>
-            <TextField fx:id="contentMessage" layoutX="26.0" layoutY="5.0" onKeyPressed="#sendMessageEnter" prefHeight="36.0" prefWidth="415.0" promptText="'gtrhytju" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="192.0">
+            <TextField fx:id="contentMessage" layoutX="26.0" layoutY="5.0" onKeyPressed="#sendMessageEnter" prefHeight="36.0" prefWidth="415.0" promptText="Your message" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="192.0">
                <font>
                   <Font size="16.0" />
                </font></TextField>

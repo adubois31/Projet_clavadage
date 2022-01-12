@@ -101,7 +101,8 @@ public class MainPageController {
 		if(activeUserList!=null) {
 			//System.out.println("Bien chargé");
 			for(ActiveUser au : ActiveUserManager.Act_User_List) {
-				activeUserList.getItems().add(this.makeUserLabel(au.getPseudo()));
+				if(!au.getIP().equals("127.0.0.1"))
+					activeUserList.getItems().add(this.makeUserLabel(au.getPseudo()));
 			}
 		}
 		if (pseudoForeign!=null) 	
