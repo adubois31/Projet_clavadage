@@ -56,6 +56,7 @@ public class FrontPageController {
 						BroadcastServer BS = new BroadcastServer(Global.BroadServNb);
 						MessageMainServer MMS = new MessageMainServer(Global.MessServNb);
 						MainPageController MPC = new MainPageController(BS,MMS);
+						Global.BroadServRunning=true;
 						App.setRoot("MainPage");
 						App.nextStage();
 					} 
