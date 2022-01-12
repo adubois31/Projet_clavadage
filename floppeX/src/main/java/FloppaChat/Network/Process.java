@@ -6,10 +6,12 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 import FloppaChat.DataBase.ActiveUserManager;
+import FloppaChat.GUI.MainPageController;
 
 public class Process {
 	private static boolean HelloAccepted = true;
 	private ActiveUserManager aUM;
+	private MainPageController MPC;
 	
 	private static boolean ChangePseudoAccepted =true;
 	
@@ -62,9 +64,11 @@ public class Process {
 	}
 	
 	
-	public void processHello(String SenderIP,String Pseudo,DatagramPacket packet,DatagramSocket socket) throws SocketException {
+	public void processHello(String SenderIP,String Pseudo,DatagramPacket packet,DatagramSocket socket) throws IOException,SocketException {
 		if(aUM.CheckPseudoUnicity(Pseudo)){
 			aUM.addActiveUser(SenderIP, Pseudo);
+			MPC.showActiveUsers1();
+			MPC.showActiveUsers2();
 			byte[] out_buffer= Packet.HelloBack("Ok",aUM.getActiveUserPseudo("127.0.0.1"),NetInterface.GetIP()).getBytes();
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 

@@ -104,17 +104,11 @@ public class MainPageController {
 			aUM.addActiveUser("69.69", "Clement");
 			aUM.addActiveUser("69.69", "Chama");
 			aUM.addActiveUser("69.69", "Klem");
-			for(ActiveUser au : ActiveUserManager.Act_User_List) {
-				if(!au.getIP().equals("127.0.0.1"))
-					activeusers.getItems().add(au.getPseudo());
-			}
+			this.showActiveUsers1();
 		}
 		if(activeUserList!=null) {
 			//System.out.println("Bien chargé");
-			for(ActiveUser au : ActiveUserManager.Act_User_List) {
-				if(!au.getIP().equals("127.0.0.1"))
-					activeUserList.getItems().add(this.makeUserLabel(au.getPseudo()));
-			}
+			this.showActiveUsers2();
 		}
 		if (pseudoForeign!=null) 	
 			pseudoForeign.setText(Global.activeUserChat);
@@ -122,6 +116,24 @@ public class MainPageController {
 			addMessageFrom("Je ne veux pas parler avec toi deso",nowDate());
 			this.fillMessageHistorics();
 		}		
+	}
+	
+	public void showActiveUsers1() throws IOException {
+		if (activeusers!=null) {
+			for(ActiveUser au : ActiveUserManager.Act_User_List) {
+				if(!au.getIP().equals("127.0.0.1"))
+					activeusers.getItems().add(au.getPseudo());
+			}
+		}
+	}
+	
+	public void showActiveUsers2() throws IOException {
+		if (activeUserList!=null) {
+			for(ActiveUser au : ActiveUserManager.Act_User_List) {
+				if(!au.getIP().equals("127.0.0.1"))
+					activeUserList.getItems().add(this.makeUserLabel(au.getPseudo()));
+			}
+		}
 	}
 	
 	private AnchorPane makeUserLabel(String pseudo) throws IOException{
