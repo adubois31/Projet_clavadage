@@ -3,6 +3,7 @@ package FloppaChat.Network;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.SocketException;
 
 import FloppaChat.DataBase.ActiveUserManager;
 
@@ -37,11 +38,11 @@ public class Process {
 		System.out.println("Flag : "+Split_Answer[0]+" \n");
 		if ((Split_Answer[0]).equals("Hello")) {
 			System.out.println("Processing Hello...\n");
-			processHello((packet.getAddress()).toString().substring(1),Split_Answer[1],packet,socket);
+			processHello(Split_Answer[2],Split_Answer[1],packet,socket);
 		}
 		if (Split_Answer[0].equals("Hello_Back")) {
 			System.out.println("Processing Hello_Back...\n");
-			processHelloBack(Split_Answer[1],Split_Answer[2],packet.getAddress().toString().substring(1));
+			processHelloBack(Split_Answer[1],Split_Answer[2],Split_Answer[3]);
 		}
 		if ((Split_Answer[0].equals("Bingus"))) {
 			processDisconnected(packet.getAddress().toString(),Split_Answer[1]);
@@ -61,15 +62,15 @@ public class Process {
 	}
 	
 	
-	public void processHello(String IP,String Pseudo,DatagramPacket packet,DatagramSocket socket) {
+	public void processHello(String SenderIP,String Pseudo,DatagramPacket packet,DatagramSocket socket) throws SocketException {
 		if(aUM.CheckPseudoUnicity(Pseudo)){
-			aUM.addActiveUser(IP, Pseudo);
-			byte[] out_buffer= Packet.HelloBack("Ok",aUM.getActiveUserPseudo("127.0.0.1")).getBytes();
+			aUM.addActiveUser(SenderIP, Pseudo);
+			byte[] out_buffer= Packet.HelloBack("Ok",aUM.getActiveUserPseudo("127.0.0.1"),NetInterface.GetIP()).getBytes();
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 
 		}
 		else {
-			byte[] out_buffer= Packet.HelloBack("Not_Ok",aUM.getActiveUserPseudo("127.0.0.1")).getBytes();
+			byte[] out_buffer= Packet.HelloBack("Not_Ok",aUM.getActiveUserPseudo("127.0.0.1"),NetInterface.GetIP()).getBytes();
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 		}
 		aUM.PrintActiveUsers();
@@ -83,7 +84,7 @@ public class Process {
 	
 	
 	public void processHelloBack(String Check,String SenderPseudo,String SenderIP) throws IOException {
-
+		System.out.println("Sender Pseudo "+SenderPseudo);
 		if(aUM.CheckPseudoUnicity(SenderPseudo)) {
 			aUM.addActiveUser(SenderIP, SenderPseudo);	
 		}
@@ -107,7 +108,7 @@ public class Process {
 		
 	}
 	
-	public void processChangePseudo(String OldPseudo,String IP,String NewPseudo,DatagramPacket packet,DatagramSocket socket) {
+	public void processChangePseudo(String OldPseudo,String ClientIP,String NewPseudo,DatagramPacket packet,DatagramSocket socket) {
 		if (aUM.CheckPseudoUnicity(NewPseudo)){
 			byte[] out_buffer= Packet.ChangePseudoAns("New_OK",aUM.getActiveUserPseudo("127.0.0.1")).getBytes();
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());

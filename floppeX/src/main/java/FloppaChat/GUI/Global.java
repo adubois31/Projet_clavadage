@@ -14,4 +14,8 @@ public class Global {
 	public static int activeUserID;
 	
 	public static String dbName = "flopbase";
+	
+	public static int BroadServNb = 9001;
+	
+	public static int MessServNb = 6969;
 }

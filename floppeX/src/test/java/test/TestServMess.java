@@ -9,27 +9,28 @@ import org.junit.jupiter.api.Test;
 
 
 public class TestServMess {
-	static MessageServer MS;
+	static ServMess SMess;
 	@BeforeAll
 	static void init() throws IOException {
-		System.out.println("Creating Server Socket");
-		ServerSocket ServSock = new ServerSocket(2023);
-		MS = new MessageServer(ServSock);
+		//MS = new MessageServer(ServSock);
+		ServMess SMess = new ServMess(9696);
+		SMess.run();
 		System.out.println("Ending init");
 
 	}
 	
 	@Test
 	void testMessClientToServer() {
-		MS.RecvMessFromClient();
-		assert(true);
+		while (true) {
+			
+		}
 		
 	}
 	
 	@Test
 	void testMessServerToClient() {
-		MS.SendMessToClient("Hello there");
-		MS.SendMessToClient("General Kenoni");
+		SMess.SendMessToClient("Hello there", "10.1.5.233");
+		SMess.SendMessToClient("General Kenoni","10.1.5.233");
 		assert(true);
 	}
 	

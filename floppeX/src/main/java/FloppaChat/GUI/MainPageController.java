@@ -12,6 +12,8 @@ import FloppaChat.DataBase.DBController;
 import FloppaChat.DataBase.Message;
 import FloppaChat.Network.BroadcastServer;
 import FloppaChat.floppeX.App;
+//import FloppaChat.Network.NetInterface;
+//import FloppaChat.Network.BroadcastServer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -35,13 +37,19 @@ public class MainPageController {
 	
 	public static BroadcastServer broadserv;
 	
-	/*public MainPageController(BroadcastServer broadserv) {
+	public MainPageController(BroadcastServer broadserv) {
 		MainPageController.broadserv = broadserv;
+		broadserv.start();
 	}
 	
 	public MainPageController() {
 		
-	}*/
+	}
+	
+	public static void stopEverything() {
+		if (broadserv.isAlive())
+			broadserv.interrupt();
+	}
 	
 	private void processAlert(String message,AlertType type) throws IOException {
 		Alert alert = new Alert(type, message,ButtonType.OK);
@@ -86,6 +94,8 @@ public class MainPageController {
 	
 	@FXML
 	protected void initialize() throws IOException {
+		//BroadcastServer Serv = new BroadcastServer();
+        //Serv.start();
 		if(pseudotext!=null)
 			pseudotext.setText(Global.userPseudo);
 		if(activeusers!=null) {

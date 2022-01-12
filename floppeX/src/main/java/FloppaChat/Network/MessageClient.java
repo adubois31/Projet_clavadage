@@ -40,12 +40,14 @@ public class MessageClient{
     }
 
     public void RecvMessFromServer(){
+
     	MainPageController MPC = new MainPageController();
     	DBController DBC = new DBController(Global.dbName);
         new Thread(new Runnable(){
             @Override
             public void run(){
                 while (Sock.isConnected()){
+                	System.out.println("Thread started");
                     try {
                         String MessFromServer = BuffRead.readLine();
                         MPC.addMessageFrom(MessFromServer, MPC.nowDate());

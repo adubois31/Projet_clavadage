@@ -1,25 +1,33 @@
 package FloppaChat.Network; 
 
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Collections;
+import java.util.Enumeration;
 
 import FloppaChat.DataBase.ActiveUserManager;
 
 public class NetInterface {
+	private static String MyInterface = "eth0";
+	
 	static ActiveUserManager aUM= new ActiveUserManager();
 	public static boolean ChoosePseudo (String Pseudo) throws UnknownHostException, IOException {
+		BroadcastClient BC = new BroadcastClient();
 		boolean PseudoOK=true;
-		BroadcastClient.broadcast(Packet.Hello(Pseudo), InetAddress.getByName("10.1.255.255"));
+		BC.broadcast(Packet.Hello(Pseudo,NetInterface.GetIP()), InetAddress.getByName("10.1.255.255"));
 		long start = System.currentTimeMillis();
-		long end = start + 4*1000;
+		long end = start + 1*1000;
 		while (System.currentTimeMillis() < end) {
 		    if(!(Process.getHelloAccepted())) {
 		    	PseudoOK=false;
 		    	break;
 		    }
 		}
-		if (PseudoOK=true) {
+		if (PseudoOK) {
 			aUM.InitActiveUser(Pseudo);
 		}
 		aUM.PrintActiveUsers();
@@ -28,7 +36,8 @@ public class NetInterface {
 	}
 	public static boolean ChangePseudo(String OldPseudo,String NewPseudo) throws UnknownHostException, IOException {
 		boolean ChangePseudoOk =true;
-		BroadcastClient.broadcast(Packet.ChangePseudo(OldPseudo, NewPseudo), InetAddress.getByName("10.1.255.255"));
+		BroadcastClient BC = new BroadcastClient();
+		BC.broadcast(Packet.ChangePseudo(OldPseudo, NewPseudo), InetAddress.getByName("10.1.255.255"));
 		long start = System.currentTimeMillis();
 		long end = start + 4*1000;
 		while (System.currentTimeMillis() < end) {
@@ -40,17 +49,33 @@ public class NetInterface {
 		System.out.println("Compteur fini "+ChangePseudoOk);
 		if (ChangePseudoOk) {
 			aUM.UpdateActiveUserPseudo("127.0.0.1", NewPseudo);
-			BroadcastClient.broadcast(Packet.ConfirmedNewPseudo(NewPseudo), InetAddress.getByName("10.1.255.255"));
+			BC.broadcast(Packet.ConfirmedNewPseudo(NewPseudo), InetAddress.getByName("10.1.255.255"));
 		}
 		Process.setChangePseudoAccepted(true);
 		return ChangePseudoOk;
 	}
-	/*public static void main(String[] args) throws IOException {
-        if (ChoosePseudo("Viktor")) {
-        	System.out.println("Viktor est ok");
+	
+	public static String GetIP() throws SocketException {
+		String RetAddr = null;
+        Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
+        for (NetworkInterface netint : Collections.list(nets))
+        	if (netint.getName().equals(MyInterface)) {
+        		RetAddr=GrabIPbyName(netint);	
         	}
-        else {
-        	System.out.println("Viktor n'est pas ok");
+        return RetAddr;
+            
+    }
+
+    static String GrabIPbyName (NetworkInterface netint) throws SocketException {
+    	String RetAddr = null;
+        
+        Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
+        for (InetAddress inetAddress : Collections.list(inetAddresses)) {
+        	if (inetAddress instanceof Inet4Address) {
+        		RetAddr = inetAddress.toString().substring(1);
+        		break;
         	}
-        }*/
+        }
+        return RetAddr;
+     }
 }
