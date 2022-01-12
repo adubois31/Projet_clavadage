@@ -2,12 +2,12 @@ package FloppaChat.Network;
 
 public class Packet {
 	
-	public static String Hello(String Local_Pseudo) {
-		return("Hello|"+Local_Pseudo);
+	public static String Hello(String Local_Pseudo,String MyIP) {
+		return("Hello|"+Local_Pseudo+"|"+MyIP);
 	}
 	
-	public static String HelloBack(String Check,String SenderPseudo) {
-		return ("Hello_Back|"+Check+"|"+SenderPseudo);
+	public static String HelloBack(String Check,String SenderPseudo,String SenderIP) {
+		return ("Hello_Back|"+Check+"|"+SenderPseudo+"|"+SenderIP);
 	}
 	
 	public static String ChangePseudo(String OldPseudo,String NewPseudo) {

@@ -14,7 +14,7 @@ public class TestBroadcastClient {
 	static ActiveUserManager aUM= new ActiveUserManager();
 	@Test
 	void TestChoosePseudo() throws UnknownHostException, IOException {
-		if(NetInterface.ChoosePseudo("Bri")) {
+		if(NetInterface.ChoosePseudo("Billy")) {
 			assert(true);
 		}
 		else {
