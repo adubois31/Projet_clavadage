@@ -37,13 +37,19 @@ public class MainPageController {
 	
 	public static BroadcastServer broadserv;
 	
-	/*public MainPageController(BroadcastServer broadserv) {
+	public MainPageController(BroadcastServer broadserv) {
 		MainPageController.broadserv = broadserv;
+		broadserv.start();
 	}
 	
 	public MainPageController() {
 		
-	}*/
+	}
+	
+	public static void stopEverything() {
+		if (broadserv.isAlive())
+			broadserv.interrupt();
+	}
 	
 	private void processAlert(String message,AlertType type) throws IOException {
 		Alert alert = new Alert(type, message,ButtonType.OK);

@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+import FloppaChat.GUI.MainPageController;
+
 /**
  * JavaFX App
  */
@@ -27,6 +29,7 @@ public class App extends Application {
     @Override
     public void stop(){
         System.out.println("Closing App...");
+        MainPageController.stopEverything();
     }
     
     public static void nextStage() throws IOException {

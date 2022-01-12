@@ -18,7 +18,7 @@ public class TestBroadcastServer {
 		aUM.InitActiveUser("Floppa");
 		aUM.addActiveUser("192.169.1.1", "Pedro");
 		aUM.PrintActiveUsers();
-		BroadcastServer Serv = new BroadcastServer();
+		BroadcastServer Serv = new BroadcastServer(6968);
         Serv.start();
         while(true) {
         	

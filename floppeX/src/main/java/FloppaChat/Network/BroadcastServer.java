@@ -10,16 +10,19 @@ import FloppaChat.DataBase.ActiveUserManager;
 
 public class BroadcastServer extends Thread {
     private DatagramSocket socket;
-    private int PortNb = 9001;
+    private int PortNb;
     private boolean running;
     private byte[] buf = new byte[256];
 
-    public BroadcastServer() throws SocketException {
+    public BroadcastServer(int PortNB) throws SocketException {
+    	this.PortNb=PortNB;
         socket = new DatagramSocket(PortNb);
     }
     
-    public void StopBroadcastServer() {
-    	running = false;
+    @Override
+    public void interrupt() {
+    	super.interrupt();
+    	socket.close();
     }
     @Override
     public void run() {
@@ -35,7 +38,8 @@ public class BroadcastServer extends Thread {
         		worker.start();
     			} 
     		catch (IOException e) {
-    			e.printStackTrace();
+    			System.out.println("Fermeture socket serv broadcast");
+    			break;
     			}
     		}
     	socket.close();
