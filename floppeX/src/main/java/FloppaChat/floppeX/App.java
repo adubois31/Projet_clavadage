@@ -27,11 +27,12 @@ public class App extends Application {
     
     @Override
     public void stop(){
-        //System.out.println("Closing App...");
+        System.out.println("Closing App...");
     }
     
     public static void nextStage() throws IOException {
     	stageMod.close();
+    	//System.out.println("Le problème est ")
     	stageMod = new Stage();
     	scene = new Scene(loadFXML("MainPage"), 850, 682);
     	stageMod.setScene(scene);
