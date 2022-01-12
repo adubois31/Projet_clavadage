@@ -35,13 +35,13 @@ public class MainPageController {
 	
 	public static BroadcastServer broadserv;
 	
-	public MainPageController(BroadcastServer broadserv) {
+	/*public MainPageController(BroadcastServer broadserv) {
 		MainPageController.broadserv = broadserv;
 	}
 	
 	public MainPageController() {
 		
-	}
+	}*/
 	
 	private void processAlert(String message,AlertType type) throws IOException {
 		Alert alert = new Alert(type, message,ButtonType.OK);

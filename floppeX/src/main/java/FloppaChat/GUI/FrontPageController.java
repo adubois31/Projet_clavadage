@@ -36,7 +36,7 @@ public class FrontPageController {
 			}else {
 				//if(NetInterface.ChoosePseudo(typedPseudo)) {
 					Global.userPseudo = typedPseudo;
-					//App.setRoot("MainPage");
+					App.setRoot("MainPage");
 					App.nextStage();
 				/*} else {
 					processAlert("Pseudo already taken",AlertType.ERROR);

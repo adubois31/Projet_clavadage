@@ -32,6 +32,7 @@ public class App extends Application {
     
     public static void nextStage() throws IOException {
     	stageMod.close();
+    	//System.out.println("Le problème est ")
     	stageMod = new Stage();
     	scene = new Scene(loadFXML("MainPage"), 850, 682);
     	stageMod.setScene(scene);
