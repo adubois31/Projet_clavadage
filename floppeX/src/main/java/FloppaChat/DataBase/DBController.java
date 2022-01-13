@@ -3,8 +3,6 @@ import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 
-import FloppaChat.GUI.Global;
-
 public class DBController {
 	
 	private String dbName;

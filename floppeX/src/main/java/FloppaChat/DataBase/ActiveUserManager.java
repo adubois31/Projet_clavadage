@@ -1,6 +1,5 @@
 package FloppaChat.DataBase;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ActiveUserManager {
 	public static ArrayList<ActiveUser> Act_User_List = new ArrayList<ActiveUser>();

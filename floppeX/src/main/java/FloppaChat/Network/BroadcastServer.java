@@ -2,10 +2,8 @@ package FloppaChat.Network;
 
 
 import java.io.IOException;
-import FloppaChat.Network.BroadcastServerWorker;
 import java.net.*;
 
-import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.GUI.Global;
 
 

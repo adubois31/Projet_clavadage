@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 import FloppaChat.DataBase.ActiveUser;
 import FloppaChat.DataBase.ActiveUserManager;
@@ -24,11 +23,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -39,7 +36,7 @@ public class MainPageController {
 	private static BroadcastServer broadserv;
 	private static MessageMainServer MainServ;
 	
-	public MainPageController(BroadcastServer broadserv, MessageMainServer MMS) {
+	public static void startServers(BroadcastServer broadserv, MessageMainServer MMS) {
 		MainPageController.broadserv = broadserv;
 		broadserv.start();
 		Global.BroadServRunning=true;
@@ -128,7 +125,7 @@ public class MainPageController {
 		System.out.println("Active users1 activated");
 		if (activeusers!=null) {
 			for(ActiveUser au : ActiveUserManager.Act_User_List) {
-				if(!au.getIP().equals("127.0.0.1"))
+				if(!au.getPseudo().equals(Global.userPseudo))
 					activeusers.getItems().add(au.getPseudo());
 			}
 		}
@@ -138,7 +135,7 @@ public class MainPageController {
 		System.out.println("Active users2 activated");
 		if (activeUserList!=null) {
 			for(ActiveUser au : ActiveUserManager.Act_User_List) {
-				if(!au.getIP().equals("127.0.0.1"))
+				if(!au.getPseudo().equals(Global.userPseudo))
 					activeUserList.getItems().add(this.makeUserLabel(au.getPseudo()));
 			}
 		}
