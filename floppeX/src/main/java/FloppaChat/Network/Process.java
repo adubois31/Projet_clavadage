@@ -67,8 +67,7 @@ public class Process {
 	public void processHello(String SenderIP,String Pseudo,DatagramPacket packet,DatagramSocket socket) throws IOException,SocketException {
 		if(aUM.CheckPseudoUnicity(Pseudo)){
 			aUM.addActiveUser(SenderIP, Pseudo);
-			MPC.showActiveUsers1();
-			MPC.showActiveUsers2();
+			MPC.showActiveUsers();
 			byte[] out_buffer= Packet.HelloBack("Ok",aUM.getActiveUserPseudo("127.0.0.1"),NetInterface.GetIP()).getBytes();
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 
@@ -144,8 +143,7 @@ public class Process {
 	public void processConfirmedNewPseudo(String NewPseudo, String SenderIP, DatagramPacket packet,DatagramSocket socket) throws IOException {
 		aUM.UpdateActiveUserPseudo(SenderIP, NewPseudo);
 		aUM.PrintActiveUsers();
-		MPC.showActiveUsers1();
-		MPC.showActiveUsers2();
+		MPC.showActiveUsers();
 		byte[] out_buffer= Packet.Ack(NewPseudo).getBytes();
 		packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 		try {

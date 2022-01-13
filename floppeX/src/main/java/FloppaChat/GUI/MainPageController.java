@@ -12,6 +12,7 @@ import FloppaChat.DataBase.Message;
 import FloppaChat.Network.BroadcastServer;
 import FloppaChat.Network.MessageMainServer;
 import FloppaChat.floppeX.App;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -72,10 +74,10 @@ public class MainPageController {
 	
 	@FXML private Text pseudotext;
 	
-	@FXML private ListView<String> activeusers;
-	ObservableList<ActiveUserCustom> items = FXCollections.observableArrayList(ActiveUserCustom.extractor());
+	@FXML private ListView<ActiveUserCustom> activeusers;
 	
-	@FXML private ListView<Node> activeUserList;
+	@FXML private ListView<ActiveUserCustom> activeUserList;
+	ObservableList<ActiveUserCustom> items = FXCollections.observableArrayList(ActiveUserCustom.extractor());
 	
 	@FXML private VBox centerPage;
 	
@@ -98,17 +100,17 @@ public class MainPageController {
 		if(pseudotext!=null)
 			pseudotext.setText(Global.userPseudo);
 		if(activeusers!=null) {
-			activeusers.setItems(items);
 			aUM.addActiveUser("69.69", "Thomas");
 			aUM.addActiveUser("69.69", "Hugo");
 			aUM.addActiveUser("69.69", "Clement");
 			aUM.addActiveUser("69.69", "Chama");
 			aUM.addActiveUser("69.69", "Klem");
-			this.showActiveUsers1();
+			activeusers.setItems(items);
+			this.showActiveUsers();
 		}
 		if(activeUserList!=null) {
 			//System.out.println("Bien chargé");
-			this.showActiveUsers2();
+			activeUserList.setItems(items);
 		}
 		if (pseudoForeign!=null) 	
 			pseudoForeign.setText(Global.activeUserChat);
@@ -118,32 +120,25 @@ public class MainPageController {
 		}		
 	}
 	
-	public void showActiveUsers1(){
-		System.out.println("Active users1 activated");
-		try {
-			for(ActiveUser au : ActiveUserManager.Act_User_List) {
-				if(!au.getPseudo().equals(Global.userPseudo)) {
-					System.out.println(au.getPseudo());
-					activeusers.getItems().add(au.getPseudo());
+	public void showActiveUsers() throws IOException{
+		System.out.println("Active users activated");
+		Platform.runLater(new Runnable() {
+			public void run() {
+				try {
+					for(ActiveUser au : ActiveUserManager.Act_User_List) {
+						System.out.println(au.getPseudo());
+						if(!au.getPseudo().equals(Global.userPseudo)) {
+							//Thread.sleep(1000);
+							ActiveUserCustom item = new ActiveUserCustom();
+							items.add(item);
+							item.pseudo.set(au.getPseudo());
+						}
+					}
+				} catch(Exception e) {
+					System.err.print(e.getMessage());
 				}
 			}
-		} catch(Exception e) {
-			System.err.print(e.getMessage());
-		}
-	}
-	
-	public void showActiveUsers2() throws IOException {
-		System.out.println("Active users2 activated");
-		try {
-			for(ActiveUser au : ActiveUserManager.Act_User_List) {
-				if(!au.getPseudo().equals(Global.userPseudo)) {
-					System.out.println(au.getPseudo());
-					activeUserList.getItems().add(this.makeUserLabel(au.getPseudo()));
-				}
-			}
-		} catch(Exception e) {
-			System.err.println(e.getMessage());
-		}
+		});
 	}
 	
 	private AnchorPane makeUserLabel(String pseudo) throws IOException{
@@ -161,14 +156,12 @@ public class MainPageController {
     }
 	
 	private String getPseudoFromIndex2(int index){
-		AnchorPane labelUser = (AnchorPane) activeUserList.getItems().get(index);
-		Label pseudoText = (Label) labelUser.getChildren().get(0);
-        return pseudoText.getText();
+		return activeUserList.getItems().get(index).toString();
     }
 	
 	@FXML
 	private void activeUserClicked() throws IOException{
-		
+		this.showActiveUsers();
         if (activeusers.getSelectionModel().getSelectedIndices().size() > 0){
 	            Global.activeUserIndex = (int)activeusers.getSelectionModel().getSelectedIndices().get(0);
 	            String name = getPseudoFromIndex(Global.activeUserIndex);
@@ -189,6 +182,7 @@ public class MainPageController {
 	
 	@FXML
 	private void activeUserClicked2() throws IOException{
+		this.showActiveUsers();
         if (activeUserList.getSelectionModel().getSelectedIndices().size() > 0){
             Global.activeUserIndex = (int)activeUserList.getSelectionModel().getSelectedIndices().get(0);
             String name = getPseudoFromIndex2(Global.activeUserIndex);
