@@ -1,31 +1,51 @@
 package FloppaChat.DataBase;
-import java.util.ArrayList;
+
+import FloppaChat.GUI.Global;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class ActiveUserManager {
-	public static ArrayList<ActiveUser> Act_User_List = new ArrayList<ActiveUser>();
+	public static ObservableList<ActiveUserCustom> Act_User_List = FXCollections.observableArrayList(ActiveUserCustom.extractor());
 	
 	
-	public void InitActiveUser(String MyPseudo) {
+	/*public void InitActiveUser(String MyPseudo) {
 		addActiveUser("127.0.0.1",MyPseudo);
-	}
+	}*/
 	
 	
 	public void addActiveUser(String IP, String Pseudo) {
-		if (CheckPseudoUnicity(Pseudo)) {
-			ActiveUser AU=new ActiveUser(IP,Pseudo);
-			Act_User_List.add(AU);
-		}
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				if (CheckPseudoUnicity(Pseudo)) {
+					ActiveUserCustom AU=new ActiveUserCustom();
+					AU.pseudo.set(Pseudo);
+					AU.IP.set(IP);
+					Act_User_List.add(AU);
+				}	
+			}
+		});
 	}
 	
 	public void removeActiveUser(String IP, String Pseudo) {
-		ActiveUser AU=new ActiveUser(IP,Pseudo);
-		Act_User_List.remove(AU);
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				ActiveUserCustom AU=new ActiveUserCustom();
+				AU.IP.set(IP);
+				AU.pseudo.set(Pseudo);
+				Act_User_List.remove(AU);
+			}
+		});
 	}
 	
 	public String getActiveUserIP(String ActiveUser_Pseudo) {
 		return Act_User_List.stream()
 		.filter(a -> a.getPseudo().equals(ActiveUser_Pseudo))
-		.map(ActiveUser::getIP)
+		.map(ActiveUserCustom::getIP)
 		.findFirst()
 		.get();
 	}
@@ -33,20 +53,28 @@ public class ActiveUserManager {
 	public String getActiveUserPseudo(String ActiveUser_IP) {
 		return Act_User_List.stream()
 				.filter(a -> a.getIP().equals(ActiveUser_IP))
-				.map(ActiveUser::getPseudo)
+				.map(ActiveUserCustom::getPseudo)
 				.findFirst()
 				.get();	
 	}
 	
 	public void UpdateActiveUserPseudo(String IP, String NewPseudo) {
-		ActiveUser AU=new ActiveUser(IP,NewPseudo);
-		for (ActiveUser au : Act_User_List) {
-			if (au.getIP().equals(IP)) {
-				Act_User_List.remove(au);
-				Act_User_List.add(AU);
-				break;
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				ActiveUserCustom AU=new ActiveUserCustom();
+				AU.IP.set(IP);
+				AU.pseudo.set(NewPseudo);
+				for (ActiveUserCustom au : Act_User_List) {
+					if (au.getIP().equals(IP)) {
+						Act_User_List.remove(au);
+						Act_User_List.add(AU);
+						break;
+					}
+				}
 			}
-		}	
+		});	
 	}
 	
 	public boolean pseudoExists(String pseudo) {
@@ -54,7 +82,7 @@ public class ActiveUserManager {
 	}
 	
 	public void PrintActiveUsers() {
-		for(ActiveUser au : Act_User_List){
+		for(ActiveUserCustom au : Act_User_List){
 			System.out.println("Pseudo : "+au.getPseudo()+" IP : "+au.getIP()+"\n");
 	    }
 	}
@@ -62,7 +90,7 @@ public class ActiveUserManager {
 	
 	
 	public boolean CheckPseudoUnicity(String Pseudo) {
-		return !Act_User_List.stream().anyMatch(au -> au.getPseudo().equals(Pseudo));
+		return !Act_User_List.stream().anyMatch(au -> au.getPseudo().equals(Pseudo)) && !Global.userPseudo.equals(Pseudo);
 	}
 	/*public static void main(String[] args) throws IOException {
 		InitActiveUser("admin");

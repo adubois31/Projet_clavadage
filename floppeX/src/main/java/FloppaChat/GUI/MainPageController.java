@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import FloppaChat.DataBase.ActiveUser;
+import FloppaChat.DataBase.ActiveUserCustom;
 import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
 import FloppaChat.DataBase.Message;
@@ -68,6 +69,8 @@ public class MainPageController {
 	    return myTimeObj.format(myFormatObj)+" "+myDateObj.format(myFormatObj2);
 	}
 	
+	testList tl = new testList();
+	
 	private DBController dbcontrol = new DBController(Global.dbName);
 	
 	private ActiveUserManager aUM = new ActiveUserManager();
@@ -77,7 +80,6 @@ public class MainPageController {
 	@FXML private ListView<ActiveUserCustom> activeusers;
 	
 	@FXML private ListView<ActiveUserCustom> activeUserList;
-	ObservableList<ActiveUserCustom> items = FXCollections.observableArrayList(ActiveUserCustom.extractor());
 	
 	@FXML private VBox centerPage;
 	
@@ -105,12 +107,11 @@ public class MainPageController {
 			aUM.addActiveUser("69.69", "Clement");
 			aUM.addActiveUser("69.69", "Chama");
 			aUM.addActiveUser("69.69", "Klem");
-			activeusers.setItems(items);
-			this.showActiveUsers();
+			activeusers.setItems(ActiveUserManager.Act_User_List);
 		}
 		if(activeUserList!=null) {
 			//System.out.println("Bien chargé");
-			activeUserList.setItems(items);
+			activeUserList.setItems(ActiveUserManager.Act_User_List);
 		}
 		if (pseudoForeign!=null) 	
 			pseudoForeign.setText(Global.activeUserChat);
@@ -118,27 +119,6 @@ public class MainPageController {
 			addMessageFrom("Je ne veux pas parler avec toi deso",nowDate());
 			this.fillMessageHistorics();
 		}		
-	}
-	
-	public void showActiveUsers() throws IOException{
-		System.out.println("Active users activated");
-		Platform.runLater(new Runnable() {
-			public void run() {
-				try {
-					for(ActiveUser au : ActiveUserManager.Act_User_List) {
-						System.out.println(au.getPseudo());
-						if(!au.getPseudo().equals(Global.userPseudo)) {
-							//Thread.sleep(1000);
-							ActiveUserCustom item = new ActiveUserCustom();
-							items.add(item);
-							item.pseudo.set(au.getPseudo());
-						}
-					}
-				} catch(Exception e) {
-					System.err.print(e.getMessage());
-				}
-			}
-		});
 	}
 	
 	private AnchorPane makeUserLabel(String pseudo) throws IOException{
@@ -161,7 +141,7 @@ public class MainPageController {
 	
 	@FXML
 	private void activeUserClicked() throws IOException{
-		this.showActiveUsers();
+		aUM.addActiveUser("123.43.4.2", "Gerard");
         if (activeusers.getSelectionModel().getSelectedIndices().size() > 0){
 	            Global.activeUserIndex = (int)activeusers.getSelectionModel().getSelectedIndices().get(0);
 	            String name = getPseudoFromIndex(Global.activeUserIndex);
@@ -182,7 +162,7 @@ public class MainPageController {
 	
 	@FXML
 	private void activeUserClicked2() throws IOException{
-		this.showActiveUsers();
+		aUM.addActiveUser("123.43.4.2", "Gerard");
         if (activeUserList.getSelectionModel().getSelectedIndices().size() > 0){
             Global.activeUserIndex = (int)activeUserList.getSelectionModel().getSelectedIndices().get(0);
             String name = getPseudoFromIndex2(Global.activeUserIndex);
