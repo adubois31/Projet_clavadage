@@ -30,7 +30,6 @@ public class ServMess extends Thread{
 			}
 			ServSock.close();
 		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 	
