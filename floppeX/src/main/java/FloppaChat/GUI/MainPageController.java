@@ -121,8 +121,10 @@ public class MainPageController {
 		System.out.println("Active users1 activated");
 		if (activeusers!=null) {
 			for(ActiveUser au : ActiveUserManager.Act_User_List) {
-				if(!au.getPseudo().equals(Global.userPseudo))
+				if(!au.getPseudo().equals(Global.userPseudo)) {
+					System.out.println(au.getPseudo());
 					activeusers.getItems().add(au.getPseudo());
+				}
 			}
 		}
 	}
@@ -131,8 +133,10 @@ public class MainPageController {
 		System.out.println("Active users2 activated");
 		if (activeUserList!=null) {
 			for(ActiveUser au : ActiveUserManager.Act_User_List) {
-				if(!au.getPseudo().equals(Global.userPseudo))
+				if(!au.getPseudo().equals(Global.userPseudo)) {
+					System.out.println(au.getPseudo());
 					activeUserList.getItems().add(this.makeUserLabel(au.getPseudo()));
+				}
 			}
 		}
 	}

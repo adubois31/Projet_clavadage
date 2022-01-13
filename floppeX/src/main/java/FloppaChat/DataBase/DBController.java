@@ -14,9 +14,6 @@ public class DBController {
 			File dbfile = new File("src/main/resources/sqlite/db/"+this.dbName+".db");
 			if(dbfile.createNewFile()) {
 				System.out.println("File created: " + dbfile.getName());
-			} else {
-				System.out.println("File already exists");
-			}
 			initDatabase();
 		} catch(Exception e) {
 			System.err.println(e.getMessage());
