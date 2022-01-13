@@ -125,6 +125,7 @@ public class MainPageController {
 	}
 	
 	public void showActiveUsers1() throws IOException {
+		System.out.println("Active users1 activated");
 		if (activeusers!=null) {
 			for(ActiveUser au : ActiveUserManager.Act_User_List) {
 				if(!au.getIP().equals("127.0.0.1"))
@@ -134,6 +135,7 @@ public class MainPageController {
 	}
 	
 	public void showActiveUsers2() throws IOException {
+		System.out.println("Active users2 activated");
 		if (activeUserList!=null) {
 			for(ActiveUser au : ActiveUserManager.Act_User_List) {
 				if(!au.getIP().equals("127.0.0.1"))
