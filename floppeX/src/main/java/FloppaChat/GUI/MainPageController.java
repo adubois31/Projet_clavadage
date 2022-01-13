@@ -12,8 +12,8 @@ import FloppaChat.DataBase.Message;
 import FloppaChat.Network.BroadcastServer;
 import FloppaChat.Network.MessageMainServer;
 import FloppaChat.floppeX.App;
-//import FloppaChat.Network.NetInterface;
-//import FloppaChat.Network.BroadcastServer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -73,7 +73,7 @@ public class MainPageController {
 	@FXML private Text pseudotext;
 	
 	@FXML private ListView<String> activeusers;
-	
+	ObservableList<ActiveUserCustom> items = FXCollections.observableArrayList(ActiveUserCustom.extractor());
 	
 	@FXML private ListView<Node> activeUserList;
 	
@@ -98,6 +98,7 @@ public class MainPageController {
 		if(pseudotext!=null)
 			pseudotext.setText(Global.userPseudo);
 		if(activeusers!=null) {
+			activeusers.setItems(items);
 			aUM.addActiveUser("69.69", "Thomas");
 			aUM.addActiveUser("69.69", "Hugo");
 			aUM.addActiveUser("69.69", "Clement");
@@ -117,27 +118,31 @@ public class MainPageController {
 		}		
 	}
 	
-	public void showActiveUsers1() throws IOException {
+	public void showActiveUsers1(){
 		System.out.println("Active users1 activated");
-		if (activeusers!=null) {
+		try {
 			for(ActiveUser au : ActiveUserManager.Act_User_List) {
 				if(!au.getPseudo().equals(Global.userPseudo)) {
 					System.out.println(au.getPseudo());
 					activeusers.getItems().add(au.getPseudo());
 				}
 			}
+		} catch(Exception e) {
+			System.err.print(e.getMessage());
 		}
 	}
 	
 	public void showActiveUsers2() throws IOException {
 		System.out.println("Active users2 activated");
-		if (activeUserList!=null) {
+		try {
 			for(ActiveUser au : ActiveUserManager.Act_User_List) {
 				if(!au.getPseudo().equals(Global.userPseudo)) {
 					System.out.println(au.getPseudo());
 					activeUserList.getItems().add(this.makeUserLabel(au.getPseudo()));
 				}
 			}
+		} catch(Exception e) {
+			System.err.println(e.getMessage());
 		}
 	}
 	

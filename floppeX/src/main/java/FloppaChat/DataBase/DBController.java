@@ -12,7 +12,7 @@ public class DBController {
 			Class.forName("org.sqlite.JDBC");
 			this.dbName = name;
 			File dbfile = new File("src/main/resources/sqlite/db/"+this.dbName+".db");
-			if(dbfile.createNewFile()) {
+			if(dbfile.createNewFile()) 
 				System.out.println("File created: " + dbfile.getName());
 			initDatabase();
 		} catch(Exception e) {
