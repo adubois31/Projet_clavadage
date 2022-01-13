@@ -44,10 +44,6 @@ public class MainPageController {
 		MMS.startServ();
 	}
 	
-	public MainPageController() {
-		
-	}
-	
 	public static void stopEverything() {
 		if (broadserv.isAlive())
 			broadserv.interrupt();

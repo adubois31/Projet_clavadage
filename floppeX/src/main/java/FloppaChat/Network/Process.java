@@ -11,7 +11,7 @@ import FloppaChat.GUI.MainPageController;
 public class Process {
 	private static boolean HelloAccepted = true;
 	private ActiveUserManager aUM;
-	private MainPageController MPC;
+	private MainPageController MPC = new MainPageController();
 	
 	private static boolean ChangePseudoAccepted =true;
 	
@@ -141,9 +141,11 @@ public class Process {
 		}
 	}
 	
-	public void processConfirmedNewPseudo(String NewPseudo, String SenderIP, DatagramPacket packet,DatagramSocket socket) {
+	public void processConfirmedNewPseudo(String NewPseudo, String SenderIP, DatagramPacket packet,DatagramSocket socket) throws IOException {
 		aUM.UpdateActiveUserPseudo(SenderIP, NewPseudo);
 		aUM.PrintActiveUsers();
+		MPC.showActiveUsers1();
+		MPC.showActiveUsers2();
 		byte[] out_buffer= Packet.Ack(NewPseudo).getBytes();
 		packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 		try {
