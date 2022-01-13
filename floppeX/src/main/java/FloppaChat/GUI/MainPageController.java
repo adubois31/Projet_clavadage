@@ -1,6 +1,8 @@
 package FloppaChat.GUI;
 
 import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.time.LocalTime;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,9 +13,11 @@ import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
 import FloppaChat.DataBase.Message;
 import FloppaChat.Network.BroadcastServer;
+import FloppaChat.Network.MessServSender;
+import FloppaChat.Network.MessageClient;
 import FloppaChat.Network.MessageMainServer;
 import FloppaChat.floppeX.App;
-//import FloppaChat.Network.NetInterface;
+import FloppaChat.Network.MultiClientConnections;
 //import FloppaChat.Network.BroadcastServer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -235,6 +239,7 @@ public class MainPageController {
 		addMessage(cont,"sentLabel.fxml",date);
 	}
 	
+	
 	private void fillMessageHistorics() throws IOException{
 		for(Message m : this.dbcontrol.fetchMessagesWithUser(Global.activeUserID)) {
 			System.out.println("Is sent is : "+m.isSent());
@@ -245,15 +250,26 @@ public class MainPageController {
 		}
 	}
 	
+	private void sendMessage(String TargetIP, String Message) {
+		if(MessServSender.isMessServer(TargetIP)) {
+			MessServSender.SendMessToClient(TargetIP, Message);
+		}
+		else {
+			MultiClientConnections.SendMessAsClient(TargetIP,Message);
+		}
+	}
+	
 	@FXML
 	private void sendMessageEnter(KeyEvent keyEvent) throws IOException {
 		if(keyEvent.getCode()== KeyCode.ENTER) {
 			if(contentMessage.getText().equals(""))
 				processAlert("No content",AlertType.ERROR);
 			else {
+				sendMessage(aUM.getActiveUserIP(Global.activeUserChat),contentMessage.getText());
 				dbcontrol.addMessage(Global.activeUserID,nowDate(),contentMessage.getText(),true);
 				addMessageTo(contentMessage.getText(),nowDate());
 				contentMessage.setText("");
+				
 			}
 		}
 	}
@@ -263,6 +279,7 @@ public class MainPageController {
 		if(contentMessage.getText().equals(""))
 			processAlert("No content",AlertType.ERROR);
 		else {
+			sendMessage(aUM.getActiveUserIP(Global.activeUserChat),contentMessage.getText());
 			dbcontrol.addMessage(Global.activeUserID,nowDate(),contentMessage.getText(),true);
 			addMessageTo(contentMessage.getText(),nowDate());
 			contentMessage.setText("");

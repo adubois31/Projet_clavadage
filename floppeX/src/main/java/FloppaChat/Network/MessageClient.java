@@ -26,6 +26,10 @@ public class MessageClient{
             closeEverything();
         }
     }
+    
+    public String getRemoteIP() {
+    	return Sock.getRemoteSocketAddress().toString().substring(1);
+    }
 
     public void SendMessToServer(String MessToServer){
         try {

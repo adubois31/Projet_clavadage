@@ -65,11 +65,5 @@ public class ActiveUserManager {
 	public boolean CheckPseudoUnicity(String Pseudo) {
 		return !Act_User_List.stream().anyMatch(au -> au.getPseudo().equals(Pseudo));
 	}
-	/*public static void main(String[] args) throws IOException {
-		InitActiveUser("admin");
-		PrintActiveUsers();
-		System.out.println("Adding Viktor...\n");
-		addActiveUser("192.168.1.1", "Viktor");
-		}*/
-		
+
 }

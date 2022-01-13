@@ -11,7 +11,7 @@ import FloppaChat.GUI.MainPageController;
 public class Process {
 	private static boolean HelloAccepted = true;
 	private ActiveUserManager aUM;
-	private MainPageController MPC;
+	private MainPageController MPC = new MainPageController();
 	
 	private static boolean ChangePseudoAccepted =true;
 	

@@ -9,12 +9,12 @@ public class ServMess extends Thread{
 	private int ServPort;
 	private boolean isRunning = true;
 	private ServerSocket ServSock;
-	private ArrayList<MessServWorker> ClientList = new ArrayList<>();
-	
+	public static ArrayList<MessServWorker> ClientList = new ArrayList<>();
+
 	public ServMess(int Port) {
 		this.ServPort=Port;
 	}
-	
+
 	@Override
 	public void run() {
 		try {
@@ -32,7 +32,7 @@ public class ServMess extends Thread{
 		} catch (IOException e) {
 		}
 	}
-	
+
 	@Override
 	public void interrupt() {
 		for (MessServWorker target : ClientList) {
@@ -46,15 +46,7 @@ public class ServMess extends Thread{
 		} catch (IOException e) {
 			System.out.println("Closing Serv Message");
 		}
-		
 	}
 	
-	public void SendMessToClient(String TargetIP,String Mess) {
-		for (MessServWorker target : ClientList) {
-			if(target.ClientIP().equals(TargetIP)) {
-				System.out.println("Message envoyé");
-				target.SendMessToClient(Mess);
-			}
-		}
-	}
+	
 }
