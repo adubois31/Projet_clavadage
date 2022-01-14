@@ -99,14 +99,11 @@ public class Process {
 		}
 		
 	}
-	public boolean processDisconnected(String DiscIP,String DiscPseudo) {
-		
+	public void processDisconnected(String DiscIP,String DiscPseudo) {
 
 		if(!(aUM.CheckPseudoUnicity(DiscPseudo))){
 			aUM.removeActiveUser(DiscIP, DiscPseudo);
 		}
-		return true;
-		
 	}
 	
 	public void processChangePseudo(String OldPseudo,String ClientIP,String NewPseudo,DatagramPacket packet,DatagramSocket socket) {
