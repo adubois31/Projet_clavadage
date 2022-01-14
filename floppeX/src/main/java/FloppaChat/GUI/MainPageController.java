@@ -141,7 +141,6 @@ public class MainPageController {
 	
 	@FXML
 	private void activeUserClicked() throws IOException{
-		aUM.addActiveUser("123.43.4.2", "Gerard");
         if (activeusers.getSelectionModel().getSelectedIndices().size() > 0){
 	            Global.activeUserIndex = (int)activeusers.getSelectionModel().getSelectedIndices().get(0);
 	            String name = getPseudoFromIndex(Global.activeUserIndex);
@@ -162,7 +161,6 @@ public class MainPageController {
 	
 	@FXML
 	private void activeUserClicked2() throws IOException{
-		aUM.addActiveUser("123.43.4.2", "Gerard");
         if (activeUserList.getSelectionModel().getSelectedIndices().size() > 0){
             Global.activeUserIndex = (int)activeUserList.getSelectionModel().getSelectedIndices().get(0);
             String name = getPseudoFromIndex2(Global.activeUserIndex);
