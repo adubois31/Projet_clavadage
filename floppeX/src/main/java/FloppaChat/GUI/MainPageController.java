@@ -4,17 +4,18 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 import FloppaChat.DataBase.ActiveUser;
+import FloppaChat.DataBase.ActiveUserCustom;
 import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
 import FloppaChat.DataBase.Message;
 import FloppaChat.Network.BroadcastServer;
 import FloppaChat.Network.MessageMainServer;
 import FloppaChat.floppeX.App;
-//import FloppaChat.Network.NetInterface;
-//import FloppaChat.Network.BroadcastServer;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -28,7 +29,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -39,16 +39,12 @@ public class MainPageController {
 	private static BroadcastServer broadserv;
 	private static MessageMainServer MainServ;
 	
-	public MainPageController(BroadcastServer broadserv, MessageMainServer MMS) {
+	public static void startServers(BroadcastServer broadserv, MessageMainServer MMS) {
 		MainPageController.broadserv = broadserv;
 		broadserv.start();
 		Global.BroadServRunning=true;
 		MainPageController.MainServ=MMS;
 		MMS.startServ();
-	}
-	
-	public MainPageController() {
-		
 	}
 	
 	public static void stopEverything() {
@@ -73,16 +69,17 @@ public class MainPageController {
 	    return myTimeObj.format(myFormatObj)+" "+myDateObj.format(myFormatObj2);
 	}
 	
+	testList tl = new testList();
+	
 	private DBController dbcontrol = new DBController(Global.dbName);
 	
 	private ActiveUserManager aUM = new ActiveUserManager();
 	
 	@FXML private Text pseudotext;
 	
-	@FXML private ListView<String> activeusers;
+	@FXML private ListView<ActiveUserCustom> activeusers;
 	
-	
-	@FXML private ListView<Node> activeUserList;
+	@FXML private ListView<ActiveUserCustom> activeUserList;
 	
 	@FXML private VBox centerPage;
 	
@@ -110,11 +107,11 @@ public class MainPageController {
 			aUM.addActiveUser("69.69", "Clement");
 			aUM.addActiveUser("69.69", "Chama");
 			aUM.addActiveUser("69.69", "Klem");
-			this.showActiveUsers1();
+			activeusers.setItems(ActiveUserManager.Act_User_List);
 		}
 		if(activeUserList!=null) {
 			//System.out.println("Bien chargé");
-			this.showActiveUsers2();
+			activeUserList.setItems(ActiveUserManager.Act_User_List);
 		}
 		if (pseudoForeign!=null) 	
 			pseudoForeign.setText(Global.activeUserChat);
@@ -122,26 +119,6 @@ public class MainPageController {
 			addMessageFrom("Je ne veux pas parler avec toi deso",nowDate());
 			this.fillMessageHistorics();
 		}		
-	}
-	
-	public void showActiveUsers1() throws IOException {
-		System.out.println("Active users1 activated");
-		if (activeusers!=null) {
-			for(ActiveUser au : ActiveUserManager.Act_User_List) {
-				if(!au.getIP().equals("127.0.0.1"))
-					activeusers.getItems().add(au.getPseudo());
-			}
-		}
-	}
-	
-	public void showActiveUsers2() throws IOException {
-		System.out.println("Active users2 activated");
-		if (activeUserList!=null) {
-			for(ActiveUser au : ActiveUserManager.Act_User_List) {
-				if(!au.getIP().equals("127.0.0.1"))
-					activeUserList.getItems().add(this.makeUserLabel(au.getPseudo()));
-			}
-		}
 	}
 	
 	private AnchorPane makeUserLabel(String pseudo) throws IOException{
@@ -159,14 +136,12 @@ public class MainPageController {
     }
 	
 	private String getPseudoFromIndex2(int index){
-		AnchorPane labelUser = (AnchorPane) activeUserList.getItems().get(index);
-		Label pseudoText = (Label) labelUser.getChildren().get(0);
-        return pseudoText.getText();
+		return activeUserList.getItems().get(index).toString();
     }
 	
 	@FXML
 	private void activeUserClicked() throws IOException{
-		
+		aUM.addActiveUser("123.43.4.2", "Gerard");
         if (activeusers.getSelectionModel().getSelectedIndices().size() > 0){
 	            Global.activeUserIndex = (int)activeusers.getSelectionModel().getSelectedIndices().get(0);
 	            String name = getPseudoFromIndex(Global.activeUserIndex);
@@ -187,6 +162,7 @@ public class MainPageController {
 	
 	@FXML
 	private void activeUserClicked2() throws IOException{
+		aUM.addActiveUser("123.43.4.2", "Gerard");
         if (activeUserList.getSelectionModel().getSelectedIndices().size() > 0){
             Global.activeUserIndex = (int)activeUserList.getSelectionModel().getSelectedIndices().get(0);
             String name = getPseudoFromIndex2(Global.activeUserIndex);

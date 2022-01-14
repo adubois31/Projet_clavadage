@@ -9,7 +9,7 @@ public class BroadcastClient {
 	private static int PortNb;
 
 	public BroadcastClient(int PortNB) {
-		this.PortNb=PortNB;
+		PortNb=PortNB;
 	}
 
     public void broadcast(String broadcastMessage, InetAddress address) throws IOException {

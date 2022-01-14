@@ -29,7 +29,7 @@ public class NetInterface {
 		    }
 		}
 		if (PseudoOK) {
-			aUM.InitActiveUser(Pseudo);
+			//aUM.InitActiveUser(Pseudo);
 		}
 		aUM.PrintActiveUsers();
 		Process.SetHelloAccepted(true);
