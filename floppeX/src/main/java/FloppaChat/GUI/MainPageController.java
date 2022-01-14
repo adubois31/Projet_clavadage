@@ -2,10 +2,12 @@ package FloppaChat.GUI;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.time.LocalTime;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
 
 import FloppaChat.DataBase.ActiveUser;
 import FloppaChat.DataBase.ActiveUserCustom;
@@ -41,7 +43,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class MainPageController {
+public class MainPageController{
 	
 	private static BroadcastServer broadserv;
 	private static MessageMainServer MainServ;
@@ -77,8 +79,6 @@ public class MainPageController {
 	    return myTimeObj.format(myFormatObj)+" "+myDateObj.format(myFormatObj2);
 	}
 	
-	testList tl = new testList();
-	
 	private DBController dbcontrol = new DBController(Global.dbName);
 	
 	private ActiveUserManager aUM = new ActiveUserManager();
@@ -104,7 +104,7 @@ public class MainPageController {
 	@FXML private TextField contentMessage;
 	
 	@FXML
-	protected void initialize() throws IOException {
+	public void initialize() {
 		//BroadcastServer Serv = new BroadcastServer();
         //Serv.start();
 		if(pseudotext!=null)
@@ -124,9 +124,14 @@ public class MainPageController {
 		if (pseudoForeign!=null) 	
 			pseudoForeign.setText(Global.activeUserChat);
 		if (messagelist!=null) {
-			addMessageFrom("Je ne veux pas parler avec toi deso",nowDate());
-			this.fillMessageHistorics();
-		}		
+			try {
+				addMessageFrom("Je ne veux pas parler avec toi deso",nowDate());
+				this.fillMessageHistorics();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Global.MPC = this;
+		}	
 	}
 	
 	private AnchorPane makeUserLabel(String pseudo) throws IOException{
@@ -195,7 +200,12 @@ public class MainPageController {
         Label date_t = (Label) labelMessage.getChildren().get(1);
         contenu_t.setText(this.processMessage(cont));
 		date_t.setText(date);
-        messagelist.getChildren().add(label);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+		        messagelist.getChildren().add(label);
+			}
+		});
 	}
 	
 	public String processMessage(String cont) {
