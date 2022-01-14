@@ -7,6 +7,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+import FloppaChat.DataBase.ActiveUserManager;
+import FloppaChat.DataBase.DBController;
+import FloppaChat.GUI.Global;
+import FloppaChat.GUI.MainPageController;
+
 public class MessServWorker extends Thread {
 	
 	private Socket clientSock;
@@ -43,12 +48,20 @@ public class MessServWorker extends Thread {
 		return clientSock.getInetAddress().toString().substring(1);
 		
 	}
+	
+	private String ClientPseudo() {
+		ActiveUserManager aUM = new ActiveUserManager(); 
+		return aUM.getActiveUserPseudo(ClientIP());
+	}
 
 	private void RecvMessFromClient() throws IOException {
+		MainPageController MPC = new MainPageController();
+		DBController DBC = new DBController(Global.dbName);
 		String MessFromClient = BuffRead.readLine();
 		if (MessFromClient != null) {
-			System.out.println("Message reçu du client : "+clientSock);
-			System.out.println(MessFromClient);
+			//System.out.println("Message reçu du client : "+clientSock);
+			MPC.addMessageFrom(MessFromClient, MPC.nowDate());
+			DBC.addMessage(DBC.getIDfromUser(ClientPseudo(), ClientIP()), MPC.nowDate(), MessFromClient, false);
 		}
 		
 		

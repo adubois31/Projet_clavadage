@@ -9,11 +9,6 @@ public class ActiveUserManager {
 	public static ObservableList<ActiveUserCustom> Act_User_List = FXCollections.observableArrayList(ActiveUserCustom.extractor());
 	
 	
-	/*public void InitActiveUser(String MyPseudo) {
-		addActiveUser("127.0.0.1",MyPseudo);
-	}*/
-	
-	
 	public void addActiveUser(String IP, String Pseudo) {
 		Platform.runLater(new Runnable() {
 

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import FloppaChat.DataBase.ActiveUserManager;
+import FloppaChat.DataBase.DBController;
 import FloppaChat.GUI.Global;
 
 public class MultiClientConnections {
@@ -21,10 +23,13 @@ public class MultiClientConnections {
 		}
 		if(!(alreadyConnected)) {
 			Socket socket = null;
+			ActiveUserManager aUM = new ActiveUserManager();
 			try {
 				socket = new Socket(TargetIP,Global.MessServNb);
 				MessageClient MC = new MessageClient(socket);
 				ClientConnections.add(MC);
+				DBController DBC = new DBController(Global.dbName);
+				DBC.createUser(aUM.getActiveUserPseudo(TargetIP),TargetIP);
 				MC.RecvMessFromServer();
 				MC.SendMessToServer(Message);
 			} catch (IOException e) {

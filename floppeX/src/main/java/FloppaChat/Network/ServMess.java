@@ -5,10 +5,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import FloppaChat.DataBase.ActiveUserManager;
+import FloppaChat.DataBase.DBController;
+import FloppaChat.GUI.Global;
+
 public class ServMess extends Thread{
 	private int ServPort;
 	private boolean isRunning = true;
 	private ServerSocket ServSock;
+	private ActiveUserManager aUM = new ActiveUserManager();
 	public static ArrayList<MessServWorker> ClientList = new ArrayList<>();
 
 	public ServMess(int Port) {
@@ -24,6 +29,9 @@ public class ServMess extends Thread{
 			while(isRunning) {
 				clientSock=ServSock.accept();
 				System.out.println("Client connected");
+				DBController DBC = new DBController(Global.dbName);
+				String ClientIP = clientSock.getInetAddress().toString().substring(1);
+				DBC.createUser(aUM.getActiveUserPseudo(ClientIP), ClientIP);
 				MessServWorker Client = new MessServWorker(clientSock);
 				ClientList.add(Client);
 				Client.start();
