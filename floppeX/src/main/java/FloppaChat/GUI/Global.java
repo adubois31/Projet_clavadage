@@ -21,4 +21,6 @@ public class Global {
 	public static boolean BroadServRunning=false;
 	
 	public static int MessServNb = 6969;
+	
+	public static MainPageController MPC;
 }
