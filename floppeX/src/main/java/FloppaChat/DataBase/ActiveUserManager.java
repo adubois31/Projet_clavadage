@@ -90,7 +90,10 @@ public class ActiveUserManager {
 	
 	
 	public boolean CheckPseudoUnicity(String Pseudo) {
-		return !Act_User_List.stream().anyMatch(au -> au.getPseudo().equals(Pseudo)) && !Global.userPseudo.equals(Pseudo);
+		if(Global.BroadServRunning)
+			return !Act_User_List.stream().anyMatch(au -> au.getPseudo().equals(Pseudo)) && !Global.userPseudo.equals(Pseudo);
+		else
+			return !Act_User_List.stream().anyMatch(au -> au.getPseudo().equals(Pseudo));
 	}
 
 }
