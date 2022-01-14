@@ -104,6 +104,19 @@ public class Process {
 		if(!(aUM.CheckPseudoUnicity(DiscPseudo))){
 			aUM.removeActiveUser(DiscIP, DiscPseudo);
 		}
+		for(MessServWorker Worker : ServMess.ClientList) {
+			if (Worker.ClientIP().equals(DiscIP)) {
+				Worker.interrupt();
+				break;
+			}	
+		}
+		
+		for (MessageClient Client : MultiClientConnections.ClientConnections) {
+			if(Client.getRemoteIP().equals(DiscIP)) {
+				Client.EndChat();
+				break;
+			}
+		}
 	}
 	
 	public void processChangePseudo(String OldPseudo,String ClientIP,String NewPseudo,DatagramPacket packet,DatagramSocket socket) {

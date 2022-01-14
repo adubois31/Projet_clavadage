@@ -17,6 +17,7 @@ public class MessageMainServer {
 	
 	public void stopServ() {
 		if(Server.isAlive()) {
+			System.out.println("Closing Main Server....");
 			Server.interrupt();
 		}
 	}
