@@ -56,15 +56,14 @@ public class MessServWorker extends Thread {
 	}
 
 	private void RecvMessFromClient() throws IOException {
-		MainPageController MPC = new MainPageController();
 		DBController DBC = new DBController(Global.dbName);
 		try {
 			String MessFromClient = BuffRead.readLine();
 			if (MessFromClient != null) {
 				//System.out.println("Message reçu du client : "+clientSock);
-				DBC.addMessage(DBC.getIDfromUser(ClientPseudo(), ClientIP()), MPC.nowDate(), MessFromClient, false);
+				DBC.addMessage(DBC.getIDfromUser(ClientPseudo(), ClientIP()), Global.MPC.nowDate(), MessFromClient, false);
 				if (Global.activeUserChat.equals(ClientPseudo()))
-					MPC.addMessageFrom(MessFromClient, MPC.nowDate());
+					Global.MPC.addMessageFrom(MessFromClient, Global.MPC.nowDate());
 				}
 		}catch(IOException e){
 			super.interrupt();
