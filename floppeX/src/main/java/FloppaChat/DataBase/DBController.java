@@ -3,8 +3,6 @@ import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 
-import FloppaChat.GUI.Global;
-
 public class DBController {
 	
 	private String dbName;
@@ -14,11 +12,8 @@ public class DBController {
 			Class.forName("org.sqlite.JDBC");
 			this.dbName = name;
 			File dbfile = new File("src/main/resources/sqlite/db/"+this.dbName+".db");
-			if(dbfile.createNewFile()) {
+			if(dbfile.createNewFile()) 
 				System.out.println("File created: " + dbfile.getName());
-			} else {
-				System.out.println("File already exists");
-			}
 			initDatabase();
 		} catch(Exception e) {
 			System.err.println(e.getMessage());

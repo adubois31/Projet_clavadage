@@ -1,5 +1,4 @@
 package FloppaChat.Network;
-import java.io.IOException;
 
 public class MessageMainServer {
 	private int ServPort;

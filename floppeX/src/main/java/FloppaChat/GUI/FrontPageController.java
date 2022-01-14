@@ -5,9 +5,7 @@ import java.io.IOException;
 import FloppaChat.Network.BroadcastServer;
 import FloppaChat.Network.MessageMainServer;
 import FloppaChat.Network.NetInterface;
-import FloppaChat.GUI.Global;
 import FloppaChat.floppeX.App;
-import FloppaChat.Network.NetInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -55,7 +53,7 @@ public class FrontPageController {
 						Global.userPseudo = typedPseudo;
 						BroadcastServer BS = new BroadcastServer(Global.BroadServNb);
 						MessageMainServer MMS = new MessageMainServer(Global.MessServNb);
-						MainPageController MPC = new MainPageController(BS,MMS);
+						MainPageController.startServers(BS,MMS);
 						Global.BroadServRunning=true;
 						App.setRoot("MainPage");
 						App.nextStage();

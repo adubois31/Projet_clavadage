@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
-import FloppaChat.GUI.Global;
-
 public class MessServWorker extends Thread {
 	
 	private Socket clientSock;
