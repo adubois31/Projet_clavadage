@@ -1,7 +1,6 @@
 package FloppaChat.GUI;
 
 import javafx.fxml.FXML;
-import javafx.scene.text.Text;
 
 public class Global {
 
