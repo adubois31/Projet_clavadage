@@ -30,7 +30,6 @@ public class App extends Application {
     @Override
     public void stop(){
         System.out.println("Closing App...");
-        NetInterface.Disconnect();
         MainPageController.stopEverything();
     }
     

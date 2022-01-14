@@ -14,6 +14,7 @@ public class MessageClient{
 	private Socket Sock;
     private BufferedReader BuffRead;
     private BufferedWriter BuffWrite;
+    private Thread ThisThread;
     
     public MessageClient(Socket socket){
         try {
@@ -48,13 +49,17 @@ public class MessageClient{
     	ActiveUserManager aUM = new ActiveUserManager();
     	MainPageController MPC = new MainPageController();
     	DBController DBC = new DBController(Global.dbName);
-        new Thread(new Runnable(){
+        Thread ThisThread = new Thread(new Runnable(){
             @Override
             public void run(){
                 while (Sock.isConnected()){
                 	System.out.println("Thread started");
                     try {
                         String MessFromServer = BuffRead.readLine();
+                        if ((MessFromServer !=null)||MessFromServer!="") {
+                        	MPC.addMessageFrom(MessFromServer, MPC.nowDate());
+                            DBC.addMessage(DBC.getIDfromUser(aUM.getActiveUserPseudo(getRemoteIP()), getRemoteIP()), MPC.nowDate() , MessFromServer, false);
+                        }
                         MPC.addMessageFrom(MessFromServer, MPC.nowDate());
                         String ServerIP = Sock.getInetAddress().toString().substring(1);
                         DBC.addMessage(DBC.getIDfromUser(aUM.getActiveUserPseudo(ServerIP), ServerIP), MPC.nowDate() , MessFromServer, false);
@@ -66,9 +71,11 @@ public class MessageClient{
                     }
                 }
             }
-        }).start();;
+        });
+        ThisThread.start();
     }
     public void EndChat() {
+    	ThisThread.interrupt();
     	closeEverything();
     }
     
