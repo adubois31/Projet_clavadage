@@ -112,11 +112,6 @@ public class MainPageController{
 		if(pseudotext!=null)
 			pseudotext.setText(Global.userPseudo);
 		if(activeusers!=null) {
-			aUM.addActiveUser("69.69", "Thomas");
-			aUM.addActiveUser("69.69", "Hugo");
-			aUM.addActiveUser("69.69", "Clement");
-			aUM.addActiveUser("69.69", "Chama");
-			aUM.addActiveUser("69.69", "Klem");
 			activeusers.setItems(ActiveUserManager.Act_User_List);
 		}
 		if(activeUserList!=null) {
@@ -127,7 +122,6 @@ public class MainPageController{
 			pseudoForeign.setText(Global.activeUserChat);
 		if (messagelist!=null) {
 			try {
-				addMessageFrom("Je ne veux pas parler avec toi deso",nowDate());
 				this.fillMessageHistorics();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -259,7 +253,6 @@ public class MainPageController{
 				dbcontrol.addMessage(Global.activeUserID,nowDate(),contentMessage.getText(),true);
 				addMessageTo(contentMessage.getText(),nowDate());
 				contentMessage.setText("");
-				
 			}
 		}
 	}
