@@ -20,6 +20,7 @@ import FloppaChat.Network.MessageClient;
 import FloppaChat.Network.MessageMainServer;
 import FloppaChat.floppeX.App;
 import FloppaChat.Network.MultiClientConnections;
+import FloppaChat.Network.NetInterface;
 //import FloppaChat.Network.BroadcastServer;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -56,9 +57,12 @@ public class MainPageController{
 	}
 	
 	public static void stopEverything() {
-		if (broadserv.isAlive())
-			broadserv.interrupt();
+		System.out.println("Stopping everything");
 		MainServ.stopServ();
+		if (Global.BroadServRunning)
+			NetInterface.Disconnect();
+			broadserv.interrupt();
+		
 	}
 	
 	private void processAlert(String message,AlertType type) throws IOException {
