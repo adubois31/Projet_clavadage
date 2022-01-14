@@ -30,7 +30,7 @@ public class MessageClient{
     }
     
     public String getRemoteIP() {
-    	return Sock.getRemoteSocketAddress().toString().substring(1);
+    	return Sock.getInetAddress().toString().substring(1);
     }
 
     public void SendMessToServer(String MessToServer){
@@ -55,18 +55,12 @@ public class MessageClient{
                 	System.out.println("Thread started");
                     try {
                         String MessFromServer = BuffRead.readLine();
-
                         if ((MessFromServer !=null)||MessFromServer!="") {
-                        	DBC.addMessage(DBC.getIDfromUser(aUM.getActiveUserPseudo(getRemoteIP()), getRemoteIP()), MPC.nowDate() , MessFromServer, false);
+                        	DBC.addMessage(DBC.getIDfromUser(aUM.getActiveUserPseudo(getRemoteIP()), getRemoteIP()), Global.MPC.nowDate() , MessFromServer, false);
                         	if (Global.activeUserChat.equals(aUM.getActiveUserPseudo(getRemoteIP())))
-                        			MPC.addMessageFrom(MessFromServer, MPC.nowDate());
+                        			Global.MPC.addMessageFrom(MessFromServer, Global.MPC.nowDate());
                             
                         }
-                        MPC.addMessageFrom(MessFromServer, MPC.nowDate());
-
-                        String ServerIP = Sock.getInetAddress().toString().substring(1);
-                        DBC.addMessage(DBC.getIDfromUser(aUM.getActiveUserPseudo(ServerIP), ServerIP), Global.MPC.nowDate() , MessFromServer, false);
-                        Global.MPC.addMessageFrom(MessFromServer, Global.MPC.nowDate());
                     } catch (IOException e) {
                         System.out.println("Erreur réception du message du serveur");
                         e.printStackTrace();

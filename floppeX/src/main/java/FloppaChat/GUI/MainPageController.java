@@ -57,10 +57,12 @@ public class MainPageController{
 	}
 	
 	public static void stopEverything() {
+		System.out.println("Stopping everything");
+		MainServ.stopServ();
 		if (Global.BroadServRunning)
 			NetInterface.Disconnect();
 			broadserv.interrupt();
-		MainServ.stopServ();
+		
 	}
 	
 	private void processAlert(String message,AlertType type) throws IOException {

@@ -41,6 +41,7 @@ public class MessServWorker extends Thread {
 	@Override
 	public void interrupt() {
 		super.interrupt();
+		System.out.println("Interrupting client thread");
 		closeEverything();
 	}
 	
@@ -55,14 +56,22 @@ public class MessServWorker extends Thread {
 	}
 
 	private void RecvMessFromClient() throws IOException {
+		MainPageController MPC = new MainPageController();
 		DBController DBC = new DBController(Global.dbName);
-		String MessFromClient = BuffRead.readLine();
-		if ((MessFromClient != null) || (MessFromClient!="")) {
-			//System.out.println("Message reçu du client : "+clientSock);
-			DBC.addMessage(DBC.getIDfromUser(ClientPseudo(), ClientIP()), Global.MPC.nowDate(), MessFromClient, false);
-			if(Global.activeUserChat.equals(ClientPseudo()))
-				Global.MPC.addMessageFrom(MessFromClient, Global.MPC.nowDate());
+		try {
+			String MessFromClient = BuffRead.readLine();
+			if (MessFromClient != null) {
+				//System.out.println("Message reçu du client : "+clientSock);
+				DBC.addMessage(DBC.getIDfromUser(ClientPseudo(), ClientIP()), MPC.nowDate(), MessFromClient, false);
+				if (Global.activeUserChat.equals(ClientPseudo()))
+					MPC.addMessageFrom(MessFromClient, MPC.nowDate());
+				}
+		}catch(IOException e){
+			super.interrupt();
 		}
+		
+		
+		
 	}
 	
 	 public void SendMessToClient(String messageToClient){
@@ -79,15 +88,17 @@ public class MessServWorker extends Thread {
 	
     private void closeEverything(){
         try {
+        	if (clientSock != null){
+                clientSock.close();
+            }
             if (BuffRead != null){
                 BuffRead.close();
+                System.out.println(BuffRead);
             }
             if(this.BuffWrite!= null){
                 BuffWrite.close();
             }
-            if (clientSock != null){
-                clientSock.close();
-            }
+            
         } catch (IOException e) {
             e.printStackTrace();
         }

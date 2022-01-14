@@ -45,7 +45,13 @@ public class ServMess extends Thread{
 	public void interrupt() {
 		for (MessServWorker target : ClientList) {
 			if (target.isAlive()) {
+				System.out.println("Stopping client thread "+target);
 				target.interrupt();
+			}
+		}
+		for (MessServWorker target : ClientList) {
+			if (target.isAlive()) {
+				System.out.println(target+" is alive");
 			}
 		}
 		super.interrupt();
