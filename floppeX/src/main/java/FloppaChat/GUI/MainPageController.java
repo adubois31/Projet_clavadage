@@ -295,6 +295,9 @@ public class MainPageController {
 	}
 	
 	
+	/**
+	 * @throws IOException
+	 */
 	@FXML
 	private void backToMainPage() throws IOException {
 		//System.out.println("Back to Main");
