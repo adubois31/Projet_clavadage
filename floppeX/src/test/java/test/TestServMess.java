@@ -29,8 +29,8 @@ public class TestServMess {
 	
 	@Test
 	void testMessServerToClient() {
-		SMess.SendMessToClient("Hello there", "10.1.5.233");
-		SMess.SendMessToClient("General Kenoni","10.1.5.233");
+		MessServSender.SendMessToClient("Hello there", "10.1.5.233");
+		MessServSender.SendMessToClient("General Kenoni","10.1.5.233");
 		assert(true);
 	}
 	
