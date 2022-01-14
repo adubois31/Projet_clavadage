@@ -67,7 +67,7 @@ public class NetInterface {
             
     }
 
-    static String GrabIPbyName (NetworkInterface netint) throws SocketException {
+    private static String GrabIPbyName (NetworkInterface netint) throws SocketException {
     	String RetAddr = null;
         
         Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
@@ -79,4 +79,14 @@ public class NetInterface {
         }
         return RetAddr;
      }
+    public static void Disconnect() {
+    	BroadcastClient BC = new BroadcastClient(Global.BroadServNb);
+		try {
+			BC.broadcast(Packet.Disconnected(Global.userPseudo), InetAddress.getByName(Global.BroadAdress));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	
+    }
+    
 }

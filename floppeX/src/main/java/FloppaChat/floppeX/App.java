@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 import FloppaChat.GUI.MainPageController;
+import FloppaChat.Network.NetInterface;
 
 /**
  * JavaFX App
@@ -29,6 +30,7 @@ public class App extends Application {
     @Override
     public void stop(){
         System.out.println("Closing App...");
+        NetInterface.Disconnect();
         MainPageController.stopEverything();
     }
     
