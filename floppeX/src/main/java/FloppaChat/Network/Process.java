@@ -1,4 +1,4 @@
-package FloppaChat.Network;
+l:package FloppaChat.Network;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
