@@ -7,6 +7,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+import FloppaChat.DataBase.ActiveUserManager;
+import FloppaChat.DataBase.DBController;
+import FloppaChat.GUI.Global;
+import FloppaChat.GUI.MainPageController;
+
 public class MessServWorker extends Thread {
 	
 	private Socket clientSock;
@@ -36,6 +41,7 @@ public class MessServWorker extends Thread {
 	@Override
 	public void interrupt() {
 		super.interrupt();
+		System.out.println("Interrupting client thread");
 		closeEverything();
 	}
 	
@@ -43,13 +49,26 @@ public class MessServWorker extends Thread {
 		return clientSock.getInetAddress().toString().substring(1);
 		
 	}
+	
+	private String ClientPseudo() {
+		ActiveUserManager aUM = new ActiveUserManager(); 
+		return aUM.getActiveUserPseudo(ClientIP());
+	}
 
 	private void RecvMessFromClient() throws IOException {
-		String MessFromClient = BuffRead.readLine();
-		if (MessFromClient != null) {
-			System.out.println("Message reçu du client : "+clientSock);
-			System.out.println(MessFromClient);
+		DBController DBC = new DBController(Global.dbName);
+		try {
+			String MessFromClient = BuffRead.readLine();
+			if (MessFromClient != null) {
+				//System.out.println("Message reçu du client : "+clientSock);
+				DBC.addMessage(DBC.getIDfromUser(ClientPseudo(), ClientIP()), Global.MPC.nowDate(), MessFromClient, false);
+				if (Global.activeUserChat.equals(ClientPseudo()))
+					Global.MPC.addMessageFrom(MessFromClient, Global.MPC.nowDate());
+				}
+		}catch(IOException e){
+			super.interrupt();
 		}
+		
 		
 		
 	}
@@ -68,15 +87,17 @@ public class MessServWorker extends Thread {
 	
     private void closeEverything(){
         try {
+        	if (clientSock != null){
+                clientSock.close();
+            }
             if (BuffRead != null){
                 BuffRead.close();
+                System.out.println(BuffRead);
             }
             if(this.BuffWrite!= null){
                 BuffWrite.close();
             }
-            if (clientSock != null){
-                clientSock.close();
-            }
+            
         } catch (IOException e) {
             e.printStackTrace();
         }

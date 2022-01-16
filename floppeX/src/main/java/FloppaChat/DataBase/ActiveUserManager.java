@@ -9,11 +9,6 @@ public class ActiveUserManager {
 	public static ObservableList<ActiveUserCustom> Act_User_List = FXCollections.observableArrayList(ActiveUserCustom.extractor());
 	
 	
-	/*public void InitActiveUser(String MyPseudo) {
-		addActiveUser("127.0.0.1",MyPseudo);
-	}*/
-	
-	
 	public void addActiveUser(String IP, String Pseudo) {
 		Platform.runLater(new Runnable() {
 
@@ -90,13 +85,10 @@ public class ActiveUserManager {
 	
 	
 	public boolean CheckPseudoUnicity(String Pseudo) {
-		return !Act_User_List.stream().anyMatch(au -> au.getPseudo().equals(Pseudo)) && !Global.userPseudo.equals(Pseudo);
+		if(Global.BroadServRunning)
+			return !Act_User_List.stream().anyMatch(au -> au.getPseudo().equals(Pseudo)) && !Global.userPseudo.equals(Pseudo);
+		else
+			return !Act_User_List.stream().anyMatch(au -> au.getPseudo().equals(Pseudo));
 	}
-	/*public static void main(String[] args) throws IOException {
-		InitActiveUser("admin");
-		PrintActiveUsers();
-		System.out.println("Adding Viktor...\n");
-		addActiveUser("192.168.1.1", "Viktor");
-		}*/
-		
+
 }

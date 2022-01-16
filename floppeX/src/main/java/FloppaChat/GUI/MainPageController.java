@@ -1,9 +1,13 @@
 package FloppaChat.GUI;
 
 import java.io.IOException;
+import java.net.Socket;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.time.LocalTime;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
 
 import FloppaChat.DataBase.ActiveUser;
 import FloppaChat.DataBase.ActiveUserCustom;
@@ -11,8 +15,13 @@ import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
 import FloppaChat.DataBase.Message;
 import FloppaChat.Network.BroadcastServer;
+import FloppaChat.Network.MessServSender;
+import FloppaChat.Network.MessageClient;
 import FloppaChat.Network.MessageMainServer;
 import FloppaChat.floppeX.App;
+import FloppaChat.Network.MultiClientConnections;
+import FloppaChat.Network.NetInterface;
+//import FloppaChat.Network.BroadcastServer;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,7 +43,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class MainPageController {
+public class MainPageController{
 	
 	private static BroadcastServer broadserv;
 	private static MessageMainServer MainServ;
@@ -48,9 +57,12 @@ public class MainPageController {
 	}
 	
 	public static void stopEverything() {
-		if (broadserv.isAlive())
-			broadserv.interrupt();
+		System.out.println("Stopping everything");
 		MainServ.stopServ();
+		if (Global.BroadServRunning)
+			NetInterface.Disconnect();
+			broadserv.interrupt();
+		
 	}
 	
 	private void processAlert(String message,AlertType type) throws IOException {
@@ -68,8 +80,6 @@ public class MainPageController {
 	    DateTimeFormatter myFormatObj2 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	    return myTimeObj.format(myFormatObj)+" "+myDateObj.format(myFormatObj2);
 	}
-	
-	testList tl = new testList();
 	
 	private DBController dbcontrol = new DBController(Global.dbName);
 	
@@ -96,17 +106,12 @@ public class MainPageController {
 	@FXML private TextField contentMessage;
 	
 	@FXML
-	protected void initialize() throws IOException {
+	public void initialize() {
 		//BroadcastServer Serv = new BroadcastServer();
         //Serv.start();
 		if(pseudotext!=null)
 			pseudotext.setText(Global.userPseudo);
 		if(activeusers!=null) {
-			aUM.addActiveUser("69.69", "Thomas");
-			aUM.addActiveUser("69.69", "Hugo");
-			aUM.addActiveUser("69.69", "Clement");
-			aUM.addActiveUser("69.69", "Chama");
-			aUM.addActiveUser("69.69", "Klem");
 			activeusers.setItems(ActiveUserManager.Act_User_List);
 		}
 		if(activeUserList!=null) {
@@ -116,9 +121,13 @@ public class MainPageController {
 		if (pseudoForeign!=null) 	
 			pseudoForeign.setText(Global.activeUserChat);
 		if (messagelist!=null) {
-			addMessageFrom("Je ne veux pas parler avec toi deso",nowDate());
-			this.fillMessageHistorics();
-		}		
+			try {
+				this.fillMessageHistorics();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Global.MPC = this;
+		}	
 	}
 	
 	private AnchorPane makeUserLabel(String pseudo) throws IOException{
@@ -141,7 +150,6 @@ public class MainPageController {
 	
 	@FXML
 	private void activeUserClicked() throws IOException{
-		aUM.addActiveUser("123.43.4.2", "Gerard");
         if (activeusers.getSelectionModel().getSelectedIndices().size() > 0){
 	            Global.activeUserIndex = (int)activeusers.getSelectionModel().getSelectedIndices().get(0);
 	            String name = getPseudoFromIndex(Global.activeUserIndex);
@@ -162,7 +170,6 @@ public class MainPageController {
 	
 	@FXML
 	private void activeUserClicked2() throws IOException{
-		aUM.addActiveUser("123.43.4.2", "Gerard");
         if (activeUserList.getSelectionModel().getSelectedIndices().size() > 0){
             Global.activeUserIndex = (int)activeUserList.getSelectionModel().getSelectedIndices().get(0);
             String name = getPseudoFromIndex2(Global.activeUserIndex);
@@ -189,7 +196,12 @@ public class MainPageController {
         Label date_t = (Label) labelMessage.getChildren().get(1);
         contenu_t.setText(this.processMessage(cont));
 		date_t.setText(date);
-        messagelist.getChildren().add(label);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+		        messagelist.getChildren().add(label);
+			}
+		});
 	}
 	
 	public String processMessage(String cont) {
@@ -211,6 +223,7 @@ public class MainPageController {
 		addMessage(cont,"sentLabel.fxml",date);
 	}
 	
+	
 	private void fillMessageHistorics() throws IOException{
 		for(Message m : this.dbcontrol.fetchMessagesWithUser(Global.activeUserID)) {
 			System.out.println("Is sent is : "+m.isSent());
@@ -221,12 +234,22 @@ public class MainPageController {
 		}
 	}
 	
+	private void sendMessage(String TargetIP, String Message) {
+		if(MessServSender.isMessServer(TargetIP)) {
+			MessServSender.SendMessToClient(TargetIP, Message);
+		}
+		else {
+			MultiClientConnections.SendMessAsClient(TargetIP,Message);
+		}
+	}
+	
 	@FXML
 	private void sendMessageEnter(KeyEvent keyEvent) throws IOException {
 		if(keyEvent.getCode()== KeyCode.ENTER) {
 			if(contentMessage.getText().equals(""))
 				processAlert("No content",AlertType.ERROR);
 			else {
+				sendMessage(aUM.getActiveUserIP(Global.activeUserChat),contentMessage.getText());
 				dbcontrol.addMessage(Global.activeUserID,nowDate(),contentMessage.getText(),true);
 				addMessageTo(contentMessage.getText(),nowDate());
 				contentMessage.setText("");
@@ -239,6 +262,7 @@ public class MainPageController {
 		if(contentMessage.getText().equals(""))
 			processAlert("No content",AlertType.ERROR);
 		else {
+			sendMessage(aUM.getActiveUserIP(Global.activeUserChat),contentMessage.getText());
 			dbcontrol.addMessage(Global.activeUserID,nowDate(),contentMessage.getText(),true);
 			addMessageTo(contentMessage.getText(),nowDate());
 			contentMessage.setText("");
@@ -254,6 +278,9 @@ public class MainPageController {
 	}
 	
 	
+	/**
+	 * @throws IOException
+	 */
 	@FXML
 	private void backToMainPage() throws IOException {
 		//System.out.println("Back to Main");

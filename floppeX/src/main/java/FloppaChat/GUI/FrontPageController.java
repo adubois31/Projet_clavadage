@@ -53,8 +53,8 @@ public class FrontPageController {
 						Global.userPseudo = typedPseudo;
 						BroadcastServer BS = new BroadcastServer(Global.BroadServNb);
 						MessageMainServer MMS = new MessageMainServer(Global.MessServNb);
-						Global.BroadServRunning=true;
 						MainPageController.startServers(BS,MMS);
+						Global.BroadServRunning=true;
 						App.setRoot("MainPage");
 						App.nextStage();
 					} 

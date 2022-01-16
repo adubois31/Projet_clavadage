@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
 import FloppaChat.GUI.*;
 
@@ -13,6 +14,7 @@ public class MessageClient{
 	private Socket Sock;
     private BufferedReader BuffRead;
     private BufferedWriter BuffWrite;
+    private Thread ThisThread;
     
     public MessageClient(Socket socket){
         try {
@@ -25,6 +27,10 @@ public class MessageClient{
             e.printStackTrace();
             closeEverything();
         }
+    }
+    
+    public String getRemoteIP() {
+    	return Sock.getInetAddress().toString().substring(1);
     }
 
     public void SendMessToServer(String MessToServer){
@@ -40,18 +46,21 @@ public class MessageClient{
     }
 
     public void RecvMessFromServer(){
-
-    	MainPageController MPC = new MainPageController();
+    	ActiveUserManager aUM = new ActiveUserManager();
     	DBController DBC = new DBController(Global.dbName);
-        new Thread(new Runnable(){
+        Thread ThisThread = new Thread(new Runnable(){
             @Override
             public void run(){
                 while (Sock.isConnected()){
                 	System.out.println("Thread started");
                     try {
                         String MessFromServer = BuffRead.readLine();
-                        MPC.addMessageFrom(MessFromServer, MPC.nowDate());
-                        DBC.addMessage(DBC.getIDfromUser(Global.userPseudo, Sock.getInetAddress().toString().substring(1)), MPC.nowDate() , MessFromServer, false);
+                        if ((MessFromServer !=null)||MessFromServer!="") {
+                        	DBC.addMessage(DBC.getIDfromUser(aUM.getActiveUserPseudo(getRemoteIP()), getRemoteIP()), Global.MPC.nowDate() , MessFromServer, false);
+                        	if (Global.activeUserChat.equals(aUM.getActiveUserPseudo(getRemoteIP())))
+                        			Global.MPC.addMessageFrom(MessFromServer, Global.MPC.nowDate());
+                            
+                        }
                     } catch (IOException e) {
                         System.out.println("Erreur réception du message du serveur");
                         e.printStackTrace();
@@ -60,9 +69,11 @@ public class MessageClient{
                     }
                 }
             }
-        }).start();;
+        });
+        ThisThread.start();
     }
     public void EndChat() {
+    	ThisThread.interrupt();
     	closeEverything();
     }
     

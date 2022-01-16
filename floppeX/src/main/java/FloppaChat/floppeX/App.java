@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 import FloppaChat.GUI.MainPageController;
+import FloppaChat.Network.NetInterface;
 
 /**
  * JavaFX App
