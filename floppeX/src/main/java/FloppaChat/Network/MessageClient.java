@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.net.SocketException;
 
 import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
@@ -14,7 +15,8 @@ public class MessageClient{
 	private Socket Sock;
     private BufferedReader BuffRead;
     private BufferedWriter BuffWrite;
-    private Thread ThisThread;
+    private Thread ThisThread = null;
+    private boolean isInterrupting = false;
     
     public MessageClient(Socket socket){
         try {
@@ -48,41 +50,50 @@ public class MessageClient{
     public void RecvMessFromServer(){
     	ActiveUserManager aUM = new ActiveUserManager();
     	DBController DBC = new DBController(Global.dbName);
-        Thread ThisThread = new Thread(new Runnable(){
-            @Override
-            public void run(){
-                while (Sock.isConnected()){
-                	System.out.println("Thread started");
-                    try {
-                        String MessFromServer = BuffRead.readLine();
-                        if (MessFromServer == null)
-                        	break;
-                        if ((MessFromServer !=null)||MessFromServer!="") {
-                        	DBC.addMessage(DBC.getIDfromUser(aUM.getActiveUserPseudo(getRemoteIP()), getRemoteIP()), Global.MPC.nowDate() , MessFromServer, false);
-                        	if (Global.activeUserChat.equals(aUM.getActiveUserPseudo(getRemoteIP())))
-                        			Global.MPC.addMessageFrom(MessFromServer, Global.MPC.nowDate());
-                            
-                        }
-                    } catch (IOException e) {
-                        System.out.println("Erreur réception du message du serveur");
-                        //e.printStackTrace();
-                        EndChat();
-                        closeEverything();
-                        break;
-                    }
-                }
-            }
-        });
-        ThisThread.start();
+    	ThisThread = new Thread(new Runnable(){
+    		@Override
+    		public void run(){
+    			while (Sock.isConnected()&& (!Thread.currentThread().isInterrupted())){
+    				System.out.println("Thread started");
+    				try {
+    					String MessFromServer;
+    					if (( MessFromServer= BuffRead.readLine())==null) {
+    						break;
+    					}
+    					if ((MessFromServer !=null)||MessFromServer!="") {
+    						DBC.addMessage(DBC.getIDfromUser(aUM.getActiveUserPseudo(getRemoteIP()), getRemoteIP()), Global.MPC.nowDate() , MessFromServer, false);
+    						if (Global.activeUserChat.equals(aUM.getActiveUserPseudo(getRemoteIP())))
+    							Global.MPC.addMessageFrom(MessFromServer, Global.MPC.nowDate());
+
+    					}
+    				} catch (IOException e) {
+    					System.out.println("Erreur réception du message du serveur");
+    					if(!isInterrupting)
+    						closeEverything();
+    					break;
+    				}
+    			}
+    		}
+    	});
+    	ThisThread.start();
     }
     public void EndChat() {
-    	if ((ThisThread !=null)&&(ThisThread.isAlive()))
-    		ThisThread.interrupt();
-    	closeEverything();
+    	if ((Thread.currentThread()!=null)&&(!ThisThread.isInterrupted())) {
+    		isInterrupting =true;
+    		Thread.currentThread().interrupt();
+    		closeEverything();
+    		System.out.println("ThisThread : "+Thread.currentThread().isInterrupted());
+    	}
+    		
+    	
     }
     
     private void closeEverything(){
         try {
+        	if (Sock != null){
+                Sock.close();
+                System.out.println("Socket du client : "+Sock);                
+            }
             if (BuffRead != null){
                 BuffRead.close();
                 System.out.println("BuffRead : "+BuffRead);
@@ -91,11 +102,7 @@ public class MessageClient{
                 BuffWrite.close();
                 System.out.println("BuffWrite : "+BuffWrite);
             }
-            if (Sock != null){
-                Sock.close();
-                System.out.println("Socket du client : "+Sock);
-                
-            }
+            
         } catch (IOException e) {
             e.printStackTrace();
         }

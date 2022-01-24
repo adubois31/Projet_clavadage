@@ -60,6 +60,7 @@ public class MainPageController{
 		System.out.println("Stopping everything");
 		MainServ.stopServ();
 		MultiClientConnections.ClosingClients();
+		System.out.println("BroadServRunning = "+Global.BroadServRunning);
 		if (Global.BroadServRunning) {
 			NetInterface.Disconnect();
 			broadserv.interrupt();

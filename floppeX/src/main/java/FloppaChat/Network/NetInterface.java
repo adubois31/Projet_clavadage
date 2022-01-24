@@ -52,31 +52,8 @@ public class NetInterface {
 		Process.setChangePseudoAccepted(true);
 		return ChangePseudoOk;
 	}
-	
-	/*public static String GetIP() throws SocketException {
-		String RetAddr = null;
-        Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
-        for (NetworkInterface netint : Collections.list(nets))
-        	if (netint.getName().equals(MyInterface)) {
-        		RetAddr=GrabIPbyName(netint);	
-        	}
-        return RetAddr;
-            
-    }
 
-    private static String GrabIPbyName (NetworkInterface netint) throws SocketException {
-    	String RetAddr = null;
-        
-        Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
-        for (InetAddress inetAddress : Collections.list(inetAddresses)) {
-        	if (inetAddress instanceof Inet4Address) {
-        		RetAddr = inetAddress.toString().substring(1);
-        		break;
-        	}
-        }
-        return RetAddr;
-     }
-     */
+	
     public static void Disconnect() {
     	BroadcastClient BC = new BroadcastClient(Global.BroadServNb);
 		try {
