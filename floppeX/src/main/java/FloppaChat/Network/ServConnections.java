@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
@@ -41,17 +42,18 @@ public class ServConnections extends Thread{
 		}
 	}
 	
-	public static synchronized void removeClientConnection(MessServWorker Client) {
-		ClientList.remove(Client);
+	public static synchronized void removeClientConnection(Iterator<MessServWorker> itr) {
+		itr.remove();
 	}
 
 	@Override
 	public void interrupt() {
 		System.out.println("Interupting ServMess... ");
-		for (MessServWorker target : ClientList) {
-			System.out.println("Stopping client thread "+target);
+		Iterator<MessServWorker> itr = ClientList.iterator();
+		while(itr.hasNext()) {
+			MessServWorker target = itr.next();
 			target.interrupt();
-			removeClientConnection(target);
+			removeClientConnection(itr);
 		}
 		System.out.println("closed ");
 		super.interrupt();

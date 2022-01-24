@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.util.Iterator;
 
 import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.GUI.Global;
@@ -107,18 +108,23 @@ public class Process {
 			System.out.println(DiscPseudo+" removed from active users");
 			aUM.PrintActiveUsers();
 		}
-		for(MessServWorker Worker : ServConnections.ClientList) {
-			if (Worker.ClientIP().equals(DiscIP)) {
-				Worker.interrupt();
-				ServConnections.ClientList.remove(Worker);
+		Iterator<MessServWorker> Workers = ServConnections.ClientList.iterator();
+		while(Workers.hasNext()) {
+			MessServWorker worker = Workers.next();
+			if (worker.ClientIP().equals(DiscIP)) {
+				worker.interrupt();
+				ServConnections.removeClientConnection(Workers);
 				break;
-			}	
+			}
 		}
+
 		ServConnections.PrintClientList();
-		for (MessageClient Client : MultiClientConnections.ClientConnections) {
-			if(Client.getRemoteIP().equals(DiscIP)) {
-				Client.EndChat();
-				MultiClientConnections.removeClient(Client);
+		Iterator<MessageClient> Clients = MultiClientConnections.ClientConnections.iterator();
+		while(Clients.hasNext()) {
+			MessageClient MC = Clients.next();
+			if (MC.getRemoteIP().equals(DiscIP)) {
+				MC.EndChat();
+				MultiClientConnections.removeClient(Clients);
 				break;
 			}
 		}
