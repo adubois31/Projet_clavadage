@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+import FloppaChat.GUI.Global;
 import FloppaChat.GUI.MainPageController;
 import FloppaChat.Network.NetInterface;
 
@@ -30,7 +31,8 @@ public class App extends Application {
     @Override
     public void stop(){
         System.out.println("Closing App...");
-        MainPageController.stopEverything();
+        if (Global.BroadServRunning)
+        	MainPageController.stopEverything();
     }
     
     public static void nextStage() throws IOException {

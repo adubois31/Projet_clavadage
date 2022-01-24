@@ -15,7 +15,6 @@ public class TestBroadcastServer {
 	static ActiveUserManager aUM= new ActiveUserManager();
 	@Test
 	void TestServer() throws UnknownHostException, IOException {
-		//aUM.InitActiveUser("Floppa");
 		aUM.addActiveUser("192.169.1.1", "Pedro");
 		aUM.PrintActiveUsers();
 		BroadcastServer Serv = new BroadcastServer(6968);
@@ -25,9 +24,6 @@ public class TestBroadcastServer {
         }        
 	}
 	
-	@Test
-	void TestGrabIP() throws SocketException {
-		System.out.println(NetInterface.GetIP());
-	}
+
 	
 }

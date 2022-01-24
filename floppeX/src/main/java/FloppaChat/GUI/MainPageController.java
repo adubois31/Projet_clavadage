@@ -59,9 +59,12 @@ public class MainPageController{
 	public static void stopEverything() {
 		System.out.println("Stopping everything");
 		MainServ.stopServ();
-		if (Global.BroadServRunning)
+		MultiClientConnections.ClosingClients();
+		if (Global.BroadServRunning) {
 			NetInterface.Disconnect();
 			broadserv.interrupt();
+		}
+		System.out.println("End of stopEverything");
 		
 	}
 	
@@ -107,8 +110,6 @@ public class MainPageController{
 	
 	@FXML
 	public void initialize() {
-		//BroadcastServer Serv = new BroadcastServer();
-        //Serv.start();
 		if(pseudotext!=null)
 			pseudotext.setText(Global.userPseudo);
 		if(activeusers!=null) {
@@ -206,11 +207,13 @@ public class MainPageController{
 	
 	public String processMessage(String cont) {
 		String a = "";
-		a+=cont.charAt(0);
-		for (int i=1;i<cont.length();i++) {
-			if (i%45==0)
-				a+="\n";
-			a+=cont.charAt(i);
+		if (cont != null) {
+			a+=cont.charAt(0);
+			for (int i=1;i<cont.length();i++) {
+				if (i%45==0)
+					a+="\n";
+				a+=cont.charAt(i);
+			}
 		}
 		return a;
 	}

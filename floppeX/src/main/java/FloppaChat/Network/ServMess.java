@@ -43,22 +43,25 @@ public class ServMess extends Thread{
 
 	@Override
 	public void interrupt() {
+		System.out.println("Interupting ServMess... ");
 		for (MessServWorker target : ClientList) {
-			if (target.isAlive()) {
-				System.out.println("Stopping client thread "+target);
-				target.interrupt();
-			}
+			System.out.println("Stopping client thread "+target);
+			target.interrupt();
+			ClientList.remove(target);
 		}
-		for (MessServWorker target : ClientList) {
-			if (target.isAlive()) {
-				System.out.println(target+" is alive");
-			}
-		}
+		System.out.println("closed ");
 		super.interrupt();
 		try {
 			ServSock.close();
 		} catch (IOException e) {
-			System.out.println("Closing Serv Message");
+			System.out.println("error closing ServSock");
+		}
+		System.out.println("Closing Serv Message");
+	}
+	
+	public static void PrintClientList() {
+		for (MessServWorker target: ClientList) {
+			System.out.println("Worker alive "+ target);
 		}
 	}
 	
