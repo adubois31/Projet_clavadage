@@ -19,7 +19,7 @@ public class NetInterface {
 	public static boolean ChoosePseudo (String Pseudo) throws UnknownHostException, IOException {
 		BroadcastClient BC = new BroadcastClient(Global.BroadServNb);
 		boolean PseudoOK=true;
-		BC.broadcast(Packet.Hello(Pseudo,NetInterface.GetIP()), InetAddress.getByName(Global.BroadAdress));
+		BC.broadcast(Packet.Hello(Pseudo), InetAddress.getByName(Global.BroadAdress));
 		long start = System.currentTimeMillis();
 		long end = start + 1*1000;
 		while (System.currentTimeMillis() < end) {
@@ -27,9 +27,6 @@ public class NetInterface {
 		    	PseudoOK=false;
 		    	break;
 		    }
-		}
-		if (PseudoOK) {
-			//aUM.InitActiveUser(Pseudo);
 		}
 		aUM.PrintActiveUsers();
 		Process.SetHelloAccepted(true);
@@ -56,7 +53,7 @@ public class NetInterface {
 		return ChangePseudoOk;
 	}
 	
-	public static String GetIP() throws SocketException {
+	/*public static String GetIP() throws SocketException {
 		String RetAddr = null;
         Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
         for (NetworkInterface netint : Collections.list(nets))
@@ -79,6 +76,7 @@ public class NetInterface {
         }
         return RetAddr;
      }
+     */
     public static void Disconnect() {
     	BroadcastClient BC = new BroadcastClient(Global.BroadServNb);
 		try {

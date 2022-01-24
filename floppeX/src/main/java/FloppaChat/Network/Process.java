@@ -39,14 +39,15 @@ public class Process {
 		System.out.println("Flag : "+Split_Answer[0]+" \n");
 		if ((Split_Answer[0]).equals("Hello")) {
 			System.out.println("Processing Hello...\n");
-			processHello(Split_Answer[2],Split_Answer[1],packet,socket);
+			processHello(packet.getAddress().toString().substring(1),Split_Answer[1],packet,socket);
 		}
 		if (Split_Answer[0].equals("Hello_Back")) {
 			System.out.println("Processing Hello_Back...\n");
-			processHelloBack(Split_Answer[1],Split_Answer[2],Split_Answer[3]);
+			processHelloBack(Split_Answer[1],Split_Answer[2],packet.getAddress().toString().substring(1));
 		}
-		if ((Split_Answer[0].equals("Bingus"))) {
-			processDisconnected(packet.getAddress().toString(),Split_Answer[1]);
+		if ((Split_Answer[0].equals("Bingus"))&&(!Global.userPseudo.equals(Split_Answer[1]))) {
+			System.out.println("Processing Bingus...\n");
+			processDisconnected(packet.getAddress().toString().substring(1),Split_Answer[1]);
 		}
 		if((Split_Answer[0].equals("ChangePseudo"))) {
 			processChangePseudo(Split_Answer[1],packet.getAddress().toString(),Split_Answer[2] , packet,socket);
@@ -66,12 +67,12 @@ public class Process {
 	public void processHello(String SenderIP,String Pseudo,DatagramPacket packet,DatagramSocket socket) throws IOException,SocketException {
 		if(aUM.CheckPseudoUnicity(Pseudo)){
 			aUM.addActiveUser(SenderIP, Pseudo);
-			byte[] out_buffer= Packet.HelloBack("Ok",Global.userPseudo,NetInterface.GetIP()).getBytes();
+			byte[] out_buffer= Packet.HelloBack("Ok",Global.userPseudo).getBytes();
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 
 		}
 		else {
-			byte[] out_buffer= Packet.HelloBack("Not_Ok",Global.userPseudo,NetInterface.GetIP()).getBytes();
+			byte[] out_buffer= Packet.HelloBack("Not_Ok",Global.userPseudo).getBytes();
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 		}
 		aUM.PrintActiveUsers();
@@ -100,23 +101,30 @@ public class Process {
 		
 	}
 	public void processDisconnected(String DiscIP,String DiscPseudo) {
-
+		System.out.println("Processing Disconnection of "+DiscPseudo+" IP : "+DiscIP);
 		if(!(aUM.CheckPseudoUnicity(DiscPseudo))){
 			aUM.removeActiveUser(DiscIP, DiscPseudo);
+			System.out.println(DiscPseudo+" removed from active users");
+			aUM.PrintActiveUsers();
 		}
 		for(MessServWorker Worker : ServMess.ClientList) {
 			if (Worker.ClientIP().equals(DiscIP)) {
 				Worker.interrupt();
+				ServMess.ClientList.remove(Worker);
 				break;
 			}	
 		}
-		
+		ServMess.PrintClientList();
 		for (MessageClient Client : MultiClientConnections.ClientConnections) {
 			if(Client.getRemoteIP().equals(DiscIP)) {
 				Client.EndChat();
+				MultiClientConnections.ClientConnections.remove(Client);
 				break;
 			}
 		}
+		MultiClientConnections.PrintingClientConnections();
+		System.out.println("Ending disconnection of "+DiscPseudo);
+		
 	}
 	
 	public void processChangePseudo(String OldPseudo,String ClientIP,String NewPseudo,DatagramPacket packet,DatagramSocket socket) {

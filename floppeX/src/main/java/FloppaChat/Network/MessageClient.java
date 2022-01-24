@@ -55,6 +55,8 @@ public class MessageClient{
                 	System.out.println("Thread started");
                     try {
                         String MessFromServer = BuffRead.readLine();
+                        if (MessFromServer == null)
+                        	break;
                         if ((MessFromServer !=null)||MessFromServer!="") {
                         	DBC.addMessage(DBC.getIDfromUser(aUM.getActiveUserPseudo(getRemoteIP()), getRemoteIP()), Global.MPC.nowDate() , MessFromServer, false);
                         	if (Global.activeUserChat.equals(aUM.getActiveUserPseudo(getRemoteIP())))
@@ -63,7 +65,8 @@ public class MessageClient{
                         }
                     } catch (IOException e) {
                         System.out.println("Erreur réception du message du serveur");
-                        e.printStackTrace();
+                        //e.printStackTrace();
+                        EndChat();
                         closeEverything();
                         break;
                     }
@@ -73,7 +76,8 @@ public class MessageClient{
         ThisThread.start();
     }
     public void EndChat() {
-    	ThisThread.interrupt();
+    	if ((ThisThread !=null)&&(ThisThread.isAlive()))
+    		ThisThread.interrupt();
     	closeEverything();
     }
     
@@ -81,12 +85,16 @@ public class MessageClient{
         try {
             if (BuffRead != null){
                 BuffRead.close();
+                System.out.println("BuffRead : "+BuffRead);
             }
             if(BuffWrite!= null){
                 BuffWrite.close();
+                System.out.println("BuffWrite : "+BuffWrite);
             }
             if (Sock != null){
                 Sock.close();
+                System.out.println("Socket du client : "+Sock);
+                
             }
         } catch (IOException e) {
             e.printStackTrace();

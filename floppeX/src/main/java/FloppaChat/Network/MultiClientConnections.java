@@ -39,5 +39,16 @@ public class MultiClientConnections {
 			
 		}
 	}
+	public static void PrintingClientConnections() {
+		for (MessageClient MC : ClientConnections) {
+			System.out.println("Client Connection is alive : "+MC);
+		}
+	}
+	public static void ClosingClients() {
+		for (MessageClient MC : ClientConnections) {
+			MC.EndChat();
+			ClientConnections.remove(MC);
+		}
+	}
 
 }

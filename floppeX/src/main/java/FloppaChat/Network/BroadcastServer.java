@@ -35,14 +35,14 @@ public class BroadcastServer extends Thread {
     			socket.receive(packet);
     			System.out.println("Packet received");
     			BroadcastServerWorker worker = new BroadcastServerWorker(packet,socket);
-        		worker.start();
-    			} catch (IOException e) {
+    			worker.start();
+    		} catch (IOException e) {
     			System.out.println("Fermeture socket serv broadcast");
     			break;
-    			}
     		}
-    	socket.close();
     	}
+    	socket.close();
     }
+}
     	
 

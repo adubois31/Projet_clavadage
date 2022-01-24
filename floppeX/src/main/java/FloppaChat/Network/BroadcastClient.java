@@ -23,7 +23,7 @@ public class BroadcastClient {
         socket.send(packet);
         
         byte[] buff_answer = new byte[512];
-        socket.setSoTimeout(3000);
+        socket.setSoTimeout(2500);
             
 		 while(true){
 	            try {
