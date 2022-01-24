@@ -3,6 +3,7 @@ package FloppaChat.Network;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
@@ -45,10 +46,19 @@ public class MultiClientConnections {
 		}
 	}
 	public static void ClosingClients() {
-		for (MessageClient MC : ClientConnections) {
+		PrintingClientConnections();
+		Iterator<MessageClient> itr = ClientConnections.iterator();
+		while(itr.hasNext()) {
+			MessageClient MC = itr.next();
+			System.out.println("Interrupting client : "+MC);
 			MC.EndChat();
-			ClientConnections.remove(MC);
+			itr.remove();
 		}
+		
+	}
+	
+	public static synchronized void removeClient(MessageClient MC) {
+		ClientConnections.remove(MC);
 	}
 
 }

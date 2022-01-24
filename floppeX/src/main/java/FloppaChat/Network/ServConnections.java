@@ -9,14 +9,14 @@ import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
 import FloppaChat.GUI.Global;
 
-public class ServMess extends Thread{
+public class ServConnections extends Thread{
 	private int ServPort;
 	private boolean isRunning = true;
 	private ServerSocket ServSock;
 	private ActiveUserManager aUM = new ActiveUserManager();
 	public static ArrayList<MessServWorker> ClientList = new ArrayList<>();
 
-	public ServMess(int Port) {
+	public ServConnections(int Port) {
 		this.ServPort=Port;
 	}
 
@@ -40,6 +40,10 @@ public class ServMess extends Thread{
 		} catch (IOException e) {
 		}
 	}
+	
+	public static synchronized void removeClientConnection(MessServWorker Client) {
+		ClientList.remove(Client);
+	}
 
 	@Override
 	public void interrupt() {
@@ -47,7 +51,7 @@ public class ServMess extends Thread{
 		for (MessServWorker target : ClientList) {
 			System.out.println("Stopping client thread "+target);
 			target.interrupt();
-			ClientList.remove(target);
+			removeClientConnection(target);
 		}
 		System.out.println("closed ");
 		super.interrupt();
@@ -64,6 +68,8 @@ public class ServMess extends Thread{
 			System.out.println("Worker alive "+ target);
 		}
 	}
+	
+	
 	
 	
 }
