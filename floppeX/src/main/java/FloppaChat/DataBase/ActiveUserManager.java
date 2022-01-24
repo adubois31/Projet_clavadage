@@ -29,10 +29,12 @@ public class ActiveUserManager {
 
 			@Override
 			public void run() {
-				ActiveUserCustom AU=new ActiveUserCustom();
-				AU.IP.set(IP);
-				AU.pseudo.set(Pseudo);
-				Act_User_List.remove(AU);
+				for(ActiveUserCustom AU : Act_User_List) {
+					if(AU.getIP().equals(IP) && AU.getPseudo().equals(Pseudo)) {
+						Act_User_List.remove(AU);
+						break;
+					}
+				}
 			}
 		});
 	}
