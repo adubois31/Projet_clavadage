@@ -107,18 +107,18 @@ public class Process {
 			System.out.println(DiscPseudo+" removed from active users");
 			aUM.PrintActiveUsers();
 		}
-		for(MessServWorker Worker : ServMess.ClientList) {
+		for(MessServWorker Worker : ServConnections.ClientList) {
 			if (Worker.ClientIP().equals(DiscIP)) {
 				Worker.interrupt();
-				ServMess.ClientList.remove(Worker);
+				ServConnections.ClientList.remove(Worker);
 				break;
 			}	
 		}
-		ServMess.PrintClientList();
+		ServConnections.PrintClientList();
 		for (MessageClient Client : MultiClientConnections.ClientConnections) {
 			if(Client.getRemoteIP().equals(DiscIP)) {
 				Client.EndChat();
-				MultiClientConnections.ClientConnections.remove(Client);
+				MultiClientConnections.removeClient(Client);
 				break;
 			}
 		}

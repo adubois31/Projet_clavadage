@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Test;
 
 
 public class TestServMess {
-	static ServMess SMess;
+	static ServConnections SMess;
 	@BeforeAll
 	static void init() throws IOException {
 		//MS = new MessageServer(ServSock);
-		ServMess SMess = new ServMess(9696);
+		ServConnections SMess = new ServConnections(9696);
 		SMess.run();
 		System.out.println("Ending init");
 
