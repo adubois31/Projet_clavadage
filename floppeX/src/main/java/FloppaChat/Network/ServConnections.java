@@ -48,6 +48,8 @@ public class ServConnections extends Thread{
 
 	@Override
 	public void interrupt() {
+		PrintClientList();
+		System.out.println("----------------------------------------");
 		System.out.println("Interupting ServMess... ");
 		Iterator<MessServWorker> itr = ClientList.iterator();
 		while(itr.hasNext()) {
@@ -55,19 +57,24 @@ public class ServConnections extends Thread{
 			target.interrupt();
 			removeClientConnection(itr);
 		}
-		System.out.println("closed ");
-		super.interrupt();
+		PrintClientList();
+		
 		try {
 			ServSock.close();
 		} catch (IOException e) {
 			System.out.println("error closing ServSock");
 		}
+		System.out.println("Connection to the server who survived : ");
+		PrintClientList();
+		System.out.println("---------------------------------------");
 		System.out.println("Closing Serv Message");
+		Thread.currentThread().interrupt();
+		System.out.println("Interrupting thread "+Thread.currentThread().isInterrupted());
 	}
 	
 	public static void PrintClientList() {
 		for (MessServWorker target: ClientList) {
-			System.out.println("Worker alive "+ target);
+			System.out.println("Worker alive "+ target+" "+target.ClientIP());
 		}
 	}
 	

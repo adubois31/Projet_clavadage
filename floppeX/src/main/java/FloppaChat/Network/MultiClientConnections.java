@@ -54,7 +54,8 @@ public class MultiClientConnections {
 			MC.EndChat();
 			removeClient(itr);
 		}
-		
+		System.out.println("Clients who survived :");
+		PrintingClientConnections();
 	}
 	
 	public static synchronized void removeClient(Iterator<MessageClient> itr) {

@@ -1,40 +1,31 @@
 package FloppaChat.GUI;
 
 import java.io.IOException;
-import java.net.Socket;
-import java.net.URL;
-import java.net.UnknownHostException;
+
 import java.time.LocalTime;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ResourceBundle;
 
-import FloppaChat.DataBase.ActiveUser;
 import FloppaChat.DataBase.ActiveUserCustom;
 import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
 import FloppaChat.DataBase.Message;
 import FloppaChat.Network.BroadcastServer;
 import FloppaChat.Network.MessServSender;
-import FloppaChat.Network.MessageClient;
 import FloppaChat.Network.MessageMainServer;
 import FloppaChat.floppeX.App;
 import FloppaChat.Network.MultiClientConnections;
 import FloppaChat.Network.NetInterface;
 //import FloppaChat.Network.BroadcastServer;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -66,7 +57,7 @@ public class MainPageController{
 			broadserv.interrupt();
 		}
 		System.out.println("End of stopEverything");
-		
+		System.out.println("BroadServRunning = "+Global.BroadServRunning);
 	}
 	
 	private void processAlert(String message,AlertType type) throws IOException {

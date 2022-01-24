@@ -20,9 +20,9 @@ public class BroadcastServer extends Thread {
     
     @Override
     public void interrupt() {
-    	super.interrupt();
     	Global.BroadServRunning=false;
     	socket.close();
+    	Thread.currentThread().interrupt();
     }
     @Override
     public void run() {

@@ -10,7 +10,6 @@ import java.net.Socket;
 import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
 import FloppaChat.GUI.Global;
-import FloppaChat.GUI.MainPageController;
 
 public class MessServWorker extends Thread {
 	
@@ -29,7 +28,6 @@ public class MessServWorker extends Thread {
 	public void run() {
 		while(this.clientSock.isConnected()) {
 			try {
-				
 				RecvMessFromClient();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -40,9 +38,11 @@ public class MessServWorker extends Thread {
 	
 	@Override
 	public void interrupt() {
-		super.interrupt();
-		System.out.println("Interrupting client thread");
+		System.out.println("Interrupting client thread "+Thread.currentThread().isInterrupted());
 		closeEverything();
+		super.interrupt();
+		Thread.currentThread().interrupt();
+		System.out.println("Interrupting client thread "+Thread.currentThread().getId());
 	}
 	
 	public String ClientIP() {
@@ -60,7 +60,6 @@ public class MessServWorker extends Thread {
 		try {
 			String MessFromClient = BuffRead.readLine();
 			if (MessFromClient != null) {
-				//System.out.println("Message reçu du client : "+clientSock);
 				DBC.addMessage(DBC.getIDfromUser(ClientPseudo(), ClientIP()), Global.MPC.nowDate(), MessFromClient, false);
 				if (Global.activeUserChat.equals(ClientPseudo()))
 					Global.MPC.addMessageFrom(MessFromClient, Global.MPC.nowDate());
