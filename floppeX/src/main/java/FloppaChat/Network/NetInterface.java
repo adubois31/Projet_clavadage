@@ -34,14 +34,14 @@ public class NetInterface {
 		boolean ChangePseudoOk =true;
 		BroadcastClient BC = new BroadcastClient(Global.BroadServNb);
 		BC.broadcast(Packet.ChangePseudo(OldPseudo, NewPseudo), InetAddress.getByName(Global.BroadAdress));
-		long start = System.currentTimeMillis();
+		/*long start = System.currentTimeMillis();
 		long end = start + broadSecond*1000;
 		while (System.currentTimeMillis() < end) {
 			if(!(Process.getChangePseudoAccepted())) {
 				ChangePseudoOk=false;
 				break;
 			}
-		}
+		}*/
 		System.out.println("Compteur fini "+ChangePseudoOk);
 		if (ChangePseudoOk) {
 			//db.changePseudo(NewPseudo,db.getIDfromUser(OldPseudo, ));

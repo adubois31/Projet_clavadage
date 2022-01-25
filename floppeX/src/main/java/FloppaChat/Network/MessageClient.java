@@ -14,6 +14,7 @@ public class MessageClient{
     private BufferedReader BuffRead;
     private BufferedWriter BuffWrite;
     private Thread ThisThread = null;
+    private static int Count = 1;
     private boolean isInterrupting = false;
     
     public MessageClient(Socket socket){
@@ -72,6 +73,8 @@ public class MessageClient{
     			}
     		}
     	});
+    	ThisThread.setName("Client Connection n° "+Count);
+    	Count++;
     	ThisThread.start();
     }
     
