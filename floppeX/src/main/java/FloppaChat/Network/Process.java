@@ -71,6 +71,7 @@ public class Process {
 		
 		case "ConfirmedNewPseudo":
 			processConfirmedNewPseudo(pseudoSubject1,IPSubject,packet,socket);
+			break;
 		
 		case "ACK":
 			processAck(pseudoSubject1);
