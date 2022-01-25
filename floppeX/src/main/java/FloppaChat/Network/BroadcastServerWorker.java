@@ -13,6 +13,7 @@ public class BroadcastServerWorker extends Thread{
 		this.packet=packet;
 		this.socket=socket;
 	}
+	
 	@Override
 	public void run() {
 		System.out.println("Worker started");
@@ -27,7 +28,5 @@ public class BroadcastServerWorker extends Thread{
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-    	
     }
-
 }

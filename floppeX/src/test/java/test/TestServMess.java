@@ -1,12 +1,8 @@
 package test;
 import FloppaChat.Network.*;
-
 import java.io.IOException;
-import java.net.ServerSocket;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 
 public class TestServMess {
 	static ServConnections SMess;
@@ -18,23 +14,19 @@ public class TestServMess {
 		System.out.println("Ending init");
 
 	}
-	
+
 	@Test
 	void testMessClientToServer() {
 		while (true) {
-			
+
 		}
-		
+
 	}
-	
+
 	@Test
 	void testMessServerToClient() {
 		MessServSender.SendMessToClient("Hello there", "10.1.5.233");
 		MessServSender.SendMessToClient("General Kenoni","10.1.5.233");
 		assert(true);
 	}
-	
-	
-	
-
 }
