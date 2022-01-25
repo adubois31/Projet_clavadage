@@ -34,7 +34,6 @@ public class App extends Application {
         System.out.println("Closing App...");
         if (Global.BroadServRunning)
         	MainPageController.stopEverything();
-        Platform.exit();
     }
     
     public static void nextStage() throws IOException {
