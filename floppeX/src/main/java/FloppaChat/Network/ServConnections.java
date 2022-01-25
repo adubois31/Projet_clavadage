@@ -16,6 +16,7 @@ public class ServConnections extends Thread{
 	private ServerSocket ServSock;
 	private ActiveUserManager aUM = new ActiveUserManager();
 	public static ArrayList<MessServWorker> ClientList = new ArrayList<>();
+	private static int Count = 1;
 
 	public ServConnections(int Port) {
 		this.ServPort=Port;
@@ -34,9 +35,10 @@ public class ServConnections extends Thread{
 				String ClientIP = clientSock.getInetAddress().toString().substring(1);
 				DBC.createUser(aUM.getActiveUserPseudo(ClientIP), ClientIP);
 				MessServWorker Client = new MessServWorker(clientSock);
+				Client.setName("Client n° "+Count);
+				Count++;
 				Client.start();
 				ClientList.add(Client);
-				System.out.println("Client thread : "+Client.getId());
 				PrintClientList();
 			}
 			ServSock.close();
