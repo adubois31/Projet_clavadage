@@ -11,7 +11,7 @@ import FloppaChat.DataBase.DBController;
 import FloppaChat.GUI.Global;
 
 public class MessServWorker extends Thread {
-
+	private boolean isRunning = true;
 	private Socket clientSock;
 	private BufferedReader BuffRead;
 	private BufferedWriter BuffWrite;
@@ -24,7 +24,7 @@ public class MessServWorker extends Thread {
 
 	@Override
 	public void run() {
-		while(clientSock.isConnected()) {
+		while(clientSock.isConnected()&&isRunning) {
 			try {
 				RecvMessFromClient();
 			} catch (IOException e) {
@@ -37,6 +37,7 @@ public class MessServWorker extends Thread {
 
 	@Override
 	public void interrupt() {
+		isRunning=false;
 		closeEverything();
 		System.out.println("Interrupting client thread "+super.getId());
 		super.interrupt();
