@@ -112,6 +112,7 @@ public class Process {
 		while(Workers.hasNext()) {
 			MessServWorker worker = Workers.next();
 			if (worker.ClientIP().equals(DiscIP)) {
+				System.out.println("Interrutping worker : "+worker);
 				worker.interrupt();
 				ServConnections.removeClientConnection(Workers);
 				break;

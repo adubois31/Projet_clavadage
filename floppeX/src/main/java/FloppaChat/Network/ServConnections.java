@@ -34,8 +34,10 @@ public class ServConnections extends Thread{
 				String ClientIP = clientSock.getInetAddress().toString().substring(1);
 				DBC.createUser(aUM.getActiveUserPseudo(ClientIP), ClientIP);
 				MessServWorker Client = new MessServWorker(clientSock);
-				ClientList.add(Client);
 				Client.start();
+				ClientList.add(Client);
+				System.out.println("Client thread : "+Client.getId());
+				PrintClientList();
 			}
 			ServSock.close();
 		} catch (IOException e) {
@@ -54,6 +56,7 @@ public class ServConnections extends Thread{
 		Iterator<MessServWorker> itr = ClientList.iterator();
 		while(itr.hasNext()) {
 			MessServWorker target = itr.next();
+			System.out.println("Interupting Client Thread : "+target.getId());
 			target.interrupt();
 			removeClientConnection(itr);
 		}
@@ -64,12 +67,10 @@ public class ServConnections extends Thread{
 		} catch (IOException e) {
 			System.out.println("error closing ServSock");
 		}
-		System.out.println("Connection to the server who survived : ");
-		PrintClientList();
 		System.out.println("---------------------------------------");
 		System.out.println("Closing Serv Message");
-		Thread.currentThread().interrupt();
-		System.out.println("Interrupting thread "+Thread.currentThread().isInterrupted());
+		super.interrupt();
+		System.out.println("Interrupting thread "+super.getId());
 	}
 	
 	public static void PrintClientList() {

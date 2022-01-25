@@ -1,6 +1,7 @@
 package FloppaChat.floppeX;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,6 +34,7 @@ public class App extends Application {
         System.out.println("Closing App...");
         if (Global.BroadServRunning)
         	MainPageController.stopEverything();
+        Platform.exit();
     }
     
     public static void nextStage() throws IOException {

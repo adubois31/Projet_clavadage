@@ -26,11 +26,12 @@ public class MessServWorker extends Thread {
 	
 	@Override
 	public void run() {
-		while(this.clientSock.isConnected()) {
+		while(clientSock.isConnected()) {
 			try {
 				RecvMessFromClient();
 			} catch (IOException e) {
 				e.printStackTrace();
+				break;
 			}
 		}
 		closeEverything();
@@ -38,11 +39,11 @@ public class MessServWorker extends Thread {
 	
 	@Override
 	public void interrupt() {
-		System.out.println("Interrupting client thread "+Thread.currentThread().isInterrupted());
 		closeEverything();
+		System.out.println("Interrupting client thread "+super.getId());
 		super.interrupt();
-		Thread.currentThread().interrupt();
-		System.out.println("Interrupting client thread "+Thread.currentThread().getId());
+		System.out.println("Client thread status : "+super.getState());
+		System.out.println("Client thread status : "+super.isInterrupted());
 	}
 	
 	public String ClientIP() {
@@ -57,14 +58,18 @@ public class MessServWorker extends Thread {
 
 	private void RecvMessFromClient() throws IOException {
 		DBController DBC = new DBController(Global.dbName);
+		DBC.createUser(ClientPseudo(), ClientIP());
 		try {
 			String MessFromClient = BuffRead.readLine();
 			if (MessFromClient != null) {
-				DBC.addMessage(DBC.getIDfromUser(ClientPseudo(), ClientIP()), Global.MPC.nowDate(), MessFromClient, false);
+				int dbID = DBC.getIDfromUser(ClientPseudo(), ClientIP());
+				DBC.addMessage(dbID, Global.MPC.nowDate(), MessFromClient, false);
 				if (Global.activeUserChat.equals(ClientPseudo()))
 					Global.MPC.addMessageFrom(MessFromClient, Global.MPC.nowDate());
 				}
-		}catch(IOException e){
+		}catch(IOException | NullPointerException e){
+			System.out.println(e.getMessage());
+			System.out.println("Error RcvMessFromClient");
 			super.interrupt();
 		}
 		
