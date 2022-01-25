@@ -2,6 +2,8 @@ package FloppaChat.GUI;
 
 import java.io.IOException;
 
+import FloppaChat.Network.BroadcastServer;
+import FloppaChat.Network.MessageMainServer;
 import FloppaChat.Network.NetInterface;
 import FloppaChat.floppeX.App;
 import javafx.fxml.FXML;
@@ -21,7 +23,6 @@ public class FrontPageController {
 			App.setRoot("FloppaFrontPage");
 		}
 	}
-
 	
 	@FXML private TextField pseudo;
 	
@@ -33,20 +34,38 @@ public class FrontPageController {
 				processAlert("You can't choose the pseudo of god",AlertType.WARNING);
 			} else if(typedPseudo.equals("")) {
 				processAlert("No pseudo written",AlertType.ERROR);
-			}else {
-				//if(NetInterface.ChoosePseudo(typedPseudo)) {
-					Global.userPseudo = typedPseudo;
-					App.setRoot("MainPage");
-					App.nextStage();
-				/*} else {
-					processAlert("Pseudo already taken",AlertType.ERROR);
-				}*/
+			} else {
+				if (Global.BroadServRunning) {
+					if (NetInterface.ChangePseudo(Global.userPseudo,typedPseudo )) {
+						Global.userPseudo=typedPseudo;
+						App.setRoot("MainPage");
+						App.nextStage();
+					}
+					else 
+					{
+						processAlert("Pseudo already taken",AlertType.ERROR);
+					}
+				}
+				else 
+				{
+					if(NetInterface.ChoosePseudo(typedPseudo)) {
+						Global.userPseudo = typedPseudo;
+						BroadcastServer BS = new BroadcastServer(Global.BroadServNb);
+						MessageMainServer MMS = new MessageMainServer(Global.MessServNb);
+						MainPageController.startServers(BS,MMS);
+						Global.BroadServRunning=true;
+						App.setRoot("MainPage");
+						App.nextStage();
+					} 
+					else {
+						processAlert("Pseudo already taken",AlertType.ERROR);
+					}
+				}
 			}
-			//Envoyer broadcast à tout le monde avec pseudo
 		} else {
 			System.out.println("Wrong key pressed.");
 		}
-    }
+	}
 		
 	public static void errorPseudo(String pseudo) throws IOException{
 		Alert alert = new Alert(AlertType.ERROR, "Pseudo already taken : "+pseudo,ButtonType.OK);
@@ -57,3 +76,4 @@ public class FrontPageController {
 	}
 
 }
+

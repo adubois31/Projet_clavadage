@@ -1,24 +1,22 @@
 package FloppaChat.floppeX;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
-import FloppaChat.Network.MessageServer;
+import FloppaChat.GUI.Global;
+import FloppaChat.GUI.MainPageController;
 
-/**
- * JavaFX App
- */
 public class App extends Application {
 
-    private static Scene scene;
-    
+    private static Scene scene; 
     private static Stage stageMod;
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(@SuppressWarnings("exports") Stage stage) throws IOException {
     	stageMod=stage;
         scene = new Scene(loadFXML("FloppaFrontPage"), 640, 480);
         stageMod.setScene(scene);
@@ -28,11 +26,12 @@ public class App extends Application {
     @Override
     public void stop(){
         System.out.println("Closing App...");
+        if (Global.BroadServRunning)
+        	MainPageController.stopEverything();
     }
     
     public static void nextStage() throws IOException {
     	stageMod.close();
-    	//System.out.println("Le problème est ")
     	stageMod = new Stage();
     	scene = new Scene(loadFXML("MainPage"), 850, 682);
     	stageMod.setScene(scene);
