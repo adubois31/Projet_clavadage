@@ -23,7 +23,6 @@ public class FrontPageController {
 			App.setRoot("FloppaFrontPage");
 		}
 	}
-
 	
 	@FXML private TextField pseudo;
 	
@@ -63,7 +62,6 @@ public class FrontPageController {
 					}
 				}
 			}
-			//Envoyer broadcast à tout le monde avec pseudo
 		} else {
 			System.out.println("Wrong key pressed.");
 		}
