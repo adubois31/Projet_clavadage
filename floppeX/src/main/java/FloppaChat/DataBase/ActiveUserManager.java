@@ -77,7 +77,7 @@ public class ActiveUserManager {
 		return Act_User_List.stream().anyMatch(au -> au.getPseudo().equals(pseudo));
 	}
 
-	public void PrintActiveUsers() {
+	public synchronized void PrintActiveUsers() {
 		for(ActiveUserCustom au : Act_User_List){
 			System.out.println("Pseudo : "+au.getPseudo()+" IP : "+au.getIP()+"\n");
 		}
