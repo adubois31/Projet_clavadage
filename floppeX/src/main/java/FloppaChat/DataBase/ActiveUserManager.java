@@ -7,8 +7,7 @@ import javafx.collections.ObservableList;
 
 public class ActiveUserManager {
 	public static ObservableList<ActiveUserCustom> Act_User_List = FXCollections.observableArrayList(ActiveUserCustom.extractor());
-	
-	
+
 	public void addActiveUser(String IP, String Pseudo) {
 		Platform.runLater(new Runnable() {
 
@@ -23,7 +22,7 @@ public class ActiveUserManager {
 			}
 		});
 	}
-	
+
 	public void removeActiveUser(String IP, String Pseudo) {
 		Platform.runLater(new Runnable() {
 
@@ -38,15 +37,15 @@ public class ActiveUserManager {
 			}
 		});
 	}
-	
+
 	public String getActiveUserIP(String ActiveUser_Pseudo) {
 		return Act_User_List.stream()
-		.filter(a -> a.getPseudo().equals(ActiveUser_Pseudo))
-		.map(ActiveUserCustom::getIP)
-		.findFirst()
-		.get();
+				.filter(a -> a.getPseudo().equals(ActiveUser_Pseudo))
+				.map(ActiveUserCustom::getIP)
+				.findFirst()
+				.get();
 	}
-	
+
 	public String getActiveUserPseudo(String ActiveUser_IP) {
 		return Act_User_List.stream()
 				.filter(a -> a.getIP().equals(ActiveUser_IP))
@@ -54,7 +53,7 @@ public class ActiveUserManager {
 				.findFirst()
 				.get();	
 	}
-	
+
 	public void UpdateActiveUserPseudo(String IP, String NewPseudo) {
 		Platform.runLater(new Runnable() {
 
@@ -73,24 +72,20 @@ public class ActiveUserManager {
 			}
 		});	
 	}
-	
+
 	public boolean pseudoExists(String pseudo) {
 		return Act_User_List.stream().anyMatch(au -> au.getPseudo().equals(pseudo));
 	}
-	
+
 	public void PrintActiveUsers() {
 		for(ActiveUserCustom au : Act_User_List){
 			System.out.println("Pseudo : "+au.getPseudo()+" IP : "+au.getIP()+"\n");
-	    }
+		}
 	}
-	
-	
-	
+
 	public boolean CheckPseudoUnicity(String Pseudo) {
 		if(Global.BroadServRunning)
 			return !Act_User_List.stream().anyMatch(au -> au.getPseudo().equals(Pseudo)) && !Global.userPseudo.equals(Pseudo);
-		else
-			return !Act_User_List.stream().anyMatch(au -> au.getPseudo().equals(Pseudo));
+		return !Act_User_List.stream().anyMatch(au -> au.getPseudo().equals(Pseudo));
 	}
-
 }

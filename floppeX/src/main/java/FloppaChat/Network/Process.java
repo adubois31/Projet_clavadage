@@ -17,7 +17,7 @@ public class Process {
 	public static boolean getChangePseudoAccepted() {
 		return ChangePseudoAccepted;
 	}
-	public static  void setChangePseudoAccepted(boolean Val) {
+	public static void setChangePseudoAccepted(boolean Val) {
 		ChangePseudoAccepted=Val;
 	}
 
@@ -37,45 +37,53 @@ public class Process {
 		String received= new String(packet.getData(), 0, packet.getLength());
 		String[] Split_Answer = received.split("\\|");
 		String Flag = Split_Answer[0];
+		String pseudoSubject1 = Split_Answer[1];
+		String pseudoSubject2 = Split_Answer[2];
+		String IPSubject = packet.getAddress().toString().substring(1);
 		System.out.println("Flag : "+Flag+" \n");
+		
 		switch(Flag) {
+		
 		case "Hello":
 			System.out.println("Processing Hello...\n");
-			processHello(packet.getAddress().toString().substring(1),Split_Answer[1],packet,socket);
+			processHello(IPSubject,pseudoSubject1,packet,socket);
 			break;
+		
 		case "Hello_Back":
 			System.out.println("Processing Hello_Back...\n");
-			processHelloBack(Split_Answer[1],Split_Answer[2],packet.getAddress().toString().substring(1));
+			processHelloBack(pseudoSubject1,pseudoSubject2,IPSubject);
 			break;
+		
 		case "Bingus":
-			if(!Global.userPseudo.equals(Split_Answer[1])) {
+			if(!Global.userPseudo.equals(pseudoSubject1)) {
 				System.out.println("Processing Bingus...\n");
-				processDisconnected(packet.getAddress().toString().substring(1),Split_Answer[1]);
+				processDisconnected(IPSubject,pseudoSubject1);
 			}
 			break;
+		
 		case "ChangePseudo":
-			processChangePseudo(Split_Answer[1],packet.getAddress().toString(),Split_Answer[2] , packet,socket);
+			processChangePseudo(pseudoSubject1,IPSubject,pseudoSubject2,packet,socket);
 			break;
+		
 		case "ChangePseudoAns":
-			processChangePseudoAns(Split_Answer[1],Split_Answer[2],packet.getAddress().toString().substring(1));
+			processChangePseudoAns(pseudoSubject1,pseudoSubject2,IPSubject);
 			break;
+		
 		case "ConfirmedNewPseudo":
-			processConfirmedNewPseudo(Split_Answer[1],packet.getAddress().toString().substring(1),packet,socket);
+			processConfirmedNewPseudo(pseudoSubject1,IPSubject,packet,socket);
+		
 		case "ACK":
-			processAck(Split_Answer[1]);
+			processAck(pseudoSubject1);
 			break;
 		}
 	}
-
 
 	public void processHello(String SenderIP,String Pseudo,DatagramPacket packet,DatagramSocket socket) throws IOException,SocketException {
 		if(aUM.CheckPseudoUnicity(Pseudo)){
 			aUM.addActiveUser(SenderIP, Pseudo);
 			byte[] out_buffer= Packet.HelloBack("Ok",Global.userPseudo).getBytes();
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
-
-		}
-		else {
+		} else {
 			byte[] out_buffer= Packet.HelloBack("Not_Ok",Global.userPseudo).getBytes();
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 		}
@@ -85,9 +93,7 @@ public class Process {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
-
 
 	public void processHelloBack(String Check,String SenderPseudo,String SenderIP) throws IOException {
 		System.out.println("Sender Pseudo "+SenderPseudo);
@@ -95,15 +101,14 @@ public class Process {
 			aUM.addActiveUser(SenderIP, SenderPseudo);	
 		}
 		if(Check.equals("Ok")) {
-
 			HelloAccepted = HelloAccepted && true;
-
 		}
 		else {
 			HelloAccepted = HelloAccepted && false;
 		}
 
 	}
+	
 	public void processDisconnected(String DiscIP,String DiscPseudo) {
 		System.out.println("Processing Disconnection of "+DiscPseudo+" IP : "+DiscIP);
 		if(!(aUM.CheckPseudoUnicity(DiscPseudo))){
@@ -128,7 +133,6 @@ public class Process {
 		}
 		MultiClientConnections.PrintingClientConnections();
 		System.out.println("Ending disconnection of "+DiscPseudo);
-
 	}
 
 	public void processChangePseudo(String OldPseudo,String ClientIP,String NewPseudo,DatagramPacket packet,DatagramSocket socket) {
@@ -150,7 +154,6 @@ public class Process {
 	public void processChangePseudoAns(String Check,String SenderPseudo, String SenderIP) {
 		if(aUM.CheckPseudoUnicity(SenderPseudo)) {
 			aUM.addActiveUser(SenderIP, SenderPseudo);
-
 		}
 		if(Check.equals("New_OK")) {
 			ChangePseudoAccepted = ChangePseudoAccepted && true;
@@ -176,7 +179,4 @@ public class Process {
 		Global.userPseudo = NewPseudo;
 		aUM.PrintActiveUsers();
 	}
-
-
-
 }

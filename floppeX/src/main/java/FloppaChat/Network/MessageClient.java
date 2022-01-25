@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.net.SocketException;
-
 import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
 import FloppaChat.GUI.*;
@@ -64,7 +62,6 @@ public class MessageClient{
     						DBC.addMessage(DBC.getIDfromUser(aUM.getActiveUserPseudo(getRemoteIP()), getRemoteIP()), Global.MPC.nowDate() , MessFromServer, false);
     						if (Global.activeUserChat.equals(aUM.getActiveUserPseudo(getRemoteIP())))
     							Global.MPC.addMessageFrom(MessFromServer, Global.MPC.nowDate());
-
     					}
     				} catch (IOException e) {
     					System.out.println("Erreur réception du message du serveur");
@@ -77,15 +74,14 @@ public class MessageClient{
     	});
     	ThisThread.start();
     }
+    
     public void EndChat() {
     	if ((Thread.currentThread()!=null)&&(!ThisThread.isInterrupted())) {
     		isInterrupting =true;
     		Thread.currentThread().interrupt();
     		closeEverything();
     		System.out.println("ThisThread : "+Thread.currentThread().isInterrupted());
-    	}
-    		
-    	
+    	}	
     }
     
     private void closeEverything(){

@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="floppeX">
+    <property environment="env"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="11"/>
+    <property name="source" value="11"/>
+    <path id="Maven Dependencies.libraryclasspath">
+        <pathelement location="../../../../.m2/repository/org/openjfx/javafx-controls/17.0.1/javafx-controls-17.0.1.jar"/>
+        <pathelement location="../../../../.m2/repository/org/openjfx/javafx-controls/17.0.1/javafx-controls-17.0.1-mac.jar"/>
+        <pathelement location="../../../../.m2/repository/org/openjfx/javafx-graphics/17.0.1/javafx-graphics-17.0.1.jar"/>
+        <pathelement location="../../../../.m2/repository/org/openjfx/javafx-graphics/17.0.1/javafx-graphics-17.0.1-mac.jar"/>
+        <pathelement location="../../../../.m2/repository/org/openjfx/javafx-base/17.0.1/javafx-base-17.0.1.jar"/>
+        <pathelement location="../../../../.m2/repository/org/openjfx/javafx-base/17.0.1/javafx-base-17.0.1-mac.jar"/>
+        <pathelement location="../../../../.m2/repository/org/openjfx/javafx-fxml/17.0.1/javafx-fxml-17.0.1.jar"/>
+        <pathelement location="../../../../.m2/repository/org/openjfx/javafx-fxml/17.0.1/javafx-fxml-17.0.1-mac.jar"/>
+        <pathelement location="../../../../.m2/repository/org/testfx/testfx-core/4.0.16-alpha/testfx-core-4.0.16-alpha.jar"/>
+        <pathelement location="../../../../.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+        <pathelement location="../../../../.m2/repository/org/assertj/assertj-core/3.13.2/assertj-core-3.13.2.jar"/>
+        <pathelement location="../../../../.m2/repository/org/testfx/testfx-junit/4.0.15-alpha/testfx-junit-4.0.15-alpha.jar"/>
+        <pathelement location="../../../../.m2/repository/junit/junit/4.12/junit-4.12.jar"/>
+    </path>
+    <path id="JUnit 5.libraryclasspath">
+        <pathelement location="../../../../.p2/pool/plugins/org.junit.jupiter.api_5.7.1.v20210222-1948.jar"/>
+        <pathelement location="../../../../.p2/pool/plugins/org.junit.jupiter.engine_5.7.1.v20210222-1948.jar"/>
+        <pathelement location="../../../../.p2/pool/plugins/org.junit.jupiter.migrationsupport_5.7.1.v20210222-1948.jar"/>
+        <pathelement location="../../../../.p2/pool/plugins/org.junit.jupiter.params_5.7.1.v20210222-1948.jar"/>
+        <pathelement location="../../../../.p2/pool/plugins/org.junit.platform.commons_1.7.1.v20210222-1948.jar"/>
+        <pathelement location="../../../../.p2/pool/plugins/org.junit.platform.engine_1.7.1.v20210222-1948.jar"/>
+        <pathelement location="../../../../.p2/pool/plugins/org.junit.platform.launcher_1.7.1.v20210222-1948.jar"/>
+        <pathelement location="../../../../.p2/pool/plugins/org.junit.platform.runner_1.7.1.v20210222-1948.jar"/>
+        <pathelement location="../../../../.p2/pool/plugins/org.junit.platform.suite.api_1.7.1.v20210222-1948.jar"/>
+        <pathelement location="../../../../.p2/pool/plugins/org.junit.vintage.engine_5.7.1.v20210222-1948.jar"/>
+        <pathelement location="../../../../.p2/pool/plugins/org.opentest4j_1.2.0.v20190826-0900.jar"/>
+        <pathelement location="../../../../.p2/pool/plugins/org.apiguardian_1.1.0.v20190826-0900.jar"/>
+        <pathelement location="../../../../.p2/pool/plugins/org.junit_4.13.0.v20200204-1500.jar"/>
+        <pathelement location="../../../../.p2/pool/plugins/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+    </path>
+    <path id="floppeX.classpath">
+        <pathelement location="target/classes"/>
+        <pathelement location="target/test-classes"/>
+        <pathelement location="src/main/resources/FloppaChat/floppeX/sqlite-jdbc-3.36.0.3.jar"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <path refid="JUnit 5.libraryclasspath"/>
+    </path>
+    <path id="run.dbTest.classpath">
+        <path refid="floppeX.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <pathelement location="src/main/resources/FloppaChat/floppeX/sqlite-jdbc-3.36.0.3.jar"/>
+    </path>
+    <path id="run.dbTest.createfileTest.classpath">
+        <path refid="floppeX.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <pathelement location="src/main/resources/FloppaChat/floppeX/sqlite-jdbc-3.36.0.3.jar"/>
+    </path>
+    <path id="run.dbTest.testUpdatePseudo.classpath">
+        <path refid="floppeX.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <pathelement location="src/main/resources/FloppaChat/floppeX/sqlite-jdbc-3.36.0.3.jar"/>
+    </path>
+    <path id="run.dbTest.testConnection.classpath">
+        <path refid="floppeX.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <pathelement location="src/main/resources/FloppaChat/floppeX/sqlite-jdbc-3.36.0.3.jar"/>
+    </path>
+    <path id="run.dbTest.testFetchUsers.classpath">
+        <path refid="floppeX.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <pathelement location="src/main/resources/FloppaChat/floppeX/sqlite-jdbc-3.36.0.3.jar"/>
+    </path>
+    <path id="run.dbTest.testDeleteFromTable.classpath">
+        <path refid="floppeX.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <pathelement location="src/main/resources/FloppaChat/floppeX/sqlite-jdbc-3.36.0.3.jar"/>
+    </path>
+    <path id="run.dbTest.testBlob.classpath">
+        <path refid="floppeX.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <pathelement location="src/main/resources/FloppaChat/floppeX/sqlite-jdbc-3.36.0.3.jar"/>
+    </path>
+    <path id="run.dbTest.testFetchMessages.classpath">
+        <path refid="floppeX.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <pathelement location="src/main/resources/FloppaChat/floppeX/sqlite-jdbc-3.36.0.3.jar"/>
+    </path>
+    <path id="run.dbTest.init.classpath">
+        <path refid="floppeX.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <pathelement location="src/main/resources/FloppaChat/floppeX/sqlite-jdbc-3.36.0.3.jar"/>
+    </path>
+    <path id="run.dbTest.testCreateRealDB.classpath">
+        <path refid="floppeX.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <pathelement location="src/main/resources/FloppaChat/floppeX/sqlite-jdbc-3.36.0.3.jar"/>
+    </path>
+    <path id="run.dbTest.testCreateTable.classpath">
+        <path refid="floppeX.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <pathelement location="src/main/resources/FloppaChat/floppeX/sqlite-jdbc-3.36.0.3.jar"/>
+    </path>
+    <path id="run.MainAppTest.testInitApp.classpath">
+        <path refid="floppeX.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <pathelement location="src/main/resources/FloppaChat/floppeX/sqlite-jdbc-3.36.0.3.jar"/>
+    </path>
+    <path id="run.dbTest.testInsertIntoTable.classpath">
+        <path refid="floppeX.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <pathelement location="src/main/resources/FloppaChat/floppeX/sqlite-jdbc-3.36.0.3.jar"/>
+    </path>
+    <path id="run.App.classpath">
+        <path refid="floppeX.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <pathelement location="src/main/resources/FloppaChat/floppeX/sqlite-jdbc-3.36.0.3.jar"/>
+    </path>
+    <path id="run.dbTest.testDeleteTables.classpath">
+        <path refid="floppeX.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <pathelement location="src/main/resources/FloppaChat/floppeX/sqlite-jdbc-3.36.0.3.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="target/classes"/>
+        <mkdir dir="target/test-classes"/>
+        <copy includeemptydirs="false" todir="target/classes">
+            <fileset dir="src/main/java">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="target/classes">
+            <fileset dir="src/main/resources">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+                <exclude name="**"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="target/test-classes">
+            <fileset dir="src/test/java">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="target/classes"/>
+        <delete dir="target/test-classes"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="target/classes" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src/main/java"/>
+            <src path="src/main/resources"/>
+            <exclude name="**"/>
+            <classpath refid="floppeX.classpath"/>
+        </javac>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="target/test-classes" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src/test/java"/>
+            <classpath refid="floppeX.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target name="dbTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.dbTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.dbTest.classpath"/>
+        </junit>
+    </target>
+    <target name="dbTest.createfileTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.dbTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.dbTest.createfileTest.classpath"/>
+        </junit>
+    </target>
+    <target name="dbTest.testUpdatePseudo">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.dbTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.dbTest.testUpdatePseudo.classpath"/>
+        </junit>
+    </target>
+    <target name="dbTest.testConnection">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.dbTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.dbTest.testConnection.classpath"/>
+        </junit>
+    </target>
+    <target name="dbTest.testFetchUsers">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.dbTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.dbTest.testFetchUsers.classpath"/>
+        </junit>
+    </target>
+    <target name="dbTest.testDeleteFromTable">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.dbTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.dbTest.testDeleteFromTable.classpath"/>
+        </junit>
+    </target>
+    <target name="dbTest.testBlob">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.dbTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.dbTest.testBlob.classpath"/>
+        </junit>
+    </target>
+    <target name="dbTest.testFetchMessages">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.dbTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.dbTest.testFetchMessages.classpath"/>
+        </junit>
+    </target>
+    <target name="dbTest.init">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.dbTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.dbTest.init.classpath"/>
+        </junit>
+    </target>
+    <target name="dbTest.testCreateRealDB">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.dbTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.dbTest.testCreateRealDB.classpath"/>
+        </junit>
+    </target>
+    <target name="dbTest.testCreateTable">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.dbTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.dbTest.testCreateTable.classpath"/>
+        </junit>
+    </target>
+    <target name="MainAppTest.testInitApp">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.MainAppTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.MainAppTest.testInitApp.classpath"/>
+        </junit>
+    </target>
+    <target name="dbTest.testInsertIntoTable">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.dbTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.dbTest.testInsertIntoTable.classpath"/>
+        </junit>
+    </target>
+    <target name="App">
+        <java classname="FloppaChat.floppeX.App" failonerror="true" fork="yes">
+            <classpath refid="run.App.classpath"/>
+        </java>
+    </target>
+    <target name="dbTest.testDeleteTables">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="test.dbTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.dbTest.testDeleteTables.classpath"/>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+</project>
