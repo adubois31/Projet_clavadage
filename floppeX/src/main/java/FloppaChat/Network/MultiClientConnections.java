@@ -52,13 +52,14 @@ public class MultiClientConnections {
 			MessageClient MC = itr.next();
 			System.out.println("Interrupting client : "+MC);
 			MC.EndChat();
-			itr.remove();
+			removeClient(itr);
 		}
-		
+		System.out.println("Clients who survived :");
+		PrintingClientConnections();
 	}
 	
-	public static synchronized void removeClient(MessageClient MC) {
-		ClientConnections.remove(MC);
+	public static synchronized void removeClient(Iterator<MessageClient> itr) {
+		itr.remove();
 	}
 
 }

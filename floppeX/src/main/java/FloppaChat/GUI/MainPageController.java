@@ -1,6 +1,8 @@
 package FloppaChat.GUI;
 
 import java.io.IOException;
+
+
 import java.time.LocalTime;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -68,7 +70,9 @@ public class MainPageController{
 			NetInterface.Disconnect();
 			broadserv.interrupt();
 		}
-		System.out.println("End of stopEverything");	
+		System.out.println("End of stopEverything");
+		System.out.println("BroadServRunning = "+Global.BroadServRunning);
+
 	}
 
 	private void processAlert(String message,AlertType type) throws IOException {

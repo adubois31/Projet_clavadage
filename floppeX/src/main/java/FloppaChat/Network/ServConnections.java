@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
@@ -33,39 +34,48 @@ public class ServConnections extends Thread{
 				String ClientIP = clientSock.getInetAddress().toString().substring(1);
 				DBC.createUser(aUM.getActiveUserPseudo(ClientIP), ClientIP);
 				MessServWorker Client = new MessServWorker(clientSock);
-				ClientList.add(Client);
 				Client.start();
+				ClientList.add(Client);
+				System.out.println("Client thread : "+Client.getId());
+				PrintClientList();
 			}
 			ServSock.close();
 		} catch (IOException e) {
 		}
 	}
 	
-	public static synchronized void removeClientConnection(MessServWorker Client) {
-		ClientList.remove(Client);
+	public static synchronized void removeClientConnection(Iterator<MessServWorker> itr) {
+		itr.remove();
 	}
 
 	@Override
 	public void interrupt() {
+		PrintClientList();
+		System.out.println("----------------------------------------");
 		System.out.println("Interupting ServMess... ");
-		for (MessServWorker target : ClientList) {
-			System.out.println("Stopping client thread "+target);
+		Iterator<MessServWorker> itr = ClientList.iterator();
+		while(itr.hasNext()) {
+			MessServWorker target = itr.next();
+			System.out.println("Interupting Client Thread : "+target.getId());
 			target.interrupt();
-			removeClientConnection(target);
+			removeClientConnection(itr);
 		}
-		System.out.println("closed ");
-		super.interrupt();
+		PrintClientList();
+		
 		try {
 			ServSock.close();
 		} catch (IOException e) {
 			System.out.println("error closing ServSock");
 		}
+		System.out.println("---------------------------------------");
 		System.out.println("Closing Serv Message");
+		super.interrupt();
+		System.out.println("Interrupting thread "+super.getId());
 	}
 	
 	public static void PrintClientList() {
 		for (MessServWorker target: ClientList) {
-			System.out.println("Worker alive "+ target);
+			System.out.println("Worker alive "+ target+" "+target.ClientIP());
 		}
 	}
 	
