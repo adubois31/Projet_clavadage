@@ -6,6 +6,7 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 import FloppaChat.DataBase.ActiveUserManager;
+import FloppaChat.DataBase.DBController;
 import FloppaChat.GUI.Global;
 
 public class Process {
@@ -38,7 +39,9 @@ public class Process {
 		String[] Split_Answer = received.split("\\|");
 		String Flag = Split_Answer[0];
 		String pseudoSubject1 = Split_Answer[1];
-		String pseudoSubject2 = Split_Answer[2];
+		String pseudoSubject2="";
+		if(Split_Answer.length>2)
+			pseudoSubject2=Split_Answer[2];
 		String IPSubject = packet.getAddress().toString().substring(1);
 		System.out.println("Flag : "+Flag+" \n");
 		
@@ -165,6 +168,8 @@ public class Process {
 	}
 
 	public void processConfirmedNewPseudo(String NewPseudo, String SenderIP, DatagramPacket packet,DatagramSocket socket) throws IOException {
+		DBController db = new DBController(Global.dbName);
+		db.changePseudo(NewPseudo,db.getIDfromUser(aUM.getActiveUserPseudo(SenderIP), SenderIP));
 		aUM.UpdateActiveUserPseudo(SenderIP, NewPseudo);
 		aUM.PrintActiveUsers();
 		byte[] out_buffer= Packet.Ack(NewPseudo).getBytes();

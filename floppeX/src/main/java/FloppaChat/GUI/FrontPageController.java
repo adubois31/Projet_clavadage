@@ -34,7 +34,7 @@ public class FrontPageController {
 				processAlert("You can't choose the pseudo of god",AlertType.WARNING);
 			} else if(typedPseudo.equals("")) {
 				processAlert("No pseudo written",AlertType.ERROR);
-			}else {
+			} else {
 				if (Global.BroadServRunning) {
 					if (NetInterface.ChangePseudo(Global.userPseudo,typedPseudo )) {
 						Global.userPseudo=typedPseudo;
