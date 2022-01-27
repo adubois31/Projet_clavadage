@@ -20,31 +20,31 @@ public class BroadcastClient {
 
         byte[] buffer = broadcastMessage.getBytes();
 
-        DatagramPacket packet 
-          = new DatagramPacket(buffer, buffer.length, address, PortNb);
+        DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, PortNb);
+        //sends the  broadcastMessage to all users
         socket.send(packet);
         
         byte[] buff_answer = new byte[512];
+        //setting a timeout to give time to all users to answer the broadcast message
         socket.setSoTimeout(timeout);
             
 		 while(true){
 	            try {
 	            	DatagramPacket packet1 = new DatagramPacket(buff_answer,buff_answer.length);
 	                socket.receive(packet1);
+	                //creating a thread for the user who answered
 	                Thread BroadcastMultAnsThread = new Thread(new Runnable() {
 	                	@Override
 	                	public void run() {
-	                		System.out.println("Nouveau thread réponse");
 	                		Process process = new Process();
 	                		try {
-	                			System.out.println(packet1.getAddress().toString());
+	                			//processes this packet
 	                			process.BroadcastProcess(packet1, socket);
 	                		} catch (IOException e) {
 	                			e.printStackTrace();
 	                		}
 	                	}
 	                });
-	                System.out.println("Starting thread ");
 	                BroadcastMultAnsThread.start();
 	            }
 	            catch (SocketTimeoutException e) {
@@ -54,7 +54,6 @@ public class BroadcastClient {
 	                break;
 	            }
 	        }
-		 System.out.println("Out of the client while");
         
     }
 }
