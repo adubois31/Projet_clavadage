@@ -8,10 +8,11 @@ import FloppaChat.DataBase.DBController;
 import FloppaChat.GUI.Global;
 
 public class NetInterface {
-	//private static String MyInterface = "eth0";
 	private static int broadSecond = 1;
 	static ActiveUserManager aUM= new ActiveUserManager();
-
+	
+	//method used to ask other users if our pseudo is free : 
+	//returns true if it's the case, false if it's taken
 	public static boolean ChoosePseudo (String Pseudo) throws UnknownHostException, IOException {
 		BroadcastClient BC = new BroadcastClient(Global.BroadServNb);
 		boolean PseudoOK=true;
@@ -29,29 +30,23 @@ public class NetInterface {
 		return PseudoOK;
 	}
 	
+	//asks the other users if my new pseudo is taken
+	//if it's free it notifies the users that we are changing our pseudo for the new one and returns true
+	//if it's taken it returns false
 	public static boolean ChangePseudo(String OldPseudo,String NewPseudo) throws UnknownHostException, IOException {
 		DBController db = new DBController(Global.dbName);
 		boolean ChangePseudoOk =true;
 		BroadcastClient BC = new BroadcastClient(Global.BroadServNb);
 		BC.broadcast(Packet.ChangePseudo(OldPseudo, NewPseudo), InetAddress.getByName(Global.BroadAdress));
-		/*long start = System.currentTimeMillis();
-		long end = start + broadSecond*1000;
-		while (System.currentTimeMillis() < end) {
-			if(!(Process.getChangePseudoAccepted())) {
-				ChangePseudoOk=false;
-				break;
-			}
-		}*/
 		System.out.println("Compteur fini "+ChangePseudoOk);
 		if (ChangePseudoOk) {
-			//db.changePseudo(NewPseudo,db.getIDfromUser(OldPseudo, ));
-			aUM.UpdateActiveUserPseudo("127.0.0.1", NewPseudo);
 			BC.broadcast(Packet.ConfirmedNewPseudo(NewPseudo), InetAddress.getByName("10.1.255.255"));
 		}
 		Process.setChangePseudoAccepted(true);
 		return ChangePseudoOk;
 	}
 
+	//sends a broadcast message that we are disconnecting
 	public static void Disconnect() {
 		BroadcastClient BC = new BroadcastClient(Global.BroadServNb);
 		try {
