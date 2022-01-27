@@ -23,7 +23,7 @@ public class Packet {
 	
 	//Flag and format for confirming we are taking a new pseudo
 	public static String ConfirmedNewPseudo(String NewPseudo,String SenderPseudo) {
-		return("ConfirmedNewPseudo|"+NewPseudo+SenderPseudo);
+		return("ConfirmedNewPseudo|"+NewPseudo+"|"+SenderPseudo);
 	}
 	
 	//Flag and format for the disconnection message
@@ -32,7 +32,7 @@ public class Packet {
 	}
 	
 	//Flag and format for the answer to a confirmed change of pseudo
-	public static String Ack(String NewPseudo) {
-		return ("ACK|"+NewPseudo);
+	public static String Ack(String NewPseudo,String SenderPseudo) {
+		return ("ACK|"+NewPseudo+"|"+SenderPseudo);
 	}
 }

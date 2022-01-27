@@ -69,7 +69,6 @@ public class MessageClient{
     							Global.MPC.addMessageFrom(MessFromServer, Global.nowDate());
     					}
     				} catch (IOException e) {
-    					System.out.println("Erreur réception du message du serveur");
     					if(!isInterrupting)
     						closeEverything();
     					break;
@@ -93,16 +92,13 @@ public class MessageClient{
     private void closeEverything(){
         try {
         	if (Sock != null){
-                Sock.close();
-                System.out.println("Socket du client : "+Sock);                
+                Sock.close();              
             }
             if (BuffRead != null){
                 BuffRead.close();
-                System.out.println("BuffRead : "+BuffRead);
             }
             if(BuffWrite!= null){
                 BuffWrite.close();
-                System.out.println("BuffWrite : "+BuffWrite);
             }
             
         } catch (IOException e) {

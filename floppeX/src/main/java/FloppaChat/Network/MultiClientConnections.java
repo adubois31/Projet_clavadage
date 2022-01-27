@@ -53,7 +53,6 @@ public class MultiClientConnections {
 	
 	//closing all the connections with the servers (as a client)
 	public static void ClosingClients() {
-		PrintingClientConnections();
 		Iterator<MessageClient> itr = ClientConnections.iterator();
 		while(itr.hasNext()) {
 			MessageClient MC = itr.next();

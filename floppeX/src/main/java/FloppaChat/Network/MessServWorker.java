@@ -99,7 +99,6 @@ public class MessServWorker extends Thread {
 			}
 			if (BuffRead != null){
 				BuffRead.close();
-				System.out.println(BuffRead);
 			}
 			if(this.BuffWrite!= null){
 				BuffWrite.close();

@@ -40,7 +40,6 @@ public class Process {
 	//method charged of extracting the relevant information of the received broadcast packet
 	//then depending on the flag, calls the appropriate method
 	public void BroadcastProcess(DatagramPacket packet,DatagramSocket socket) throws IOException {
-		System.out.println("Processing Packet...\n");
 		String received= new String(packet.getData(), 0, packet.getLength());
 		String[] Split_Answer = received.split("\\|");
 		String Flag = Split_Answer[0];
@@ -49,23 +48,19 @@ public class Process {
 		if(Split_Answer.length>2)
 			pseudoSubject2=Split_Answer[2];
 		String IPSubject = packet.getAddress().toString().substring(1);
-		System.out.println("Flag : "+Flag+" \n");
 		
 		switch(Flag) {
 		
 		case "Hello":
-			System.out.println("Processing Hello...\n");
 			processHello(IPSubject,pseudoSubject1,packet,socket);
 			break;
 		
 		case "Hello_Back":
-			System.out.println("Processing Hello_Back...\n");
 			processHelloBack(pseudoSubject1,pseudoSubject2,IPSubject);
 			break;
 		
 		case "Bingus":
 			if(!Global.userPseudo.equals(pseudoSubject1)) {
-				System.out.println("Processing Bingus...\n");
 				processDisconnected(IPSubject,pseudoSubject1);
 			}
 			break;
@@ -83,7 +78,7 @@ public class Process {
 			break;
 		
 		case "ACK":
-			processAck(pseudoSubject1);
+			processAck(pseudoSubject1,pseudoSubject2);
 			break;
 		}
 	}
@@ -127,6 +122,8 @@ public class Process {
 
 	public void processChangePseudo(String OldPseudo,String ClientIP,String NewPseudo,DatagramPacket packet,DatagramSocket socket) {
 		//checks if the new pseudo is free to send a packet confirming that it's not taken
+		if(OldPseudo.equals(Global.userPseudo))
+			return;
 		if (aUM.CheckPseudoUnicity(NewPseudo)){
 			byte[] out_buffer= Packet.ChangePseudoAns("New_OK",Global.userPseudo).getBytes();
 			packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
@@ -162,6 +159,7 @@ public class Process {
 
 	//process a new pseudo that is confirmed
 	public void processConfirmedNewPseudo(String NewPseudo, String SenderPseudo,String SenderIP, DatagramPacket packet,DatagramSocket socket) throws IOException {
+
 		if (SenderPseudo.equals(Global.userPseudo))
 			return;
 		DBController db = new DBController(Global.dbName);
@@ -169,7 +167,7 @@ public class Process {
 		db.changePseudo(NewPseudo,db.getIDfromUser(SenderPseudo, SenderIP));
 		aUM.UpdateActiveUserPseudo(SenderIP, NewPseudo);
 		//sending an ack packet to confirm our changes
-		byte[] out_buffer= Packet.Ack(NewPseudo).getBytes();
+		byte[] out_buffer= Packet.Ack(NewPseudo,Global.userPseudo).getBytes();
 		packet = new DatagramPacket(out_buffer, out_buffer.length, packet.getAddress(), packet.getPort());
 		try {
 			socket.send(packet);
@@ -179,8 +177,9 @@ public class Process {
 	}
 	
 	//acknowledgment of the changes of the other users
-	public void processAck(String NewPseudo) {
-		Global.userPseudo = NewPseudo;
+	public void processAck(String NewPseudo,String SenderPseudo) {
+		if(!Global.userPseudo.equals(SenderPseudo))
+			Global.userPseudo = NewPseudo;
 	}
 	
 	

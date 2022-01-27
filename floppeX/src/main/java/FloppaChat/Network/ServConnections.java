@@ -64,7 +64,6 @@ public class ServConnections extends Thread{
 			super.interrupt();
 		}
 		super.interrupt();
-		System.out.println("Interrupting thread "+super.getId());
 	}
 	
 	public static void PrintClientList() {

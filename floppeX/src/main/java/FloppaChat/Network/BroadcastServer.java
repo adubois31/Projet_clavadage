@@ -28,7 +28,6 @@ public class BroadcastServer extends Thread {
     
     @Override
     public void run() {
-    	System.out.println("Server Thread Started...");
     	while (true) {
     		DatagramPacket packet = new DatagramPacket(buf, buf.length);
     		try {

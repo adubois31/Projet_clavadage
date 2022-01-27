@@ -48,7 +48,6 @@ public class BroadcastClient {
 	                BroadcastMultAnsThread.start();
 	            }
 	            catch (SocketTimeoutException e) {
-	            	System.out.println("Fin Timer");
 	            	socket.disconnect();
 	                socket.close();
 	                break;
