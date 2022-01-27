@@ -61,9 +61,9 @@ public class MessServWorker extends Thread {
 			String MessFromClient = BuffRead.readLine();
 			if (MessFromClient != null) {
 				int dbID = DBC.getIDfromUser(ClientPseudo(), ClientIP());
-				DBC.addMessage(dbID, Global.MPC.nowDate(), MessFromClient, false);
+				DBC.addMessage(dbID, Global.nowDate(), MessFromClient, false);
 				if (Global.activeUserChat.equals(ClientPseudo()))
-					Global.MPC.addMessageFrom(MessFromClient, Global.MPC.nowDate());
+					Global.MPC.addMessageFrom(MessFromClient, Global.nowDate());
 				}
 		}catch(IOException | NullPointerException e){
 			System.out.println(e.getMessage());

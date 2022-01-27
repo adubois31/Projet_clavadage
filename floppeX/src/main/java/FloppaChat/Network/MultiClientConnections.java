@@ -36,8 +36,6 @@ public class MultiClientConnections {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			//ED5318165BDABD82696C3E226FFE7FF4a
-			
 		}
 	}
 	public static void PrintingClientConnections() {

@@ -4,54 +4,36 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import FloppaChat.DataBase.ActiveUserManager;
-import FloppaChat.DataBase.DBController;
 import FloppaChat.GUI.Global;
 
 public class NetInterface {
-	//private static String MyInterface = "eth0";
-	private static int broadSecond = 1;
 	static ActiveUserManager aUM= new ActiveUserManager();
 
+	// Method for local user to make sure that the pseudo he chose is ok
 	public static boolean ChoosePseudo (String Pseudo) throws UnknownHostException, IOException {
 		BroadcastClient BC = new BroadcastClient(Global.BroadServNb);
 		boolean PseudoOK=true;
 		BC.broadcast(Packet.Hello(Pseudo), InetAddress.getByName(Global.BroadAdress));
-		long start = System.currentTimeMillis();
-		long end = start + broadSecond*1000;
-		while (System.currentTimeMillis() < end) {
-			if(!(Process.getHelloAccepted())) {
-				PseudoOK=false;
-				break;
-			}
-		}
 		aUM.PrintActiveUsers();
 		Process.SetHelloAccepted(true);
 		return PseudoOK;
 	}
 	
+	// Method for local user to make sure own pseudo is ok
 	public static boolean ChangePseudo(String OldPseudo,String NewPseudo) throws UnknownHostException, IOException {
-		DBController db = new DBController(Global.dbName);
-		boolean ChangePseudoOk =true;
+		boolean ChangePseudoOk;
 		BroadcastClient BC = new BroadcastClient(Global.BroadServNb);
 		BC.broadcast(Packet.ChangePseudo(OldPseudo, NewPseudo), InetAddress.getByName(Global.BroadAdress));
-		/*long start = System.currentTimeMillis();
-		long end = start + broadSecond*1000;
-		while (System.currentTimeMillis() < end) {
-			if(!(Process.getChangePseudoAccepted())) {
-				ChangePseudoOk=false;
-				break;
-			}
-		}*/
+		ChangePseudoOk = Process.getChangePseudoAccepted();
 		System.out.println("Compteur fini "+ChangePseudoOk);
 		if (ChangePseudoOk) {
-			//db.changePseudo(NewPseudo,db.getIDfromUser(OldPseudo, ));
-			aUM.UpdateActiveUserPseudo("127.0.0.1", NewPseudo);
-			BC.broadcast(Packet.ConfirmedNewPseudo(NewPseudo), InetAddress.getByName("10.1.255.255"));
+			BC.broadcast(Packet.ConfirmedNewPseudo(NewPseudo), InetAddress.getByName(Global.BroadAdress));
 		}
 		Process.setChangePseudoAccepted(true);
 		return ChangePseudoOk;
 	}
 
+	// Send packet to all users when disconnected
 	public static void Disconnect() {
 		BroadcastClient BC = new BroadcastClient(Global.BroadServNb);
 		try {

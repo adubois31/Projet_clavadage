@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.*;
 
 import FloppaChat.GUI.Global;
+import FloppaChat.Network.Process;
 
 
 public class BroadcastServer extends Thread {
@@ -34,9 +35,25 @@ public class BroadcastServer extends Thread {
     			System.out.println("Waiting for packet...");
     			socket.receive(packet);
     			System.out.println("Packet received");
-    			BroadcastServerWorker worker = new BroadcastServerWorker(packet,socket);
-    			worker.setName("Broadcast Worker");
-    			worker.start();
+    			Thread BroadcastServerWorkerThread = new Thread(new Runnable() {
+    				@Override
+    				public void run() {
+    					System.out.println("Worker started");
+    					BroadcastClientHandler(packet,socket);
+    				}
+    				
+    				private void BroadcastClientHandler(DatagramPacket packet,DatagramSocket socket) {
+    			    	Process process = new Process();
+    					try {
+    						process.BroadcastProcess(packet, socket);
+    					} 
+    					catch (IOException e) {
+    						e.printStackTrace();
+    					}
+    			    }
+    			});
+    			BroadcastServerWorkerThread.setName("Broadcast Worker");
+    			BroadcastServerWorkerThread.start();
     		} catch (IOException e) {
     			System.out.println("Fermeture socket serv broadcast");
     			break;

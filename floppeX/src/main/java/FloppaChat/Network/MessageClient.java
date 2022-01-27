@@ -60,9 +60,9 @@ public class MessageClient{
     						break;
     					}
     					if ((MessFromServer !=null)||MessFromServer!="") {
-    						DBC.addMessage(DBC.getIDfromUser(aUM.getActiveUserPseudo(getRemoteIP()), getRemoteIP()), Global.MPC.nowDate() , MessFromServer, false);
+    						DBC.addMessage(DBC.getIDfromUser(aUM.getActiveUserPseudo(getRemoteIP()), getRemoteIP()), Global.nowDate() , MessFromServer, false);
     						if (Global.activeUserChat.equals(aUM.getActiveUserPseudo(getRemoteIP())))
-    							Global.MPC.addMessageFrom(MessFromServer, Global.MPC.nowDate());
+    							Global.MPC.addMessageFrom(MessFromServer, Global.nowDate());
     					}
     				} catch (IOException e) {
     					System.out.println("Erreur réception du message du serveur");

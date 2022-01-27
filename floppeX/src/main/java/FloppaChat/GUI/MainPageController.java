@@ -1,11 +1,6 @@
 package FloppaChat.GUI;
 
 import java.io.IOException;
-
-
-import java.time.LocalTime;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import FloppaChat.DataBase.ActiveUserCustom;
 import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
@@ -16,7 +11,6 @@ import FloppaChat.Network.MessageMainServer;
 import FloppaChat.floppeX.App;
 import FloppaChat.Network.MultiClientConnections;
 import FloppaChat.Network.NetInterface;
-//import FloppaChat.Network.BroadcastServer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -81,14 +75,6 @@ public class MainPageController{
 		if (alert.getResult() == ButtonType.OK) {
 
 		}
-	}
-
-	public String nowDate() {
-		LocalTime myTimeObj = LocalTime.now();
-		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm");
-		LocalDate myDateObj = LocalDate.now();
-		DateTimeFormatter myFormatObj2 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		return myTimeObj.format(myFormatObj)+" "+myDateObj.format(myFormatObj2);
 	}
 
 	@FXML
@@ -227,8 +213,8 @@ public class MainPageController{
 				processAlert("No content",AlertType.ERROR);
 			else {
 				sendMessage(aUM.getActiveUserIP(Global.activeUserChat),contentMessage.getText());
-				dbcontrol.addMessage(Global.activeUserID,nowDate(),contentMessage.getText(),true);
-				addMessageTo(contentMessage.getText(),nowDate());
+				dbcontrol.addMessage(Global.activeUserID,Global.nowDate(),contentMessage.getText(),true);
+				addMessageTo(contentMessage.getText(),Global.nowDate());
 				contentMessage.setText("");
 			}
 		}
@@ -240,8 +226,8 @@ public class MainPageController{
 			processAlert("No content",AlertType.ERROR);
 		else {
 			sendMessage(aUM.getActiveUserIP(Global.activeUserChat),contentMessage.getText());
-			dbcontrol.addMessage(Global.activeUserID,nowDate(),contentMessage.getText(),true);
-			addMessageTo(contentMessage.getText(),nowDate());
+			dbcontrol.addMessage(Global.activeUserID,Global.nowDate(),contentMessage.getText(),true);
+			addMessageTo(contentMessage.getText(),Global.nowDate());
 			contentMessage.setText("");
 		}
 	}
