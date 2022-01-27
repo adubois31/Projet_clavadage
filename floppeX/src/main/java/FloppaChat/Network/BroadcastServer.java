@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.*;
 
 import FloppaChat.GUI.Global;
-import FloppaChat.Network.Process;
 
 
 public class BroadcastServer extends Thread {
