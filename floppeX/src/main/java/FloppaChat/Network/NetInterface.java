@@ -33,7 +33,7 @@ public class NetInterface {
 		BC.broadcast(Packet.ChangePseudo(OldPseudo, NewPseudo), InetAddress.getByName(Global.BroadAdress));
 		ChangePseudoOk = Process.getChangePseudoAccepted();
 		if (ChangePseudoOk) {
-			BC.broadcast(Packet.ConfirmedNewPseudo(NewPseudo), InetAddress.getByName(Global.BroadAdress));
+			BC.broadcast(Packet.ConfirmedNewPseudo(NewPseudo,Global.userPseudo), InetAddress.getByName(Global.BroadAdress));
 
 		}
 		Process.setChangePseudoAccepted(true);

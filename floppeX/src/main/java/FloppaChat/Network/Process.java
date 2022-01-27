@@ -79,7 +79,7 @@ public class Process {
 			break;
 		
 		case "ConfirmedNewPseudo":
-			processConfirmedNewPseudo(pseudoSubject1,IPSubject,packet,socket);
+			processConfirmedNewPseudo(pseudoSubject1,pseudoSubject2,IPSubject,packet,socket);
 			break;
 		
 		case "ACK":
@@ -145,6 +145,8 @@ public class Process {
 
 	//processing the answers of our pseudo changing query
 	public void processChangePseudoAns(String Check,String SenderPseudo, String SenderIP) {
+		if (SenderPseudo.equals(Global.userPseudo))
+			return;
 		if(aUM.CheckPseudoUnicity(SenderPseudo)) {
 			aUM.addActiveUser(SenderIP, SenderPseudo);
 		}
@@ -155,13 +157,16 @@ public class Process {
 		else {
 			ChangePseudoAccepted = ChangePseudoAccepted && false;
 		}
+
 	}
 
 	//process a new pseudo that is confirmed
-	public void processConfirmedNewPseudo(String NewPseudo, String SenderIP, DatagramPacket packet,DatagramSocket socket) throws IOException {
+	public void processConfirmedNewPseudo(String NewPseudo, String SenderPseudo,String SenderIP, DatagramPacket packet,DatagramSocket socket) throws IOException {
+		if (SenderPseudo.equals(Global.userPseudo))
+			return;
 		DBController db = new DBController(Global.dbName);
 		//updating the pseudo of the sender
-		db.changePseudo(NewPseudo,db.getIDfromUser(aUM.getActiveUserPseudo(SenderIP), SenderIP));
+		db.changePseudo(NewPseudo,db.getIDfromUser(SenderPseudo, SenderIP));
 		aUM.UpdateActiveUserPseudo(SenderIP, NewPseudo);
 		//sending an ack packet to confirm our changes
 		byte[] out_buffer= Packet.Ack(NewPseudo).getBytes();

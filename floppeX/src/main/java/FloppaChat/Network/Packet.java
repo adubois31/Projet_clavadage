@@ -22,8 +22,8 @@ public class Packet {
 	}
 	
 	//Flag and format for confirming we are taking a new pseudo
-	public static String ConfirmedNewPseudo(String NewPseudo) {
-		return("ConfirmedNewPseudo|"+NewPseudo);
+	public static String ConfirmedNewPseudo(String NewPseudo,String SenderPseudo) {
+		return("ConfirmedNewPseudo|"+NewPseudo+SenderPseudo);
 	}
 	
 	//Flag and format for the disconnection message
