@@ -23,5 +23,4 @@ public class MessServSender {
 		}
 		return isServer;
 	}
-
 }

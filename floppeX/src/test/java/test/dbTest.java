@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import FloppaChat.DataBase.DBController;
 import FloppaChat.DataBase.Message;
 import FloppaChat.GUI.MainPageController;
+import FloppaChat.GUI.Global;
 
 public class dbTest {
 	
@@ -84,9 +85,9 @@ public class dbTest {
 	void testFetchMessages() {
 		db.createUser("Aubry","96.96.96.96");
 		int ID = db.getIDfromUser("Aubry","96.96.96.96");
-		db.addMessage(ID,mpControl.nowDate(),"Hey Salut", true);
-		db.addMessage(ID,mpControl.nowDate(),"En fait non", false);
-		db.addMessage(ID,mpControl.nowDate(),"Ah", true);
+		db.addMessage(ID,Global.nowDate(),"Hey Salut", true);
+		db.addMessage(ID,Global.nowDate(),"En fait non", false);
+		db.addMessage(ID,Global.nowDate(),"Ah", true);
 		for(Message m : db.fetchMessagesWithUser(ID)) {
 			System.out.println(m);
 		}
