@@ -15,6 +15,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class FrontPageController {
+	private App App = new App();
 	
 	private void processAlert(String message,AlertType type) throws IOException {
 		Alert alert = new Alert(type, message,ButtonType.OK);
@@ -67,7 +68,7 @@ public class FrontPageController {
 		}
 	}
 		
-	public static void errorPseudo(String pseudo) throws IOException{
+	public void errorPseudo(String pseudo) throws IOException{
 		Alert alert = new Alert(AlertType.ERROR, "Pseudo already taken : "+pseudo,ButtonType.OK);
 		alert.showAndWait();
 		if (alert.getResult() == ButtonType.OK) {

@@ -34,6 +34,7 @@ public class MainPageController{
 	private static MessageMainServer MainServ;
 	private DBController dbcontrol = new DBController(Global.dbName);
 	private ActiveUserManager aUM = new ActiveUserManager();
+	private App App = new App();
 
 	@FXML private ListView<ActiveUserCustom> activeusers;
 	@FXML private ListView<ActiveUserCustom> activeUserList;
@@ -189,7 +190,6 @@ public class MainPageController{
 
 	private void fillMessageHistorics() throws IOException{
 		for(Message m : this.dbcontrol.fetchMessagesWithUser(Global.activeUserID)) {
-			System.out.println("Is sent is : "+m.isSent());
 			if(m.isSent())
 				addMessageTo(m.getContent(),m.getDate());
 			else
