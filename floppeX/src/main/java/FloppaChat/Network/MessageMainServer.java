@@ -7,19 +7,17 @@ public class MessageMainServer {
 	public MessageMainServer(int PortNB) {
 		this.ServPort=PortNB;
 	}
-	
+	//starts the tcp server thread
 	public void startServ() {
 		Server = new ServConnections(ServPort);
-		System.out.println("Main Server Started");
 		Server.start();
 		
 	}
 	
+	//stops the tcp server
 	public void stopServ() {
 		if(Server.isAlive()) {
-			System.out.println("Closing Main Server....");
 			Server.interrupt();
-			System.out.println("Main Server Closed");
 		}
 	}
 	

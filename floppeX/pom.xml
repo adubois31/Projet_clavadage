@@ -3,7 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>FloppaChat</groupId>
     <artifactId>floppeX</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>

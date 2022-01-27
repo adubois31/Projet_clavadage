@@ -15,7 +15,13 @@ public class MessServWorker extends Thread {
 	private Socket clientSock;
 	private BufferedReader BuffRead;
 	private BufferedWriter BuffWrite;
-
+	private boolean Disconnected = false;
+	
+	public void Disconnecting_Client() {
+		Disconnected=true;
+	}
+	
+	//our constructor initializing our buffers and getting the socket
 	public MessServWorker(Socket clientSock) throws IOException {
 		this.clientSock = clientSock;
 		this.BuffRead=new BufferedReader(new InputStreamReader(clientSock.getInputStream()));
@@ -39,16 +45,15 @@ public class MessServWorker extends Thread {
 	public void interrupt() {
 		isRunning=false;
 		closeEverything();
-		System.out.println("Interrupting client thread "+super.getId());
 		super.interrupt();
-		System.out.println("Client thread status : "+super.getState());
-		System.out.println("Client thread status : "+super.isInterrupted());
 	}
-
+	
+	//getting the ip of the client connected
 	public String ClientIP() {
 		return clientSock.getInetAddress().toString().substring(1);
 	}
-
+	
+	//getting the pseudo of the client connected
 	private String ClientPseudo() {
 		ActiveUserManager aUM = new ActiveUserManager(); 
 		return aUM.getActiveUserPseudo(ClientIP());
@@ -56,12 +61,14 @@ public class MessServWorker extends Thread {
 
 	private void RecvMessFromClient() throws IOException {
 		DBController DBC = new DBController(Global.dbName);
-		DBC.createUser(ClientPseudo(), ClientIP());
+		if(!Disconnected)
+			DBC.createUser(ClientPseudo(), ClientIP());
 		try {
 			String MessFromClient = BuffRead.readLine();
 			if (MessFromClient != null) {
 				int dbID = DBC.getIDfromUser(ClientPseudo(), ClientIP());
 				DBC.addMessage(dbID, Global.nowDate(), MessFromClient, false);
+				//if we are not actively chatting with this client we store it in our db and not display it
 				if (Global.activeUserChat.equals(ClientPseudo()))
 					Global.MPC.addMessageFrom(MessFromClient, Global.nowDate());
 				}
@@ -71,19 +78,20 @@ public class MessServWorker extends Thread {
 			super.interrupt();
 		}
 	}
-
+	//sends message to the client connected to the socket
 	public void SendMessToClient(String messageToClient){
 		try {
 			BuffWrite.write(messageToClient);
 			BuffWrite.newLine();
 			BuffWrite.flush();
 		} catch (IOException e) {
-			System.out.println("Erreur envoi du message au client");
 			e.printStackTrace();
 			closeEverything();
+			super.interrupt();
 		}
 	}
 
+	//closing all the buffers and the socket
 	private void closeEverything(){
 		try {
 			if (clientSock != null){
@@ -91,7 +99,6 @@ public class MessServWorker extends Thread {
 			}
 			if (BuffRead != null){
 				BuffRead.close();
-				System.out.println(BuffRead);
 			}
 			if(this.BuffWrite!= null){
 				BuffWrite.close();

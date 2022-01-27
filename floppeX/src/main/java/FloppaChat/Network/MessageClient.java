@@ -14,9 +14,9 @@ public class MessageClient{
     private BufferedReader BuffRead;
     private BufferedWriter BuffWrite;
     private Thread ThisThread = null;
-    private static int Count = 1;
     private boolean isInterrupting = false;
     
+    //initializing our buffers as a client connecting to a user
     public MessageClient(Socket socket){
         try {
         	this.Sock=socket;
@@ -30,10 +30,12 @@ public class MessageClient{
         }
     }
     
+    //get the ip of the server
     public String getRemoteIP() {
     	return Sock.getInetAddress().toString().substring(1);
     }
 
+    //sends a message to the server
     public void SendMessToServer(String MessToServer){
         try {
             BuffWrite.write(MessToServer);
@@ -49,11 +51,11 @@ public class MessageClient{
     public void RecvMessFromServer(){
     	ActiveUserManager aUM = new ActiveUserManager();
     	DBController DBC = new DBController(Global.dbName);
+    	//creating a new thread waiting for the server's messages
     	ThisThread = new Thread(new Runnable(){
     		@Override
     		public void run(){
     			while (Sock.isConnected()&& (!Thread.currentThread().isInterrupted())){
-    				System.out.println("Thread started");
     				try {
     					String MessFromServer;
     					if (( MessFromServer= BuffRead.readLine())==null) {
@@ -61,11 +63,12 @@ public class MessageClient{
     					}
     					if ((MessFromServer !=null)||MessFromServer!="") {
     						DBC.addMessage(DBC.getIDfromUser(aUM.getActiveUserPseudo(getRemoteIP()), getRemoteIP()), Global.nowDate() , MessFromServer, false);
+    						//if we are not actively chatting with this server we just store the message in the db and don't display it
+
     						if (Global.activeUserChat.equals(aUM.getActiveUserPseudo(getRemoteIP())))
     							Global.MPC.addMessageFrom(MessFromServer, Global.nowDate());
     					}
     				} catch (IOException e) {
-    					System.out.println("Erreur réception du message du serveur");
     					if(!isInterrupting)
     						closeEverything();
     					break;
@@ -73,33 +76,29 @@ public class MessageClient{
     			}
     		}
     	});
-    	ThisThread.setName("Client Connection n° "+Count);
-    	Count++;
     	ThisThread.start();
     }
     
+    //method to end the communication with the server
     public void EndChat() {
     	if ((Thread.currentThread()!=null)&&(!ThisThread.isInterrupted())) {
     		isInterrupting =true;
     		Thread.currentThread().interrupt();
     		closeEverything();
-    		System.out.println("ThisThread : "+Thread.currentThread().isInterrupted());
     	}	
     }
     
+    //closes the socket and all the buffers
     private void closeEverything(){
         try {
         	if (Sock != null){
-                Sock.close();
-                System.out.println("Socket du client : "+Sock);                
+                Sock.close();              
             }
             if (BuffRead != null){
                 BuffRead.close();
-                System.out.println("BuffRead : "+BuffRead);
             }
             if(BuffWrite!= null){
                 BuffWrite.close();
-                System.out.println("BuffWrite : "+BuffWrite);
             }
             
         } catch (IOException e) {
