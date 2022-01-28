@@ -23,12 +23,7 @@ User@mypc:~$ chmod +x *.sh
 ```shell
 User@mypc:~$ ./BuildApp.sh
 ```
-Si l'exécution de ce script ne fonctionne pas essayez depuis le dossier Projet_Clavadage :
-```shell
-User@mypc:~$ cd floppeX
-User@mypc:~$ mvn clean package
-```
- 
+
 
 ## Pour l'utilisateur :
 
