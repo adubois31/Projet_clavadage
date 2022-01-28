@@ -45,17 +45,20 @@ public class App extends Application {
     private Parent loadFXML(String fxml){
     	FXMLLoader fxmlLoader;
     	try {
-            fxmlLoader = new FXMLLoader(getClass().getResource("/resources/FloppaChat/floppeX/"+fxml + ".fxml"));
+            fxmlLoader = new FXMLLoader(this.getClass().getResource("/resources/FloppaChat/floppeX/"+fxml + ".fxml"));
             return fxmlLoader.load();
     	} catch (IllegalStateException | IOException e) {
-            fxmlLoader = new FXMLLoader(getClass().getResource(fxml + ".fxml"));
+        	System.out.println("Non");
             try {
+            	fxmlLoader = new FXMLLoader(this.getClass().getResource(fxml + ".fxml"));
 				return fxmlLoader.load();
 			} catch (IllegalStateException | IOException e1) {
-				fxmlLoader = new FXMLLoader(getClass().getResource("/FloppaChat/floppeX/"+fxml + ".fxml"));
+		    	System.out.println("Non");
 				try {
+					fxmlLoader = new FXMLLoader(this.getClass().getResource("/FloppaChat/floppeX/"+fxml + ".fxml"));
 					return fxmlLoader.load();
 				} catch (IllegalStateException | IOException e2) {
+			    	System.out.println("Non");
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
 					System.out.println(e2.getMessage());
