@@ -1,2 +1,3 @@
 #!/bin/bash
-java -jar floppeX.jar
+chmod +x ../floppeX/target/*.jar
+java -jar ../floppeX/target/*.jar

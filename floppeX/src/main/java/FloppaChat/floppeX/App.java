@@ -51,9 +51,16 @@ public class App extends Application {
             try {
 				return fxmlLoader.load();
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				fxmlLoader = new FXMLLoader(getClass().getResource("/FloppaChat/floppeX/"+fxml + ".fxml"));
+				try {
+					return fxmlLoader.load();
+				} catch (IllegalStateException | IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+					System.out.println(e2.getMessage());
+				}
 			}
-    	} 
+    	}
         return null;
     }
 

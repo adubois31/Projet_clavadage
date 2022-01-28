@@ -93,7 +93,7 @@
                      <children>
                         <ImageView fitHeight="200.0" fitWidth="200.0">
                            <image>
-                              <Image url="@FlopEnhanced.jpg" />
+                              <Image url="FloppaChat/floppeX/FlopEnhanced.jpg" />
                            </image>
                         </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="FloppeX">
