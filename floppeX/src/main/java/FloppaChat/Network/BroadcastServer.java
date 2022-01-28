@@ -10,7 +10,6 @@ import FloppaChat.GUI.Global;
 public class BroadcastServer extends Thread {
     private DatagramSocket socket;
     private int PortNb;
-    private boolean running;
     private byte[] buf = new byte[256];
 
     public BroadcastServer(int PortNB) throws SocketException {
@@ -18,27 +17,40 @@ public class BroadcastServer extends Thread {
         socket = new DatagramSocket(PortNb);
     }
     
+    //stops the thread and close the socket when interrupted
     @Override
     public void interrupt() {
     	Global.BroadServRunning=false;
     	socket.close();
     	Thread.currentThread().interrupt();
     }
+    
+    
     @Override
     public void run() {
-    	System.out.println("Server Thread Started...");
-    	running = true;
-    	while (running) {
+    	while (true) {
     		DatagramPacket packet = new DatagramPacket(buf, buf.length);
     		try {
-    			System.out.println("Waiting for packet...");
     			socket.receive(packet);
-    			System.out.println("Packet received");
-    			BroadcastServerWorker worker = new BroadcastServerWorker(packet,socket);
-    			worker.setName("Broadcast Worker");
-    			worker.start();
+    			//creates a new thread to handle the received broadcast packet
+    			Thread BroadcastServerWorkerThread = new Thread(new Runnable() {
+    				@Override
+    				public void run() {
+    					BroadcastClientHandler(packet,socket);
+    				}
+    				//send to process the received packet
+    				private void BroadcastClientHandler(DatagramPacket packet,DatagramSocket socket) {
+    			    	Process process = new Process();
+    					try {
+    						process.BroadcastProcess(packet, socket);
+    					} 
+    					catch (IOException e) {
+    						e.printStackTrace();
+    					}
+    			    }
+    			});
+    			BroadcastServerWorkerThread.start();
     		} catch (IOException e) {
-    			System.out.println("Fermeture socket serv broadcast");
     			break;
     		}
     	}

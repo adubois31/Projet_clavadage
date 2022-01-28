@@ -1,11 +1,6 @@
 package FloppaChat.GUI;
 
 import java.io.IOException;
-
-
-import java.time.LocalTime;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import FloppaChat.DataBase.ActiveUserCustom;
 import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.DataBase.DBController;
@@ -16,7 +11,6 @@ import FloppaChat.Network.MessageMainServer;
 import FloppaChat.floppeX.App;
 import FloppaChat.Network.MultiClientConnections;
 import FloppaChat.Network.NetInterface;
-//import FloppaChat.Network.BroadcastServer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,6 +34,7 @@ public class MainPageController{
 	private static MessageMainServer MainServ;
 	private DBController dbcontrol = new DBController(Global.dbName);
 	private ActiveUserManager aUM = new ActiveUserManager();
+	private App App = new App();
 
 	@FXML private ListView<ActiveUserCustom> activeusers;
 	@FXML private ListView<ActiveUserCustom> activeUserList;
@@ -62,20 +57,20 @@ public class MainPageController{
 	}
 
 	public static void stopEverything() {
-		System.out.println("Stopping everything");
 		MainServ.stopServ();
 		MultiClientConnections.ClosingClients();
+<<<<<<< HEAD
 <<<<<<< HEAD
 		if (Global.BroadServRunning)
 =======
 		System.out.println("BroadServRunning = "+Global.BroadServRunning);
+=======
+>>>>>>> origin/main
 		if (Global.BroadServRunning) {
 >>>>>>> 4da3faf4ee9018b8af9e6b63fedc703886cb7622
 			NetInterface.Disconnect();
 			broadserv.interrupt();
 		}
-		System.out.println("End of stopEverything");
-		System.out.println("BroadServRunning = "+Global.BroadServRunning);
 
 	}
 
@@ -85,14 +80,6 @@ public class MainPageController{
 		if (alert.getResult() == ButtonType.OK) {
 
 		}
-	}
-
-	public String nowDate() {
-		LocalTime myTimeObj = LocalTime.now();
-		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH:mm");
-		LocalDate myDateObj = LocalDate.now();
-		DateTimeFormatter myFormatObj2 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		return myTimeObj.format(myFormatObj)+" "+myDateObj.format(myFormatObj2);
 	}
 
 	@FXML
@@ -207,7 +194,6 @@ public class MainPageController{
 
 	private void fillMessageHistorics() throws IOException{
 		for(Message m : this.dbcontrol.fetchMessagesWithUser(Global.activeUserID)) {
-			System.out.println("Is sent is : "+m.isSent());
 			if(m.isSent())
 				addMessageTo(m.getContent(),m.getDate());
 			else
@@ -231,8 +217,8 @@ public class MainPageController{
 				processAlert("No content",AlertType.ERROR);
 			else {
 				sendMessage(aUM.getActiveUserIP(Global.activeUserChat),contentMessage.getText());
-				dbcontrol.addMessage(Global.activeUserID,nowDate(),contentMessage.getText(),true);
-				addMessageTo(contentMessage.getText(),nowDate());
+				dbcontrol.addMessage(Global.activeUserID,Global.nowDate(),contentMessage.getText(),true);
+				addMessageTo(contentMessage.getText(),Global.nowDate());
 				contentMessage.setText("");
 			}
 		}
@@ -244,8 +230,8 @@ public class MainPageController{
 			processAlert("No content",AlertType.ERROR);
 		else {
 			sendMessage(aUM.getActiveUserIP(Global.activeUserChat),contentMessage.getText());
-			dbcontrol.addMessage(Global.activeUserID,nowDate(),contentMessage.getText(),true);
-			addMessageTo(contentMessage.getText(),nowDate());
+			dbcontrol.addMessage(Global.activeUserID,Global.nowDate(),contentMessage.getText(),true);
+			addMessageTo(contentMessage.getText(),Global.nowDate());
 			contentMessage.setText("");
 		}
 	}

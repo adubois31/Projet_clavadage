@@ -1,7 +1,6 @@
 package FloppaChat.floppeX;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -30,7 +29,7 @@ public class App extends Application {
         	MainPageController.stopEverything();
     }
     
-    public static void nextStage() throws IOException {
+    public void nextStage() throws IOException {
     	stageMod.close();
     	stageMod = new Stage();
     	scene = new Scene(loadFXML("MainPage"), 850, 682);
@@ -38,13 +37,24 @@ public class App extends Application {
     	stageMod.show();
     }
 
-    public static void setRoot(String fxml) throws IOException {
+    public void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
+    private Parent loadFXML(String fxml){
+    	FXMLLoader fxmlLoader;
+    	try {
+            fxmlLoader = new FXMLLoader(getClass().getResource("/resources/FloppaChat/floppeX/"+fxml + ".fxml"));
+            return fxmlLoader.load();
+    	} catch (IllegalStateException | IOException e) {
+            fxmlLoader = new FXMLLoader(getClass().getResource(fxml + ".fxml"));
+            try {
+				return fxmlLoader.load();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+    	} 
+        return null;
     }
 
     public static void main(String[] args) {
