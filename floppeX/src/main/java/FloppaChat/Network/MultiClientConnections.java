@@ -39,5 +39,11 @@ public class MultiClientConnections {
 			
 		}
 	}
+	
+	public static void ClosingClients() {
+		for (MessageClient MC : ClientConnections) {
+			MC.EndChat();
+		}
+	}
 
 }

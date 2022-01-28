@@ -59,6 +59,7 @@ public class MainPageController{
 	public static void stopEverything() {
 		System.out.println("Stopping everything");
 		MainServ.stopServ();
+		MultiClientConnections.ClosingClients();
 		if (Global.BroadServRunning)
 			NetInterface.Disconnect();
 			broadserv.interrupt();
