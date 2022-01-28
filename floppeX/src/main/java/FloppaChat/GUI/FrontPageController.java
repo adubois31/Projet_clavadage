@@ -63,9 +63,6 @@ public class FrontPageController {
 					}
 				}
 			}
-		} else {
-			System.out.println("Wrong key pressed.");
-		}
 	}
 		
 	public void errorPseudo(String pseudo) throws IOException{
