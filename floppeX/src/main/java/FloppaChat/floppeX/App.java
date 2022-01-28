@@ -51,7 +51,7 @@ public class App extends Application {
             fxmlLoader = new FXMLLoader(getClass().getResource(fxml + ".fxml"));
             try {
 				return fxmlLoader.load();
-			} catch (IOException e1) {
+			} catch (IllegalStateException | IOException e1) {
 				fxmlLoader = new FXMLLoader(getClass().getResource("/FloppaChat/floppeX/"+fxml + ".fxml"));
 				try {
 					return fxmlLoader.load();
