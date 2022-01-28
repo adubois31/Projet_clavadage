@@ -66,18 +66,9 @@ public class MessServWorker extends Thread {
 		try {
 			String MessFromClient = BuffRead.readLine();
 			if (MessFromClient != null) {
-<<<<<<< HEAD
-				//System.out.println("Message reçu du client : "+clientSock);
-				DBC.addMessage(DBC.getIDfromUser(ClientPseudo(), ClientIP()), Global.MPC.nowDate(), MessFromClient, false);
-=======
 				int dbID = DBC.getIDfromUser(ClientPseudo(), ClientIP());
-<<<<<<< HEAD
-				DBC.addMessage(dbID, Global.MPC.nowDate(), MessFromClient, false);
->>>>>>> 4da3faf4ee9018b8af9e6b63fedc703886cb7622
-=======
 				DBC.addMessage(dbID, Global.nowDate(), MessFromClient, false);
 				//if we are not actively chatting with this client we store it in our db and not display it
->>>>>>> origin/main
 				if (Global.activeUserChat.equals(ClientPseudo()))
 					Global.MPC.addMessageFrom(MessFromClient, Global.nowDate());
 				}
