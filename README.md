@@ -1,6 +1,13 @@
 
 # Manuel d'utilisation de FloppeX
 
+## Informations sur la version actuelle : 
+
+Après quelques tests de l'exécution du .jar obtenu avec maven, nous avons remarqué que la base de données n'était pas exploitée correctement.
+Cependant run cette application dans eclipse permet d'utiliser toutes les fonctionnalités actuellement disponibles.
+Pour ce faire il suffit de définir comme workspace d'eclipse ce dossier git (Projet_clavadage) puis d'importer un projet maven en selectionnant le dossier floppeX.
+Il ne reste plus qu'à run App.java en tant qu'application java.
+
 ## Prérequis
 
 - Avoir java d'installé et correctement placé dans votre dossier bin/ ou équivalent
