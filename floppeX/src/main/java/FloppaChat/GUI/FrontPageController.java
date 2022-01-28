@@ -23,7 +23,6 @@ public class FrontPageController {
 			App.setRoot("FloppaFrontPage");
 		}
 	}
-
 	
 	@FXML private TextField pseudo;
 	
@@ -35,7 +34,7 @@ public class FrontPageController {
 				processAlert("You can't choose the pseudo of god",AlertType.WARNING);
 			} else if(typedPseudo.equals("")) {
 				processAlert("No pseudo written",AlertType.ERROR);
-			}else {
+			} else {
 				if (Global.BroadServRunning) {
 					if (NetInterface.ChangePseudo(Global.userPseudo,typedPseudo )) {
 						Global.userPseudo=typedPseudo;
@@ -63,7 +62,6 @@ public class FrontPageController {
 					}
 				}
 			}
-			//Envoyer broadcast à tout le monde avec pseudo
 		} else {
 			System.out.println("Wrong key pressed.");
 		}

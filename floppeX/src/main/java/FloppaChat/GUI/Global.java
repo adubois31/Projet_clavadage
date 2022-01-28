@@ -6,9 +6,9 @@ public class Global {
 
 	@FXML public static String userPseudo;
 	
-	public static int activeUserIndex;
-	
 	@FXML public static String activeUserChat;
+	
+	public static int activeUserIndex;
 	
 	public static int activeUserID;
 	

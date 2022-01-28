@@ -4,7 +4,6 @@ package FloppaChat.Network;
 import java.io.IOException;
 import java.net.*;
 
-import FloppaChat.DataBase.ActiveUserManager;
 import FloppaChat.GUI.Global;
 
 
@@ -21,9 +20,9 @@ public class BroadcastServer extends Thread {
     
     @Override
     public void interrupt() {
-    	super.interrupt();
     	Global.BroadServRunning=false;
     	socket.close();
+    	Thread.currentThread().interrupt();
     }
     @Override
     public void run() {
@@ -36,14 +35,15 @@ public class BroadcastServer extends Thread {
     			socket.receive(packet);
     			System.out.println("Packet received");
     			BroadcastServerWorker worker = new BroadcastServerWorker(packet,socket);
-        		worker.start();
-    			} catch (IOException e) {
+    			worker.setName("Broadcast Worker");
+    			worker.start();
+    		} catch (IOException e) {
     			System.out.println("Fermeture socket serv broadcast");
     			break;
-    			}
     		}
-    	socket.close();
     	}
+    	socket.close();
     }
+}
     	
 
