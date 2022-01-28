@@ -16,6 +16,7 @@ public class App extends Application {
 
     @Override
     public void start(@SuppressWarnings("exports") Stage stage) throws IOException {
+    	Global.applyConfig();
     	stageMod=stage;
         scene = new Scene(loadFXML("FloppaFrontPage"), 640, 480);
         stageMod.setScene(scene);
