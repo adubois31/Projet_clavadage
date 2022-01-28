@@ -39,7 +39,7 @@ public class Global {
 		return myTimeObj.format(myFormatObj)+" "+myDateObj.format(myFormatObj2);
 	}
 	public static void applyConfig() {
-		try(FileReader reader = new FileReader("config.txt")){
+		try(FileReader reader = new FileReader("../floppeX/src/main/resources/FloppaChat/floppeX/config.txt")){
 			Properties properties = new Properties();
 			properties.load(reader);
 			BroadAdress=properties.getProperty("BroadcastAdress");
