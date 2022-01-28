@@ -14,6 +14,8 @@ import FloppaChat.GUI.Global;
 
 public class dbTest {
 	
+	//This is tests that make sure that the database call works. It does not automatically prove that the calls do the right thing.
+	
 	static DBController db;
 	static String tableName;
 	static Random rn;
