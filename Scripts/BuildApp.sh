@@ -1,2 +1,2 @@
 #!/bin/bash
-mvn -f ./../floppeX/ clean package
+mvn -f ../floppeX/pom.xml clean package
