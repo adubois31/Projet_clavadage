@@ -63,6 +63,7 @@ public class FrontPageController {
 					}
 				}
 			}
+		}
 	}
 		
 	public void errorPseudo(String pseudo) throws IOException{
