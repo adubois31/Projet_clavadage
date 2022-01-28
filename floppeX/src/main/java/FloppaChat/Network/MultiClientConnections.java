@@ -45,13 +45,6 @@ public class MultiClientConnections {
 			}
 		}
 	}
-<<<<<<< HEAD
-	
-	public static void ClosingClients() {
-		for (MessageClient MC : ClientConnections) {
-			MC.EndChat();
-		}
-=======
 	public static void PrintingClientConnections() {
 		for (MessageClient MC : ClientConnections) {
 			System.out.println("Client Connection is alive : "+MC);
@@ -71,7 +64,6 @@ public class MultiClientConnections {
 	//removes safely a connection to a server from our ClientConnections iterator
 	public static synchronized void removeClient(Iterator<MessageClient> itr) {
 		itr.remove();
->>>>>>> 4da3faf4ee9018b8af9e6b63fedc703886cb7622
 	}
 
 }
