@@ -242,6 +242,6 @@ public class MainPageController{
 	@FXML
 	private void backToMainPage() throws IOException {
 		App.setRoot("MainPage");
-	}
-	
+	}	
 }
+
