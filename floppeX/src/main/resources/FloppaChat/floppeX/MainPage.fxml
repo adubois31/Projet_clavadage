@@ -45,7 +45,7 @@
                <children>
                   <ImageView fitHeight="177.0" fitWidth="188.0">
                      <image>
-                        <Image url="FloppaChat/floppeX/FlopEnhanced.jpg" />
+                        <Image url="@FlopEnhanced.jpg" />
                      </image>
                   </ImageView>
                   <AnchorPane prefHeight="114.0" prefWidth="188.0">
